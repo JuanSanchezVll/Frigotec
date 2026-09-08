@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Wireframe — Portal Frigotec</title>
+<style>
+  html,body{margin:0;background:#fff}
+  svg{display:block}
+  text{font-family:"Ink Free","Segoe Print","Comic Sans MS",cursive;fill:#1b1b1b}
+</style>
+</head>
+<body>
+<div id="out"></div>
+<script>
+/* ═══════════ traço à mão (estilo Excalidraw) ═══════════ */
+let _s = 20260908;
+const rnd = () => { _s = (_s*1664525 + 1013904223) % 4294967296; return _s/4294967296; };
+const jit = a => (rnd()*2-1)*a;
+
+const SW = 1.7;            // espessura padrão
+const INK = "#1b1b1b";
+
+/* uma linha trêmula, duas passadas — é isso que dá o ar de rascunho */
+function rl(x1,y1,x2,y2,o={}){
+  const r = o.r ?? 1.6, w = o.w ?? SW, c = o.c ?? INK;
+  const len = Math.hypot(x2-x1,y2-y1);
+  const a = Math.min(r, len/22 + 0.7);
+  let d="";
+  for(let p=0;p<2;p++){
+    const k = p ? .75 : 1;
+    const sx=x1+jit(a*k), sy=y1+jit(a*k), ex=x2+jit(a*k), ey=y2+jit(a*k);
+    const c1x=x1+(x2-x1)*.3+jit(a*2*k), c1y=y1+(y2-y1)*.3+jit(a*2*k);
+    const c2x=x1+(x2-x1)*.7+jit(a*2*k), c2y=y1+(y2-y1)*.7+jit(a*2*k);
+    d+=`M${sx.toFixed(1)},${sy.toFixed(1)} C${c1x.toFixed(1)},${c1y.toFixed(1)} ${c2x.toFixed(1)},${c2y.toFixed(1)} ${ex.toFixed(1)},${ey.toFixed(1)} `;
+  }
+  return `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+}
+/* retângulo com cantos levemente passados, como quem desenha rápido */
+function rr(x,y,w,h,o={}){
+  const e = o.e ?? 2.5;                     // overshoot do canto
+  return rl(x-jit(e),y, x+w+jit(e),y, o) + rl(x+w,y-jit(e), x+w,y+h+jit(e), o)
+       + rl(x+w+jit(e),y+h, x-jit(e),y+h, o) + rl(x,y+h+jit(e), x,y-jit(e), o);
+}
+function rell(cx,cy,rx,ry,o={}){
+  const w=o.w??SW, c=o.c??INK, r=o.r??1.1;
+  let d="";
+  for(let p=0;p<2;p++){
+    const seg=10; let pts=[];
+    for(let i=0;i<=seg;i++){
+      const t=i/seg*Math.PI*2;
+      pts.push([cx+Math.cos(t)*rx+jit(r), cy+Math.sin(t)*ry+jit(r)]);
+    }
+    d+="M"+pts.map((p,i)=>`${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" L")+" ";
+  }
+  return `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+}
+/* seta */
+function ar(x1,y1,x2,y2,o={}){
+  const head=o.head??11;
+  const ang=Math.atan2(y2-y1,x2-x1);
+  return rl(x1,y1,x2,y2,o)
+   + rl(x2,y2,x2-head*Math.cos(ang-.42),y2-head*Math.sin(ang-.42),{r:.7})
+   + rl(x2,y2,x2-head*Math.cos(ang+.42),y2-head*Math.sin(ang+.42),{r:.7});
+}
+/* seta curva (para ligar telas em linhas diferentes) */
+function arc(x1,y1,x2,y2,bend,o={}){
+  const mx=(x1+x2)/2+bend, my=(y1+y2)/2;
+  const head=o.head??11;
+  let d="";
+  for(let p=0;p<2;p++){
+    const k=p?.8:1;
+    d+=`M${x1+jit(1.4*k)},${y1+jit(1.4*k)} Q${mx+jit(2*k)},${my+jit(2*k)} ${x2+jit(1.4*k)},${y2+jit(1.4*k)} `;
+  }
+  const ang=Math.atan2(y2-my,x2-mx);
+  return `<path d="${d}" fill="none" stroke="${INK}" stroke-width="${SW}" stroke-linecap="round"/>`
+   + rl(x2,y2,x2-head*Math.cos(ang-.42),y2-head*Math.sin(ang-.42),{r:.7})
+   + rl(x2,y2,x2-head*Math.cos(ang+.42),y2-head*Math.sin(ang+.42),{r:.7});
+}
+/* hachura leve — usada só em botões primários */
+function hatch(x,y,w,h,step=6){
+  let d="";
+  for(let i=-h;i<w;i+=step){
+    const x1=x+i, y1=y+h, x2=x+i+h, y2=y;
+    const cx1=Math.max(x,Math.min(x+w,x1)), cy1=y1-(cx1-x1);
+    const cx2=Math.max(x,Math.min(x+w,x2)), cy2=y2+(x2-cx2);
+    d+=`M${cx1.toFixed(1)},${cy1.toFixed(1)} L${cx2.toFixed(1)},${cy2.toFixed(1)} `;
+  }
+  return `<path d="${d}" stroke="${INK}" stroke-width=".9" opacity=".5" fill="none"/>`;
+}
+
+const T = (x,y,s,t,o={}) => `<text x="${x}" y="${y}" font-size="${s}" text-anchor="${o.a||'start'}" opacity="${o.op??1}" ${o.b?'font-weight="700"':''}>${t}</text>`;
+
+/* peças de UI recorrentes */
+const field = (x,y,w,ph,label,lh=13) =>
+  (label?T(x,y-6,lh,label,{op:.85}):"") + rr(x,y,w,26) + T(x+9,y+18,12.5,ph,{op:.45});
+const btn = (x,y,w,h,label,solid) =>
+  rr(x,y,w,h) + (solid?hatch(x+2,y+2,w-4,h-4,7):"") + T(x+w/2,y+h/2+5,13.5,label,{a:"middle",b:true});
+const chip = (x,y,w,h,label) => rr(x,y,w,h,{e:1.5}) + T(x+w/2,y+h/2+4.5,11.5,label,{a:"middle"});
+const lines = (x,y,w,n,gap=13,last=.6) => {
+  let s=""; for(let i=0;i<n;i++) s+=rl(x,y+i*gap, x+(i===n-1?w*last:w), y+i*gap, {r:.9,w:1.2,c:"#555"});
+  return s;
+};
+const imgbox = (x,y,w,h) => rr(x,y,w,h) + rl(x,y,x+w,y+h,{r:1,w:1.2,c:"#777"}) + rl(x+w,y,x,y+h,{r:1,w:1.2,c:"#777"});
+const avatar = (cx,cy,r) => rell(cx,cy,r,r) + rell(cx,cy-r*.28,r*.34,r*.34) + `<path d="M${cx-r*.6},${cy+r*.72} a${r*.6},${r*.55} 0 0 1 ${r*1.2},0" fill="none" stroke="${INK}" stroke-width="1.4"/>`;
+/* moldura de navegador */
+function browser(x,y,w,h,title){
+  let s = rr(x,y,w,h,{w:2.1});
+  s += rl(x,y+30,x+w,y+30,{r:1.1});
+  s += rell(x+16,y+15,4.5,4.5)+rell(x+31,y+15,4.5,4.5)+rell(x+46,y+15,4.5,4.5);
+  s += rr(x+62,y+7,w*.42,17,{e:1.4,r:1.1,w:1.2});
+  s += T(x+70,y+20,11,title,{op:.5});
+  return s;
+}
+const cap = (x,y,n,label) => T(x,y,17,`${n}. ${label}`,{b:true});
+
+/* ═══════════ TELAS ═══════════ */
+let S = "";
+const CW=1780, CH=940;
+const UP=74;
+
+
+/* ---------- 1. LANDING ---------- */
+{
+  const x=40,y=112-UP,w=540,h=336;
+  S += cap(x,y-10,1,"Home — conheça o portal");
+  S += browser(x,y,w,h,"frigotec.com.br");
+  const ix=x+1, iy=y+30;
+  // topo: logo + menu + login/cadastro no canto
+  S += rr(ix+16,iy+12,74,22,{e:1.4}) + T(ix+53,iy+27,12,"FRIGOTEC",{a:"middle",b:true});
+  S += T(ix+108,iy+27,11.5,"Serviços",{op:.7}) + T(ix+168,iy+27,11.5,"Marcas",{op:.7}) + T(ix+222,iy+27,11.5,"Contato",{op:.7});
+  S += rr(ix+330,iy+11,72,24,{e:1.4}) + T(ix+366,iy+27,12,"Entrar",{a:"middle"});
+  S += rr(ix+412,iy+11,96,24,{e:1.4}) + hatch(ix+414,iy+13,92,20,7) + T(ix+460,iy+27,12,"Cadastrar",{a:"middle",b:true});
+  S += rl(ix+8,iy+46,ix+w-10,iy+46,{r:1,w:1.2,c:"#666"});
+  // hero
+  S += T(ix+22,iy+82,20,"Assistência técnica para",{b:true});
+  S += T(ix+22,iy+106,20,"sua cozinha profissional",{b:true});
+  S += lines(ix+22,iy+126,250,2,14,.75);
+  S += rr(ix+22,iy+152,132,30) + hatch(ix+24,iy+154,128,26,7) + T(ix+88,iy+172,13,"Abrir chamado",{a:"middle",b:true});
+  S += rr(ix+164,iy+152,104,30) + T(ix+216,iy+172,13,"Saiba mais",{a:"middle"});
+  S += imgbox(ix+300,iy+64,212,126);
+  // 3 cards
+  const cy=iy+206, cw=158;
+  ["Cadastre seu\nequipamento","Acompanhe\no chamado","Histórico\ncompleto"].forEach((t,i)=>{
+    const cx=ix+22+i*(cw+14);
+    S += rr(cx,cy,cw,72);
+    S += rell(cx+20,cy+22,9,9);
+    const [l1,l2]=t.split("\n");
+    S += T(cx+38,cy+20,12,l1) + T(cx+38,cy+36,12,l2);
+    S += lines(cx+12,cy+54,cw-30,1,0,.8);
+  });
+  S += rl(ix+8,iy+284,ix+w-10,iy+284,{r:1,w:1.2,c:"#666"});
+  S += T(ix+22,iy+300,10.5,"Frigotec · serviços e peças para equipamentos de cozinhas profissionais",{op:.5});
+  // anotação
+  S += T(x+16,y+h+22,12,"↑ login e cadastro no canto superior direito",{op:.6});
+}
+
+/* ---------- 2. LOGIN ---------- */
+{
+  const x=640,y=112-UP,w=470,h=336;
+  S += cap(x,y-10,2,"Login");
+  S += browser(x,y,w,h,"frigotec.com.br/entrar");
+  const cx=x+w/2;
+  S += rr(x+78,y+56,w-156,234,{w:2});
+  S += rr(cx-42,y+70,84,23,{e:1.4}) + T(cx,y+85,12,"FRIGOTEC",{a:"middle",b:true});
+  S += T(cx,y+114,17,"Entrar",{a:"middle",b:true});
+  S += field(x+108,y+134,w-216,"seu@email.com","E-mail");
+  S += field(x+108,y+186,w-216,"••••••••","Senha");
+  S += rr(x+108,y+224,w-216,30) + hatch(x+110,y+226,w-220,26,7) + T(cx,y+244,13.5,"Entrar",{a:"middle",b:true});
+  S += T(cx,y+268,11,"Esqueci minha senha",{a:"middle",op:.6});
+  S += T(cx,y+312,12,"Não tem conta?  Cadastre-se",{a:"middle"});
+  S += rl(cx+22,y+316,cx+112,y+316,{r:.8,w:1.1});
+}
+
+/* ---------- 3. CADASTRO ---------- */
+{
+  const x=1170,y=112-UP,w=570,h=336;
+  S += cap(x,y-10,3,"Cadastro");
+  S += browser(x,y,w,h,"frigotec.com.br/cadastro");
+  const ix=x+30, iw=w-60;
+  S += T(ix,y+58,17,"Criar conta",{b:true});
+  S += T(ix,y+78,11.5,"Pessoa física ou jurídica?",{op:.7});
+  S += chip(ix,y+86,86,25,"Física") + chip(ix+94,y+86,92,25,"Jurídica");
+  const c1=ix, c2=ix+iw/2+8, fw=iw/2-16;
+  S += field(c1,y+134,fw,"Nome completo","Nome / Razão social");
+  S += field(c2,y+134,fw,"000.000.000-00","CPF / CNPJ");
+  S += field(c1,y+188,fw,"seu@email.com","E-mail");
+  S += field(c2,y+188,fw,"(11) 90000-0000","Telefone");
+  S += field(c1,y+242,fw,"••••••••","Senha");
+  S += field(c2,y+242,fw,"••••••••","Confirmar senha");
+  S += rr(ix,y+284,15,15,{e:1.2}) + T(ix+24,y+296,11.5,"Li e aceito os termos de uso",{op:.75});
+  S += rr(x+w-190,y+282,158,30) + hatch(x+w-188,y+284,154,26,7) + T(x+w-111,y+302,13.5,"Criar conta",{a:"middle",b:true});
+}
+
+/* ---------- 4. ÁREA DO CLIENTE ---------- */
+{
+  const x=40,y=560-UP,w=830,h=420;
+  S += cap(x,y-10,4,"Área do Cliente");
+  S += browser(x,y,w,h,"frigotec.com.br/cliente");
+  const iy=y+30;
+  // sidebar
+  const sw=138;
+  S += rl(x+sw,iy,x+sw,y+h,{r:1.2});
+  S += rr(x+14,iy+14,72,20,{e:1.3}) + T(x+50,iy+28,10.5,"FRIGOTEC",{a:"middle",b:true});
+  ["Início","Meus equipamentos","Abrir chamado","Meus chamados","Perfil"].forEach((t,i)=>{
+    const ly=iy+56+i*30;
+    if(i===2){ S += rr(x+10,ly-15,sw-20,24,{e:1.3}); }
+    S += T(x+20,ly+2,11.5,t,{op:i===2?1:.72});
+  });
+  // topo
+  S += rl(x+sw,iy+42,x+w,iy+42,{r:1.1});
+  S += T(x+sw+18,iy+28,13,"Olá, Maria — Restaurante Bom Prato",{b:true});
+  S += avatar(x+w-28,iy+21,12);
+  // form
+  const fx=x+sw+18, fw=418;
+  S += T(fx,iy+68,15,"Abrir chamado",{b:true});
+  S += T(fx,iy+90,11.5,"1 · Localize o equipamento",{op:.75});
+  S += rr(fx,iy+98,200,28) + T(fx+10,iy+117,12,"Por tipo",{op:.55}) + T(fx+186,iy+117,11,"▾",{a:"middle"});
+  S += rr(fx+212,iy+98,206,28) + T(fx+222,iy+117,12,"Por marca",{op:.55}) + T(fx+400,iy+117,11,"▾",{a:"middle"});
+  S += T(fx,iy+138,10.5,"escolher um filtra as opções do outro",{op:.5});
+  S += field(fx,iy+176,200,"Nº de série / etiqueta","2 · Identificação");
+  S += rr(fx+212,iy+176,206,26) + T(fx+315,iy+194,11.5,"Anexar foto da etiqueta",{a:"middle"});
+  S += T(fx,iy+224,11.5,"3 · Descreva o defeito",{op:.75});
+  S += rr(fx,iy+232,fw,58) + lines(fx+10,iy+250,fw-40,3,14,.5);
+  S += rr(fx,iy+298,132,26) + T(fx+66,iy+316,11.5,"+ Fotos / vídeo",{a:"middle"});
+  // garantia condicional
+  S += rr(fx,iy+332,fw-166,52,{e:1.6});
+  S += rr(fx+10,iy+343,14,14,{e:1.2});
+  S += T(fx+32,iy+354,11,"Solicitar atendimento em garantia",{b:true});
+  S += T(fx+32,iy+370,9.5,"só p/ Frigopro · pede data da compra + NF",{op:.55});
+  S += btn(fx+fw-152,iy+338,152,38,"Enviar chamado",true);
+  // coluna direita: meus chamados
+  const rx=fx+fw+22, rw=x+w-rx-18;
+  S += T(rx,iy+68,13.5,"Meus chamados",{b:true});
+  [["#1042","Fritadeira","Em execução"],["#1039","Câmara fria","Encerrado"],["#1031","Forno","Encerrado"]].forEach((r,i)=>{
+    const ry=iy+80+i*62;
+    S += rr(rx,ry,rw,52);
+    S += T(rx+10,ry+18,11.5,r[0]+" · "+r[1],{b:true});
+    S += T(rx+10,ry+34,10.5,r[2],{op:.6});
+    S += rell(rx+rw-16,ry+16,5,5);
+  });
+  S += T(rx,iy+270,11.5,"Meus equipamentos",{b:true});
+  S += rr(rx,iy+280,rw,44) + T(rx+10,iy+298,11,"Fritadeira Frigopro",{}) + T(rx+10,iy+313,10,"em garantia até 03/2027",{op:.55});
+}
+
+/* ---------- 5. PAINEL EQUIPE ---------- */
+{
+  const x=910,y=560-UP,w=830,h=420;
+  S += cap(x,y-10,5,"Painel da Equipe Frigotec");
+  S += browser(x,y,w,h,"frigotec.com.br/equipe");
+  const iy=y+30, sw=132;
+  S += rl(x+sw,iy,x+sw,y+h,{r:1.2});
+  S += rr(x+14,iy+14,68,20,{e:1.3}) + T(x+48,iy+28,10,"FRIGOTEC",{a:"middle",b:true});
+  ["Chamados","Equipamentos","Clientes","Garantias","Catálogo","Relatórios"].forEach((t,i)=>{
+    const ly=iy+56+i*28;
+    if(i===0){ S += rr(x+10,ly-15,sw-20,23,{e:1.3}); }
+    S += T(x+20,ly+2,11,t,{op:i===0?1:.72});
+  });
+  // KPIs
+  const kx=x+sw+16, kw=100;
+  [["12","Abertos"],["5","Diagnóstico"],["3","Aguard. aprov."],["48","Encerrados"]].forEach((k,i)=>{
+    const cx2=kx+i*(kw+12);
+    S += rr(cx2,iy+14,kw,50);
+    S += T(cx2+kw/2,iy+38,19,k[0],{a:"middle",b:true});
+    S += T(cx2+kw/2,iy+55,10,k[1],{a:"middle",op:.6});
+  });
+  // filtros
+  S += rr(kx,iy+76,116,25,{e:1.3}) + T(kx+10,iy+93,11,"Status",{op:.6}) + T(kx+104,iy+93,10,"▾",{a:"middle"});
+  S += rr(kx+126,iy+76,126,25,{e:1.3}) + T(kx+136,iy+93,11,"Responsável",{op:.6}) + T(kx+242,iy+93,10,"▾",{a:"middle"});
+  S += rr(kx+262,iy+76,180,25,{e:1.3}) + T(kx+272,iy+93,11,"Buscar chamado…",{op:.45});
+  // tabela
+  const tx=kx, tw=442;
+  S += rl(tx,iy+112,tx+tw,iy+112,{r:1});
+  ["#","CLIENTE","EQUIPAMENTO","STATUS"].forEach((hh,i)=>{
+    S += T(tx+[4,52,168,320][i],iy+126,10,hh,{op:.55,b:true});
+  });
+  S += rl(tx,iy+134,tx+tw,iy+134,{r:1});
+  [["1042","Bom Prato","Fritadeira","Em execução"],
+   ["1041","Padaria Sol","Câmara fria","Diagnóstico"],
+   ["1040","Pizzaria Lu","Forno","Aguard. aprov."],
+   ["1039","Hotel Vale","Máq. de gelo","Aberto"],
+   ["1038","Açougue MB","Serra fita","Encerrado"]].forEach((r,i)=>{
+    const ry=iy+152+i*30;
+    if(i===0) S += rr(tx-4,ry-16,tw+8,26,{e:1.4});
+    S += T(tx+4,ry,11,r[0]) + T(tx+52,ry,11,r[1]) + T(tx+168,ry,11,r[2]) + T(tx+320,ry,11,r[3],{op:.75});
+    S += rl(tx,ry+10,tx+tw,ry+10,{r:.8,w:1,c:"#888"});
+  });
+  // detalhe do chamado
+  const dx=tx+tw+20, dw=x+w-dx-18;
+  S += rr(dx,iy+14,dw,344,{w:2});
+  S += T(dx+12,iy+38,13.5,"Chamado #1042",{b:true});
+  S += T(dx+12,iy+55,10.5,"Bom Prato · Fritadeira Frigopro",{op:.6});
+  S += rl(dx+8,iy+66,dx+dw-8,iy+66,{r:1});
+  S += T(dx+12,iy+86,11.5,"Diagnóstico",{b:true});
+  S += rr(dx+12,iy+94,dw-24,44) + lines(dx+20,iy+110,dw-46,2,13,.6);
+  S += T(dx+12,iy+158,11.5,"Garantia solicitada",{b:true});
+  S += rr(dx+12,iy+166,dw-24,30);
+  S += T(dx+20,iy+185,10.5,"NF anexada · compra 14/03/2025",{op:.6});
+  S += chip(dx+12,iy+204,72,25,"Aprovar") + chip(dx+92,iy+204,66,25,"Negar");
+  S += T(dx+12,iy+250,11.5,"Orçamento",{b:true});
+  S += field(dx+12,iy+258,dw-24,"R$ 0,00 — coberto");
+  S += T(dx+12,iy+306,11.5,"Garantia estendida",{b:true});
+  S += rr(dx+12,iy+314,dw-24,26,{e:1.4}) + T(dx+20,iy+331,10.5,"oferecer 12 meses · R$ 380",{op:.6});
+}
+
+/* ---------- setas de fluxo ---------- */
+S += ar(586,280-UP,634,280-UP);        S += T(610,270-UP,11,"entrar",{a:"middle",op:.65});
+S += ar(1116,280-UP,1164,280-UP);      S += T(1140,270-UP,11,"criar conta",{a:"middle",op:.65});
+S += arc(770,458-UP,520,548-UP,-90);
+S += `<rect x="640" y="${472-UP}" width="112" height="20" fill="#fff"/>` + T(696,487-UP,11.5,"perfil CLIENTE",{a:"middle",op:.75});
+S += arc(930,458-UP,1560,548-UP,110);
+S += `<rect x="1120" y="${472-UP}" width="196" height="20" fill="#fff"/>` + T(1218,487-UP,11.5,"perfil EQUIPE FRIGOTEC",{a:"middle",op:.75});
+
+document.getElementById("out").innerHTML =
+  `<svg xmlns="http://www.w3.org/2000/svg" width="${CW}" height="${CH}" viewBox="0 0 ${CW} ${CH}"><rect width="${CW}" height="${CH}" fill="#fff"/>${S}</svg>`;
+</script>
+</body>
+</html>

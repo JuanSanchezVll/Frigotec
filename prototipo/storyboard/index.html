@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Storyboard — Portal Frigotec</title>
+<style>
+  :root{
+    --ink:#1A1A1A; --paper:#fff; --accent:#FF6A00; --accentDeep:#D14F00;
+    --bg:#141414; --bg2:#1F1F1F; --muted:#9A9A9A;
+    --hand:"Ink Free","Segoe Print","Comic Sans MS",cursive;
+    --sans:"Segoe UI",Inter,system-ui,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);font-family:var(--sans);padding:26px 22px 44px}
+
+  header{max-width:1500px;margin:0 auto 20px;display:flex;align-items:center;
+         justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand .mark{width:52px;height:52px;border-radius:10px;background:var(--accent);
+               display:flex;align-items:center;justify-content:center;flex:none;
+               box-shadow:0 4px 14px rgba(255,106,0,.32)}
+  .brand h1{margin:0;color:#fff;font-size:16px;letter-spacing:.24em;font-weight:700}
+  .brand p{margin:3px 0 0;color:#8A8A8A;font-size:12px;letter-spacing:.05em}
+  header .title{color:#fff;font-size:36px;font-weight:800;letter-spacing:.15em;margin:0;line-height:1}
+  header .title span{color:var(--accent)}
+
+  .grid{max-width:1500px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
+
+  .panel{position:relative;border-radius:7px;overflow:hidden;background:#fff;
+         box-shadow:0 5px 20px rgba(0,0,0,.45)}
+  .panel svg{display:block;width:100%;height:auto}
+  .num{position:absolute;top:0;left:0;z-index:8;background:var(--ink);color:#fff;
+       font-size:11px;font-weight:700;padding:5px 11px;border-radius:0 0 7px 0;letter-spacing:.09em}
+  .cap{position:absolute;z-index:7;left:11px;right:11px;top:11px;background:#fff;
+       border:2.5px solid var(--ink);border-radius:4px;padding:16px 11px 10px;
+       font-family:var(--hand);font-size:13.5px;font-weight:700;line-height:1.34;color:#000;
+       text-transform:uppercase;box-shadow:3px 3px 0 rgba(0,0,0,.2)}
+  .cap.bot{top:auto;bottom:11px}
+
+  .bub{position:absolute;z-index:7;background:#fff;border:2.5px solid var(--ink);
+       font-family:var(--hand);font-size:12.5px;font-weight:700;line-height:1.34;padding:13px 11px 8px;
+       text-align:center;text-transform:uppercase;color:#000}
+  .bub.say{border-radius:8px}
+  .bub.say::after{content:"";position:absolute;bottom:-13px;left:20px;width:0;height:0;
+      border:7px solid transparent;border-top:13px solid var(--ink)}
+  .bub.say::before{content:"";position:absolute;bottom:-8px;left:22px;width:0;height:0;z-index:1;
+      border:5px solid transparent;border-top:10px solid #fff}
+  .bub.say.r::after{left:auto;right:20px}
+  .bub.say.r::before{left:auto;right:22px}
+  .bub.think{border-radius:20px}
+  .bub.think i,.bub.think u{position:absolute;background:#fff;border:2.5px solid var(--ink);
+       border-radius:50%;display:block}
+  .bub.think i{width:11px;height:11px;bottom:-15px;left:14px}
+  .bub.think u{width:6px;height:6px;bottom:-25px;left:8px}
+  .bub.think.r i{left:auto;right:14px}
+  .bub.think.r u{left:auto;right:8px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="mark">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff">
+        <path d="M21.7 18.6l-6.1-6.1a5.5 5.5 0 00-7-7l3.2 3.2-2.1 2.1-3.2-3.2a5.5 5.5 0 007 7l6.1 6.1a1.1 1.1 0 001.5 0l.6-.6a1.1 1.1 0 000-1.5z"/>
+        <circle cx="6" cy="18" r="2.2"/>
+      </svg>
+    </div>
+    <div><h1>PORTAL FRIGOTEC</h1><p>InteliView · Jornada do cliente em 9 quadros</p></div>
+  </div>
+  <h2 class="title">STORY<span>BOARD</span></h2>
+</header>
+
+<div class="grid" id="grid"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   BIBLIOTECA DE ILUSTRAÇÃO
+   ══════════════════════════════════════════════════════════════ */
+const W = 400, H = 290;                      // viewBox de cada quadro
+
+const P = {
+  skin:  {l:"#F7CBA4", m:"#E8B084", d:"#C98C63"},
+  skin2: {l:"#D9A173", m:"#C1885C", d:"#9E6A44"},
+  skin3: {l:"#8C5E3C", m:"#754B2E", d:"#5C3A23"},
+  hairD:"#2A1F18", hairM:"#4A3324", hairL:"#8C6239", hairG:"#6E6E6E",
+  steel:{l:"#D9E0E6", m:"#BAC5CE", d:"#96A3AE", x:"#76838E"},
+  warm :{l:"#F6F0E7", m:"#E9DCCA", d:"#D6C3A9"},
+  cool :{l:"#E7EFF4", m:"#D0DFE8", d:"#B2C7D5"},
+  teal :{l:"#5E9CAE", m:"#4A8194", d:"#376575"},
+  navy :{l:"#43596F", m:"#334657", d:"#25333F"},
+  plum :{l:"#9A6486", m:"#7E4F6C", d:"#623C54"},
+  sage :{l:"#84A98C", m:"#688A70", d:"#4E6B55"},
+  or   :{l:"#FF9147", m:"#FF6A00", d:"#D14F00", p:"#FFE0C7"},
+  ok   :{m:"#2E9E5B", l:"#E3F5E9"},
+  bad  :"#D94F45",
+  ink:"#1C1C1C", ink2:"#3A3A3A", line:"#D8DEE3"
+};
+
+const esc = s => String(s);
+const g = (t, a="") => `<g ${a}>${t}</g>`;
+const el = (n, a) => `<${n} ${Object.entries(a).map(([k,v])=>`${k}="${v}"`).join(" ")}/>`;
+const rect = (x,y,w,h,f,r=0,extra="") => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${f}" ${extra}/>`;
+const circ = (cx,cy,r,f,extra="") => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${f}" ${extra}/>`;
+const ell  = (cx,cy,rx,ry,f,extra="") => `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${f}" ${extra}/>`;
+const path = (d,f="none",extra="") => `<path d="${d}" fill="${f}" ${extra}/>`;
+const line = (x1,y1,x2,y2,s,w=2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${s}" stroke-width="${w}" stroke-linecap="round"/>`;
+const txt  = (x,y,t,o={}) => `<text x="${x}" y="${y}" font-family="${o.f||'Segoe UI, Arial'}" font-size="${o.s||10}" font-weight="${o.w||700}" fill="${o.c||P.ink}" text-anchor="${o.a||'start'}" letter-spacing="${o.ls||0}">${t}</text>`;
+
+/* ---------- sombra de chão ---------- */
+const groundShadow = (cx,cy,rx,ry=6,op=.13) => ell(cx,cy,rx,ry,"#000",`opacity="${op}"`);
+
+/* ---------- rostos ---------- */
+function face(exp, skin){
+  const eye = (x) => `${ell(x,0,2.6,3.1,P.ink)}${circ(x+.9,-1.1,.9,"#fff",'opacity=".9"')}`;
+  let brows, mouth, extra="";
+  switch(exp){
+    case "worried":
+      brows = `${path("M-9.5,-8 Q-6.5,-10.5 -3.2,-8.6","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`)}
+               ${path("M9.5,-8 Q6.5,-10.5 3.2,-8.6","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`)}`;
+      mouth = path("M-4.5,8.5 Q0,5.2 4.5,8.5","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`);
+      extra = path("M12,-4 q3.2,4.6 3.2,7 a3.2,3.2 0 0 1 -6.4,0 q0,-2.4 3.2,-7","#6FC0EE");
+      break;
+    case "confused":
+      brows = `${path("M-10,-9.4 Q-6.4,-11.4 -3,-9.4","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`)}
+               ${path("M3,-10.6 Q6.6,-8.4 10,-10.2","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`)}`;
+      mouth = path("M-4.6,7.6 q2.3,-2.4 4.6,0 t4.6,0","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round" fill="none"`);
+      break;
+    case "focused":
+      brows = `${path("M-10,-9 L-3,-10","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`)}
+               ${path("M3,-10 L10,-9","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`)}`;
+      mouth = path("M-3.4,7.6 L3.4,7.6","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`);
+      break;
+    case "tired":
+      brows = `${path("M-10,-8.4 Q-6.4,-10 -3,-8.8","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`)}
+               ${path("M3,-8.8 Q6.4,-10 10,-8.4","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`)}`;
+      mouth = path("M-4,8.4 Q0,6.4 4,8.4","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`);
+      break;
+    case "big": // sorriso aberto
+      brows = `${path("M-10,-10.4 Q-6.4,-12.4 -3,-10.6","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`)}
+               ${path("M3,-10.6 Q6.4,-12.4 10,-10.4","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`)}`;
+      mouth = `${path("M-5.4,6.2 a5.4,5.4 0 0 0 10.8,0 z",P.ink)}${path("M-3.4,9.6 a3.6,3.6 0 0 0 6.8,0 z","#E9748A")}`;
+      break;
+    default: // happy
+      brows = `${path("M-10,-10 Q-6.4,-11.8 -3,-10.2","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`)}
+               ${path("M3,-10.2 Q6.4,-11.8 10,-10","none",`stroke="${P.ink}" stroke-width="2.1" stroke-linecap="round"`)}`;
+      mouth = path("M-4.6,6.4 Q0,10.2 4.6,6.4","none",`stroke="${P.ink}" stroke-width="2.2" stroke-linecap="round"`);
+  }
+  const blush = `${ell(-10.5,4,3.6,2.1,"#E8836B",'opacity=".28"')}${ell(10.5,4,3.6,2.1,"#E8836B",'opacity=".28"')}`;
+  const nose  = path("M0,1.4 q1.8,2.4 -0.6,3","none",`stroke="${skin.d}" stroke-width="1.5" stroke-linecap="round"`);
+  return blush + eye(-6.4) + eye(6.4) + brows + nose + mouth + extra;
+}
+
+/* ---------- cabelos ---------- */
+function hair(style, c1, c2){
+  switch(style){
+    case "buzz":   return path("M-15.6,-4 a15.6,15.6 0 0 1 31.2,0 q-2,-9 -15.6,-9 t-15.6,9 z",c1);
+    case "short":  return `${path("M-16,-2 a16,16 0 0 1 32,0 q1.6,-13.4 -16,-13.4 T-16,-2 z",c1)}
+                           ${path("M-16,-2 q-1,-10 6,-13 -2,5 1,7 -5,2 -7,6 z",c2,'opacity=".55"')}`;
+    case "messy":  return `${path("M-16.4,-3 q-1.4,-14 16.4,-14 t16.4,14 q-2.6,-6.4 -7,-6 -1.6,-3.6 -6,-2.4 -3.4,-3.4 -8.4,-0.6 -4.6,1 -6,3 -3.4,0.6 -5.4,6 z",c1)}`;
+    case "bob":    return `${path("M-17,6 q-2.6,-23 17,-23 t17,23 q-1.4,-9 -5,-11 -6,3 -12,3 t-12,-3 q-3.6,2 -5,11 z",c1)}
+                           ${path("M-17,6 q-1,-14 5,-19 -3,8 -1,19 z",c2,'opacity=".5"')}`;
+    case "pony":   return `${path("M-16,-1 q-1,-16 16,-16 t16,16 q-1,-11 -16,-11 T-16,-1 z",c1)}
+                           ${path("M14,-6 q11,3 10,15 -1,9 -7,11 4,-9 1,-16 -2,-6 -6,-7 z",c1)}`;
+    case "curly":  return `${circ(-11,-11,7,c1)+circ(0,-15,7.6,c1)+circ(11,-11,7,c1)+circ(-15,-4,6,c1)+circ(15,-4,6,c1)+path("M-16,-2 a16,16 0 0 1 32,0 q0,-9 -16,-9 t-16,9 z",c1)}`;
+    case "cap":    return `${path("M-17,-5 q0,-13 17,-13 t17,13 z",P.or.m)}${path("M-19,-5 q19,-4 38,0 q0,3 -19,3 t-19,-3 z",P.or.d)}`;
+    case "chef":   return `${path("M-15,-4 h30 v-6 q7,-1 7,-8 0,-7 -8,-6 -1,-6 -8,-6 -6,-4 -12,0 -7,0 -8,6 -8,-1 -8,6 0,7 7,8 z","#FBFBFB")}
+                           ${path("M-15,-10 h30 v6 h-30 z","#EFEFEF")}`;
+    default: return "";
+  }
+}
+
+/* ---------- personagem (meio corpo) ---------- */
+function person(o){
+  const {x=0, y=0, s=1, skin=P.skin, hairStyle="short", hc1=P.hairD, hc2=P.hairL,
+         shirt=P.teal, exp="happy", flip=false, arm="none", shadow=true} = o;
+  const S = [];
+  if (shadow) S.push(groundShadow(0, 64, 40, 7, .12));
+  // torso
+  S.push(path("M-31,64 q0,-32 12,-40 h38 q12,8 12,40 z", shirt.m));
+  S.push(path("M-31,64 q0,-32 12,-40 h9 q-9,10 -9,40 z", shirt.d, 'opacity=".45"')); // sombra lateral
+  S.push(path("M-11,24 h22 q4,3 5,7 -8,7 -16,7 t-16,-7 q1,-4 5,-7 z", shirt.l)); // gola
+  // pescoço
+  S.push(path("M-8,14 h16 v12 q-8,5 -16,0 z", skin.d));
+  S.push(path("M-8,14 h16 v6 q-8,3 -16,0 z", skin.d, 'opacity=".7"'));
+  // cabeça
+  S.push(path("M-16,-2 q0,-17 16,-17 t16,17 q0,19 -16,19 T-16,-2 z", skin.l));
+  S.push(path("M9,-14 q7,5 7,12 0,12 -8,16 5,-8 5,-16 0,-8 -4,-12 z", skin.m, 'opacity=".5"'));
+  S.push(`<g>${face(exp, skin)}</g>`);
+  S.push(hair(hairStyle, hc1, hc2));
+  // orelhas
+  S.push(ell(-16.4,1,2.6,3.4,skin.m)); S.push(ell(16.4,1,2.6,3.4,skin.m));
+  // braços
+  if (arm === "up")      S.push(path("M22,44 q17,-6 15,-24","none",`stroke="${shirt.m}" stroke-width="12" stroke-linecap="round"`) + circ(37,19,6.4,skin.l));
+  if (arm === "phone")   S.push(path("M22,46 q16,-2 17,-16","none",`stroke="${shirt.m}" stroke-width="12" stroke-linecap="round"`));
+  if (arm === "point")   S.push(path("M22,44 q20,-3 26,-14","none",`stroke="${shirt.m}" stroke-width="12" stroke-linecap="round"`) + circ(49,29,6,skin.l));
+  if (arm === "chin")    S.push(path("M20,48 q14,4 16,-8 1,-6 -4,-9","none",`stroke="${shirt.m}" stroke-width="12" stroke-linecap="round"`) + circ(31,27,6.2,skin.l));
+  if (arm === "out")     S.push(path("M22,44 q22,2 30,-4","none",`stroke="${shirt.m}" stroke-width="12" stroke-linecap="round"`));
+  if (arm === "outL")    S.push(path("M-22,44 q-22,2 -30,-4","none",`stroke="${shirt.m}" stroke-width="12" stroke-linecap="round"`));
+  return `<g transform="translate(${x},${y}) scale(${flip?-s:s},${s})">${S.join("")}</g>`;
+}
+
+/* ---------- props ---------- */
+function tiledWall(w,h,c1,c2,step=42){
+  let l="";
+  for(let x=0;x<=w;x+=step) l+=line(x,0,x,h,c2,1.6);
+  for(let y=0;y<=h;y+=step) l+=line(0,y,w,y,c2,1.6);
+  return rect(0,0,w,h,c1)+l;
+}
+function fryer(x,y,s=1,on=false){
+  const c=P.steel;
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    ${rect(-58,-4,116,74,c.m,4)}
+    ${rect(-58,-4,116,13,c.d,4)}
+    ${rect(-52,14,48,32,c.x,3)}${rect(4,14,48,32,c.x,3)}
+    ${rect(-48,18,40,24,on?"#E8A93C":"#8E9AA4",2)}${rect(8,18,40,24,on?"#E8A93C":"#8E9AA4",2)}
+    ${rect(-52,50,104,4,c.d,2)}
+    ${circ(-40,62,5.4,c.d)}${circ(-22,62,5.4,c.d)}
+    ${rect(-58,-4,10,74,c.l,4,'opacity=".35"')}
+    ${on?`${path("M-28,10 q-5,-8 0,-14 5,6 0,14","#fff",'opacity=".5"')}${path("M22,10 q-5,-8 0,-14 5,6 0,14","#fff",'opacity=".5"')}`:""}
+  </g>`;
+}
+function hood(x,y,w){
+  return `<g transform="translate(${x},${y})">
+    ${path(`M0,0 h${w} l-14,26 h-${w-28} z`,P.steel.d)}
+    ${rect(6,26,w-28,7,P.steel.x,2)}
+  </g>`;
+}
+function burst(x,y,r,c=P.or.m){
+  let d="";
+  for(let i=0;i<12;i++){
+    const a=i*Math.PI/6, rr=i%2?r*.52:r;
+    d+=(i?"L":"M")+(x+Math.cos(a)*rr).toFixed(1)+","+(y+Math.sin(a)*rr).toFixed(1);
+  }
+  return path(d+"Z",c)+txt(x,y+7,"!",{s:r*1.05,a:"middle",c:"#fff",w:900});
+}
+function laptop(x,y,s,screen){
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    ${rect(-84,-58,168,108,"#20262B",7)}
+    ${rect(-76,-50,152,92,"#F7F9FA",3)}
+    <g transform="translate(-76,-50)">${screen}</g>
+    ${path("M-98,50 h196 q-4,10 -14,10 h-168 q-10,0 -14,-10 z","#2C343A")}
+    ${rect(-18,50,36,4,"#171C20",2)}
+  </g>`;
+}
+function phone(x,y,s,screen,rot=0,pw=50,ph=92){
+  const bw=pw+10, bh=ph+16;
+  return `<g transform="translate(${x},${y}) rotate(${rot}) scale(${s})">
+    ${rect(-bw/2,-bh/2,bw,bh,"#1C2226",9)}
+    ${rect(-pw/2,-ph/2,pw,ph,"#fff",4)}
+    <g transform="translate(${-pw/2},${-ph/2})">${screen}</g>
+    ${rect(-8,-bh/2+4,16,3,"#39424A",2)}
+  </g>`;
+}
+function plant(x,y,s=1){
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    ${path("M-15,0 h30 l-4,30 h-22 z","#C77B52")}${path("M-15,0 h30 v6 h-30 z","#B06A45")}
+    ${path("M0,0 q-3,-22 -19,-26 1,19 19,26","#6E9A6F")}
+    ${path("M0,0 q3,-26 20,-29 -1,22 -20,29","#7FAE80")}
+    ${path("M0,2 q-1,-16 -8,-24 5,14 8,24","#5C8460")}
+  </g>`;
+}
+function frame(x,y,w,h){
+  return `<g transform="translate(${x},${y})">
+    ${rect(0,0,w,h,"#E6DAC8",2)}${rect(4,4,w-8,h-8,"#CBD9C6",1)}
+    ${path(`M6,${h-6} l${w*.3},-${h*.42} l${w*.22},${h*.24} l${w*.18},-${h*.3} l${w*.24},${h*.48} z`,"#8FAE8C")}
+    ${circ(w*.74,h*.28,5,"#E8C77E")}
+  </g>`;
+}
+function stickyWall(x,y){
+  const cs=["#FFD24A","#FF9F5A","#8FD6A0","#9FC7F0","#F0A0C0"];
+  let s="";
+  for(let i=0;i<8;i++){
+    const cx=(i%4)*46, cy=Math.floor(i/4)*46, rot=(i*37%11)-5;
+    s+=`<g transform="translate(${cx},${cy}) rotate(${rot})">${rect(0,0,38,38,cs[i%5],1)}
+        ${line(6,12,32,12,"#00000033",2)}${line(6,20,26,20,"#00000033",2)}${line(6,28,30,28,"#00000033",2)}</g>`;
+  }
+  return `<g transform="translate(${x},${y})">${s}</g>`;
+}
+function chip(x,y,w,label,fill=P.or.m,fc="#fff"){
+  return `<g transform="translate(${x},${y})">${rect(0,0,w,24,fill,12)}${txt(w/2,16,label,{s:10.5,a:"middle",c:fc,ls:.6})}</g>`;
+}
+function sparkle(x,y,r,c="#FFD9B0"){
+  return path(`M${x},${y-r} q${r*.24},${r*.72} ${r*.76},${r*.76} q-${r*.52},${r*.04} -${r*.76},${r*.76} q-${r*.24},-${r*.72} -${r*.76},-${r*.76} q${r*.52},-${r*.04} ${r*.76},-${r*.76} z`,c);
+}
+function arrow(x1,y,x2,c=P.or.m,w=3.4){
+  return line(x1,y,x2-9,y,c,w)+path(`M${x2-11},${y-6.5} L${x2},${y} L${x2-11},${y+6.5} z`,c);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CENAS
+   ══════════════════════════════════════════════════════════════ */
+const scenes = [];
+
+/* 1 — a fritadeira parou */
+scenes.push({
+  cap:"Todo dia, um equipamento de cozinha profissional para de funcionar.",
+  bubbles:[{t:"A fritadeira parou<br>bem no meio<br>do almoço…", cls:"think", css:"left:14px;bottom:14px;max-width:158px"}],
+  art:`
+    ${tiledWall(W,196,P.cool.l,P.cool.m,40)}
+    ${rect(0,196,W,H-196,P.cool.d)}${rect(0,190,W,8,"#A8BECC")}
+    ${hood(214,4,168)}
+    ${rect(26,44,104,64,"#E3EAEF",4)}${rect(26,44,104,10,"#CFDAE1",4)}
+    ${rect(36,60,84,38,"#D5DFE6",2)}
+    ${rect(190,150,210,46,P.steel.m)}${rect(190,146,210,7,P.steel.l)}
+    ${fryer(298,86,.94,false)}
+    ${burst(356,100,20)}
+    ${person({x:104,y:132,s:1.32,skin:P.skin,hairStyle:"chef",shirt:{l:"#FFFFFF",m:"#E8EDF1",d:"#CBD4DB"},exp:"worried"})}
+    ${path("M84,206 q20,-8 40,0","none",`stroke="${P.or.m}" stroke-width="0" `)}
+  `
+});
+
+/* 2 — cliente sem canal */
+scenes.push({
+  cap:"Sem um canal organizado, o cliente não sabe por onde começar.",
+  bubbles:[{t:"Ligo? Mando<br>whatsapp? Com<br>quem eu falo?", cls:"think", css:"left:14px;bottom:14px;max-width:156px"}],
+  art:`
+    ${rect(0,0,W,H,P.warm.l)}
+    ${rect(0,206,W,H-206,P.warm.m)}${rect(0,200,W,8,P.warm.d)}
+    ${frame(36,40,74,58)}
+    ${rect(232,74,120,9,P.warm.d,2)}
+    ${plant(300,74,.62)}
+    ${circ(300,146,25,"#fff")}${circ(300,146,25,"none",`stroke="${P.ink}" stroke-width="2.6"`)}
+    ${path("M289,137 q0,-4 4,-4 3,0 4,3 l2,5 -4,4 q4,7 10,10 l4,-4 5,2 q3,1 3,4 0,4 -4,4 -12,0 -24,-24 z",P.ink)}
+    ${circ(356,196,25,"#fff")}${circ(356,196,25,"none",`stroke="${P.ink}" stroke-width="2.6"`)}
+    ${path("M343,209 l3,-9 a13,13 0 1 1 10,7 13,13 0 0 1 -5,-1 z","#25A34A")}
+    ${circ(300,236,23,"#fff")}${circ(300,236,23,"none",`stroke="${P.ink}" stroke-width="2.6"`)}
+    ${rect(289,228,22,16,"#fff",2)}${rect(289,228,22,16,"none",2,`stroke="${P.ink}" stroke-width="2.4"`)}
+    ${path("M289,229 l11,8 11,-8","none",`stroke="${P.ink}" stroke-width="2.4"`)}
+    ${txt(246,132,"?",{s:34,c:P.or.m,w:900})}
+    ${txt(226,180,"?",{s:24,c:P.or.l,w:900})}
+    ${person({x:150,y:126,s:1.36,skin:P.skin2,hairStyle:"messy",hc1:P.hairD,shirt:P.navy,exp:"confused",arm:"phone"})}
+    ${phone(206,96,.52,`${rect(4,4,42,84,"#BFE2F5",2)}${rect(10,12,30,7,"#8FC6E4",2)}${rect(10,25,30,5,"#A9D5EC",2)}${rect(10,35,22,5,"#A9D5EC",2)}`,10)}
+  `
+});
+
+/* 3 — informação dispersa */
+scenes.push({
+  cap:"Do outro lado, o pedido se espalha entre ligações, mensagens e papéis.",
+  bubbles:[{t:"Onde está a nota<br>fiscal desse cliente?", cls:"think r", css:"right:13px;bottom:15px;max-width:158px"}],
+  art:`
+    ${rect(0,0,W,H,"#2E2A26")}
+    ${rect(0,0,W,150,"#38332D")}
+    ${stickyWall(20,20)}
+    ${rect(0,196,W,H-196,"#241F1B")}
+    ${rect(0,188,W,10,"#4A3B2E")}
+    ${rect(236,66,150,104,"#14181B",5)}${rect(242,72,138,92,"#39464F",2)}
+    ${rect(250,80,74,7,"#5B6C78",2)}${rect(250,94,118,6,"#4E5D68",2)}
+    ${rect(250,106,96,6,"#4E5D68",2)}${rect(250,118,110,6,"#4E5D68",2)}
+    ${rect(250,130,68,6,"#4E5D68",2)}
+    ${rect(298,170,26,16,"#14181B")}${rect(280,186,62,7,"#14181B",3)}
+    <g transform="translate(28,182) rotate(-12)">${rect(0,0,58,40,"#F0E9DD",2)}${line(8,10,48,10,"#C9BFAE",2)}${line(8,18,38,18,"#C9BFAE",2)}${line(8,26,44,26,"#C9BFAE",2)}</g>
+    <g transform="translate(76,192) rotate(7)">${rect(0,0,58,40,"#FAF5EC",2)}${line(8,10,48,10,"#C9BFAE",2)}${line(8,18,42,18,"#C9BFAE",2)}</g>
+    <g transform="translate(130,186) rotate(-4)">${rect(0,0,54,38,"#E7DFD1",2)}${line(8,10,44,10,"#C9BFAE",2)}${line(8,18,32,18,"#C9BFAE",2)}</g>
+    ${person({x:172,y:126,s:1.34,skin:P.skin2,hairStyle:"short",hc1:P.hairD,shirt:P.or,exp:"tired",arm:"chin"})}
+    ${ell(360,196,20,6,"#000",'opacity=".25"')}
+  `
+});
+
+/* 4 — entra o portal */
+scenes.push({
+  cap:"É aí que entra o Portal Frigotec: um canal único para assistência técnica.",
+  bubbles:[],
+  art:`
+    ${rect(0,0,W,H,"#191919")}
+    <defs><radialGradient id="glow"><stop offset="0%" stop-color="#FF6A00" stop-opacity=".30"/><stop offset="70%" stop-color="#FF6A00" stop-opacity="0"/></radialGradient></defs>
+    ${circ(200,158,150,"url(#glow)")}
+    ${circ(200,158,112,"#232323")}${circ(200,158,84,"#2A2A2A")}
+    ${sparkle(86,74,11)}${sparkle(322,92,9)}${sparkle(64,208,8)}${sparkle(340,214,11)}
+    ${laptop(200,152,.86,`
+      ${rect(0,0,152,20,"#1C1C1C")}
+      ${rect(8,6,9,8,P.or.m,2)}
+      ${txt(24,14,"PORTAL FRIGOTEC",{s:9,c:"#fff",ls:.6})}
+      ${rect(8,28,64,40,"#EEF1F3",3)}${rect(14,34,30,5,P.or.m,2)}${rect(14,44,44,4,"#C4CBD1",2)}${rect(14,52,36,4,"#C4CBD1",2)}
+      ${rect(80,28,30,40,"#EEF1F3",3)}${rect(85,34,18,5,P.or.m,2)}${rect(85,44,20,4,"#C4CBD1",2)}
+      ${rect(116,28,28,40,"#EEF1F3",3)}${rect(121,34,16,5,P.or.m,2)}${rect(121,44,18,4,"#C4CBD1",2)}
+      ${rect(8,74,66,13,"#1C1C1C",6)}${txt(41,83,"ABRIR CHAMADO",{s:7,a:"middle",c:"#fff"})}
+      ${rect(80,74,64,13,"#E8ECEF",6)}${txt(112,83,"MEUS EQUIPAMENTOS",{s:6,a:"middle",c:"#6A737A"})}
+    `)}
+    ${chip(16,96,96,"EQUIPAMENTO")}
+    ${chip(292,96,92,"CHAMADO")}
+    ${chip(14,224,84,"GARANTIA")}
+    ${chip(292,224,94,"HISTÓRICO")}
+  `
+});
+
+/* 5 — cadastro do equipamento */
+scenes.push({
+  cap:"O cliente cadastra o equipamento e anexa a nota fiscal e a foto da etiqueta.",
+  bubbles:[{t:"Marca, modelo e<br>número de série —<br>tudo no portal.", cls:"say", css:"left:13px;bottom:13px;max-width:168px"}],
+  art:`
+    ${tiledWall(W,200,"#EDF1F4","#DDE5EA",44)}
+    ${rect(0,200,W,H-200,"#D3DCE2")}${rect(0,194,W,8,"#B9C6CE")}
+    ${rect(252,52,132,148,P.steel.m,5)}
+    ${rect(252,52,132,16,P.steel.d,5)}
+    ${rect(262,80,112,58,P.steel.x,3)}${rect(268,86,100,46,"#8C99A3",2)}
+    ${rect(286,150,64,26,"#fff",3)}${rect(286,150,64,26,"none",3,`stroke="${P.ink}" stroke-width="2.2"`)}
+    ${[0,1,2,3,4,5,6,7,8,9].map(i=>line(294+i*6,156,294+i*6,170,P.ink,i%3?1.4:2.4)).join("")}
+    ${txt(318,180,"SN 4482-K",{s:7,a:"middle",c:P.steel.x})}
+    ${circ(318,163,25,"none",`stroke="${P.or.m}" stroke-width="3.4"`)}
+    ${line(336,181,352,197,P.or.m,4.6)}
+    ${person({x:126,y:130,s:1.36,skin:P.skin,hairStyle:"pony",hc1:P.hairM,shirt:P.teal,exp:"focused",arm:"phone"})}
+    ${phone(190,100,.56,`${rect(4,4,42,60,"#D8E8F2",2)}${rect(12,16,26,22,"#9FB6C4",2)}${circ(25,50,5,"#5A6B77")}${rect(4,70,42,18,"#EEF3F6",2)}${rect(10,76,30,4,P.or.m,2)}`,8)}
+    ${[0,1,2].map(i=>line(216,92+i*22,236,86+i*24,P.or.l,3.4)).join("")}
+  `
+});
+
+/* 6 — chamado organizado */
+scenes.push({
+  cap:"O chamado chega organizado para a equipe da Frigotec.",
+  bubbles:[{t:"Chamado recebido.<br>Já sei qual é<br>o equipamento.", cls:"say", css:"left:13px;bottom:13px;max-width:166px"}],
+  art:`
+    ${rect(0,0,W,H,"#EFF2F4")}
+    ${rect(0,0,W,190,"#E7ECEF")}
+    ${rect(250,66,140,10,"#CBD5DB",2)}${rect(258,76,26,26,"#D6CBBA",2)}${rect(290,76,26,26,"#CFC0CE",2)}
+    ${rect(0,196,W,H-196,"#DCE2E6")}${rect(0,188,W,10,"#6E5744")}
+    ${rect(228,88,158,110,"#191F23",5)}${rect(234,94,146,98,"#fff",2)}
+    ${rect(234,94,146,17,"#1C1C1C",2)}${txt(242,107,"CHAMADOS ABERTOS",{s:8,c:"#fff",ls:.4})}
+    ${rect(242,118,130,20,"#FFF2E6",3)}${rect(242,118,130,20,"none",3,`stroke="${P.or.m}" stroke-width="1.6"`)}
+    ${circ(253,128,5,P.or.m)}${txt(264,131,"#1042 · FRITADEIRA",{s:7.5,c:P.ink})}
+    ${rect(242,142,130,20,"#F3F5F7",3)}${circ(253,152,5,"#B9C2C9")}${txt(264,155,"#1041 · CÂMARA FRIA",{s:7.5,c:"#75808A"})}
+    ${rect(242,166,130,20,"#F3F5F7",3)}${circ(253,176,5,"#B9C2C9")}${txt(264,179,"#1040 · FORNO",{s:7.5,c:"#75808A"})}
+    ${rect(292,198,30,14,"#191F23")}${rect(272,212,70,7,"#191F23",3)}
+    ${circ(196,74,17,P.ink)}${path("M188,70 h16 l-8,10 z",P.or.m)}
+    ${circ(196,74,17,"none",`stroke="${P.ink}" stroke-width="2" opacity=".22" transform="scale(1.55) translate(-70,-26)"`)}
+    ${person({x:112,y:126,s:1.38,skin:P.skin2,hairStyle:"buzz",hc1:P.hairD,shirt:P.or,exp:"happy",arm:"point"})}
+  `
+});
+
+/* 7 — garantia e orçamento */
+scenes.push({
+  cap:"A equipe avalia a garantia, registra o diagnóstico e envia o orçamento.",
+  bubbles:[],
+  art:`
+    ${rect(0,0,W,H,"#26292B")}
+    ${rect(0,0,198,H,"#232629")}${rect(202,0,198,H,"#2C3033")}
+    ${line(200,0,200,H,P.or.m,3)}
+    ${txt(18,28,"FRIGOTEC",{s:9,c:"#7E868C",ls:1.6})}
+    ${txt(216,28,"CLIENTE",{s:9,c:"#7E868C",ls:1.6})}
+    ${rect(20,48,160,96,"#3A3F43",5)}${rect(26,54,148,84,"#F1F4F6",2)}
+    ${rect(34,62,70,9,"#1C1C1C",2)}${rect(34,78,132,6,"#C8CFD4",2)}${rect(34,90,108,6,"#C8CFD4",2)}
+    ${rect(34,104,86,22,P.ok.m,4)}${txt(77,119,"EM GARANTIA",{s:9,a:"middle",c:"#fff"})}
+    ${rect(70,144,60,7,"#3A3F43",3)}
+    ${person({x:100,y:178,s:1.06,skin:P.skin3,hairStyle:"curly",hc1:"#1C1614",shirt:P.or,exp:"focused"})}
+    ${phone(300,140,.98,`
+      ${rect(0,0,64,18,"#1C1C1C")}${txt(6,13,"ORÇAMENTO",{s:7.5,c:"#fff"})}
+      ${rect(8,26,40,4,"#C8CFD4",2)}${rect(8,34,30,4,"#C8CFD4",2)}
+      ${txt(32,58,"R$ 0,00",{s:13,a:"middle",c:P.ink,w:900})}
+      ${txt(32,68,"COBERTO PELA",{s:6,a:"middle",c:P.ok.m})}
+      ${txt(32,76,"GARANTIA",{s:6,a:"middle",c:P.ok.m})}
+      ${rect(10,82,44,14,P.ok.m,7)}${txt(32,92,"APROVAR",{s:7.5,a:"middle",c:"#fff"})}
+    `,0,64,100)}
+    ${arrow(152,266,242)}
+  `
+});
+
+/* 8 — acompanhamento */
+scenes.push({
+  cap:"O cliente acompanha cada etapa pelo portal, sem precisar ligar.",
+  bubbles:[{t:"Sem precisar<br>ligar pra saber.", cls:"think r", css:"right:12px;bottom:13px;max-width:140px"}],
+  art:`
+    ${rect(0,0,W,H,"#F3EEE7")}
+    ${rect(238,26,124,96,"#CFE4F2",4)}${rect(238,26,124,96,"none",4,`stroke="#E4D9C9" stroke-width="6"`)}
+    ${circ(330,54,13,"#FBE7A8")}${path("M242,110 q26,-30 52,-12 t66,-6 v30 h-118 z","#B9D8C4")}
+    ${path("M230,20 q14,54 0,108 h-16 q10,-54 0,-108 z","#E8DCCB")}
+    ${rect(0,214,W,H-214,"#E5DACA")}${rect(0,208,W,8,"#D3C5B1")}
+    ${plant(52,196,1.02)}
+    ${rect(300,196,58,10,"#C9B79E",3)}${rect(316,180,10,16,"#fff",2)}${path("M326,184 q7,3 0,7","none",'stroke="#fff" stroke-width="2.4"')}
+    ${phone(172,150,1.0,`
+      ${rect(0,0,96,20,"#1C1C1C")}${txt(7,14,"CHAMADO #1042",{s:8,c:"#fff"})}
+      ${line(11,34,11,96,"#E2E6E9",2.6)}
+      ${circ(11,34,4.6,P.ok.m)}${txt(21,37,"CHAMADO ABERTO",{s:6.2,c:P.ink})}
+      ${circ(11,50,4.6,P.ok.m)}${txt(21,53,"DIAGNÓSTICO FEITO",{s:6.2,c:P.ink})}
+      ${circ(11,66,4.6,P.ok.m)}${txt(21,69,"ORÇAMENTO APROVADO",{s:6.2,c:P.ink})}
+      ${circ(11,82,5.4,P.or.m)}${txt(21,85,"EM EXECUÇÃO",{s:6.2,c:P.ink})}
+      ${circ(11,96,4.6,"#DDE2E6")}${txt(21,99,"ENCERRADO",{s:6.2,c:"#A7AEB4"})}
+    `,0,96,106)}
+    ${person({x:330,y:158,s:1.12,skin:P.skin,hairStyle:"bob",hc1:P.hairM,shirt:P.plum,exp:"happy"})}
+  `
+});
+
+/* 9 — relacionamento contínuo */
+scenes.push({
+  cap:"O atendimento pontual vira relacionamento contínuo — com todo o histórico registrado.",
+  bubbles:[{t:"Voltou a funcionar —<br>e ficou tudo<br>registrado.", cls:"say", css:"left:12px;bottom:13px;max-width:158px"}],
+  art:`
+    ${tiledWall(W,198,"#EDF1F4","#DDE5EA",44)}
+    ${rect(0,198,W,H-198,"#D3DCE2")}${rect(0,192,W,8,"#B9C6CE")}
+    ${fryer(64,116,.78,true)}
+    ${circ(64,84,5,P.ok.m)}${sparkle(30,66,9,"#FFD9B0")}${sparkle(104,58,7,"#FFD9B0")}
+    ${person({x:174,y:132,s:1.2,skin:P.skin,hairStyle:"short",hc1:P.hairD,shirt:P.navy,exp:"big",arm:"out"})}
+    ${person({x:250,y:132,s:1.2,skin:P.skin2,hairStyle:"buzz",hc1:P.hairD,shirt:P.or,exp:"big",arm:"outL",flip:false})}
+    ${ell(212,176,13,9,P.skin.m)}${ell(212,176,13,9,"none",`stroke="${P.skin.d}" stroke-width="1.6"`)}
+    ${rect(300,72,90,116,"#fff",5)}${rect(300,72,90,116,"none",5,`stroke="${P.ink}" stroke-width="2.4"`)}
+    ${rect(300,72,90,20,P.ink,5)}${rect(300,86,90,6,P.ink)}
+    ${txt(308,86,"HISTÓRICO",{s:8,c:"#fff",ls:.5})}
+    ${rect(307,100,76,16,"#F2F5F7",2)}${txt(312,111,"2026 · TROCA DE PEÇA",{s:5.8,c:"#6E7880"})}
+    ${rect(307,120,76,16,"#F2F5F7",2)}${txt(312,131,"2025 · PREVENTIVA",{s:5.8,c:"#6E7880"})}
+    ${rect(307,140,76,16,"#FFF2E6",2)}${txt(312,151,"2025 · INSTALAÇÃO",{s:5.8,c:P.or.d})}
+    ${rect(307,162,76,18,P.or.m,9)}${txt(345,174,"VER EQUIPAMENTO",{s:6.4,a:"middle",c:"#fff"})}
+  `
+});
+
+/* ---------- render ---------- */
+document.getElementById("grid").innerHTML = scenes.map((s,i)=>{
+  const bubbles = (s.bubbles||[]).map(b=>{
+    const dots = b.cls.includes("think") ? "<i></i><u></u>" : "";
+    return `<div class="bub ${b.cls}" style="${b.css}">${b.t}${dots}</div>`;
+  }).join("");
+  return `<div class="panel">
+    <div class="num">${String(i+1).padStart(2,"0")}</div>
+    <div class="cap${s.capBottom?" bot":""}">${s.cap}</div>
+    <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${s.art}</svg>
+    ${bubbles}
+  </div>`;
+}).join("");
+</script>
+</body>
+</html>
