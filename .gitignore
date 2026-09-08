@@ -1,0 +1,24 @@
+# dependências
+node_modules/
+target/
+dist/
+build/
+
+# ambiente
+.env
+.env.local
+*.local
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# logs
+*.log
+npm-debug.log*
