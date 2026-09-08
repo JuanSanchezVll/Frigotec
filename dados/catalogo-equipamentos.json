@@ -1,0 +1,412 @@
+{
+  "versao": "1.0",
+  "fonte": "MAQUINA QUE TRABALHAMOS.pdf — relação inicial fornecida pela Frigotec",
+  "observacao": "A Frigotec informou que esta relação PODE MUDAR (inclusão/retirada de equipamentos e marcas). Tratar como dado configurável, nunca como constante em código.",
+  "identificadores": [
+    {
+      "id": "NUMERO_SERIE",
+      "rotulo": "Etiqueta / nº de série"
+    },
+    {
+      "id": "MODELO",
+      "rotulo": "Modelo"
+    },
+    {
+      "id": "MARCA",
+      "rotulo": "Marca"
+    }
+  ],
+  "marcas": [
+    {
+      "id": "beccaro",
+      "nome": "Beccaro",
+      "proprietaria": false
+    },
+    {
+      "id": "begel",
+      "nome": "Begel",
+      "proprietaria": false
+    },
+    {
+      "id": "bermar",
+      "nome": "Bermar",
+      "proprietaria": false
+    },
+    {
+      "id": "caf",
+      "nome": "CAF",
+      "proprietaria": false
+    },
+    {
+      "id": "consercaf",
+      "nome": "Consercaf",
+      "proprietaria": false
+    },
+    {
+      "id": "croydon",
+      "nome": "Croydon",
+      "proprietaria": false
+    },
+    {
+      "id": "everest",
+      "nome": "Everest",
+      "proprietaria": false
+    },
+    {
+      "id": "filizola",
+      "nome": "Filizola",
+      "proprietaria": false
+    },
+    {
+      "id": "fire",
+      "nome": "Fire",
+      "proprietaria": false
+    },
+    {
+      "id": "frigopro",
+      "nome": "Frigopro",
+      "proprietaria": true
+    },
+    {
+      "id": "gural",
+      "nome": "Gural",
+      "proprietaria": false
+    },
+    {
+      "id": "ibbl",
+      "nome": "IBBL",
+      "proprietaria": false
+    },
+    {
+      "id": "marchesoni",
+      "nome": "Marchesoni",
+      "proprietaria": false
+    },
+    {
+      "id": "metalcubas",
+      "nome": "Metalcubas",
+      "proprietaria": false
+    },
+    {
+      "id": "metalmaq",
+      "nome": "Metalmaq",
+      "proprietaria": false
+    },
+    {
+      "id": "monarcha",
+      "nome": "Monarcha",
+      "proprietaria": false
+    },
+    {
+      "id": "mr",
+      "nome": "MR",
+      "proprietaria": false
+    },
+    {
+      "id": "paladium",
+      "nome": "Paladium",
+      "proprietaria": false
+    },
+    {
+      "id": "pratica",
+      "nome": "Prática",
+      "proprietaria": false
+    },
+    {
+      "id": "reubly",
+      "nome": "Reubly",
+      "proprietaria": false
+    },
+    {
+      "id": "robout-couple",
+      "nome": "Robout Couple",
+      "proprietaria": false
+    },
+    {
+      "id": "skymsen",
+      "nome": "Skymsen",
+      "proprietaria": false
+    },
+    {
+      "id": "spolu",
+      "nome": "Spolu",
+      "proprietaria": false
+    },
+    {
+      "id": "universal",
+      "nome": "Universal",
+      "proprietaria": false
+    },
+    {
+      "id": "upx",
+      "nome": "UPX",
+      "proprietaria": false
+    },
+    {
+      "id": "venancio",
+      "nome": "Venâncio",
+      "proprietaria": false
+    },
+    {
+      "id": "victory",
+      "nome": "Victory",
+      "proprietaria": false
+    },
+    {
+      "id": "vitalex",
+      "nome": "Vitalex",
+      "proprietaria": false
+    },
+    {
+      "id": "vulcan",
+      "nome": "Vulcan",
+      "proprietaria": false
+    }
+  ],
+  "tiposEquipamento": [
+    {
+      "id": "liquidificador",
+      "nome": "Liquidificador",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "skymsen",
+        "victory",
+        "vitalex",
+        "spolu"
+      ]
+    },
+    {
+      "id": "processador",
+      "nome": "Processador",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "robout-couple",
+        "caf",
+        "skymsen"
+      ]
+    },
+    {
+      "id": "cutter",
+      "nome": "Cutter",
+      "identificadorObrigatorio": "MODELO",
+      "identificadorRotulo": "Modelo",
+      "exigeFotoEtiqueta": false,
+      "marcas": [
+        "skymsen",
+        "spolu",
+        "fire"
+      ]
+    },
+    {
+      "id": "fritadeira-eletrica",
+      "nome": "Fritadeira Elétrica",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "skymsen",
+        "croydon",
+        "metalcubas",
+        "monarcha",
+        "fire"
+      ]
+    },
+    {
+      "id": "cortador-de-frios",
+      "nome": "Cortador de Frios",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "skymsen",
+        "filizola",
+        "gural",
+        "bermar",
+        "paladium",
+        "upx"
+      ]
+    },
+    {
+      "id": "extratores",
+      "nome": "Extratores",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "skymsen",
+        "croydon",
+        "vitalex",
+        "victory"
+      ]
+    },
+    {
+      "id": "moedores-de-carne",
+      "nome": "Moedores de Carne",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "caf",
+        "bermar",
+        "beccaro"
+      ]
+    },
+    {
+      "id": "serra-fita",
+      "nome": "Serra Fita",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "caf",
+        "beccaro"
+      ]
+    },
+    {
+      "id": "amaciador-de-carne",
+      "nome": "Amaciador de Carne",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "caf",
+        "beccaro"
+      ]
+    },
+    {
+      "id": "chapa",
+      "nome": "Chapa",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "frigopro",
+        "fire",
+        "vulcan",
+        "metalcubas",
+        "croydon"
+      ]
+    },
+    {
+      "id": "fritadeira-a-gas",
+      "nome": "Fritadeira a Gás",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "frigopro",
+        "vulcan",
+        "venancio"
+      ]
+    },
+    {
+      "id": "char-broiler",
+      "nome": "Char Broiler",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "frigopro",
+        "vulcan",
+        "croydon"
+      ]
+    },
+    {
+      "id": "fogao",
+      "nome": "Fogão",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "metalmaq",
+        "frigopro",
+        "mr",
+        "venancio"
+      ]
+    },
+    {
+      "id": "maquina-de-gelo",
+      "nome": "Máquina de Gelo",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "frigopro",
+        "everest"
+      ]
+    },
+    {
+      "id": "fogao-de-inducao",
+      "nome": "Fogão de Indução",
+      "identificadorObrigatorio": "MODELO",
+      "identificadorRotulo": "Modelo",
+      "exigeFotoEtiqueta": false,
+      "marcas": [
+        "frigopro"
+      ]
+    },
+    {
+      "id": "conservador-de-frituras",
+      "nome": "Conservador de Frituras",
+      "identificadorObrigatorio": "MODELO",
+      "identificadorRotulo": "Modelo",
+      "exigeFotoEtiqueta": false,
+      "marcas": [
+        "fire",
+        "metalcubas"
+      ]
+    },
+    {
+      "id": "maquina-de-cafe",
+      "nome": "Máquina de Café",
+      "identificadorObrigatorio": "MODELO",
+      "identificadorRotulo": "Modelo",
+      "exigeFotoEtiqueta": false,
+      "marcas": [
+        "monarcha",
+        "marchesoni",
+        "consercaf",
+        "universal"
+      ]
+    },
+    {
+      "id": "microondas",
+      "nome": "Microondas",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "pratica",
+        "victory"
+      ]
+    },
+    {
+      "id": "forno-eletrico",
+      "nome": "Forno Elétrico",
+      "identificadorObrigatorio": "NUMERO_SERIE",
+      "identificadorRotulo": "Etiqueta / nº de série",
+      "exigeFotoEtiqueta": true,
+      "marcas": [
+        "pratica",
+        "victory"
+      ]
+    },
+    {
+      "id": "refresqueira",
+      "nome": "Refresqueira",
+      "identificadorObrigatorio": "MARCA",
+      "identificadorRotulo": "Marca",
+      "exigeFotoEtiqueta": false,
+      "marcas": [
+        "begel",
+        "venancio",
+        "ibbl",
+        "reubly"
+      ]
+    }
+  ]
+}

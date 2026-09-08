@@ -1,0 +1,65 @@
+﻿tipo_equipamento;marca;identificador_obrigatorio;exige_foto_etiqueta;marca_propria_frigotec
+Liquidificador;Skymsen;Etiqueta / nº de série;sim;nao
+Liquidificador;Victory;Etiqueta / nº de série;sim;nao
+Liquidificador;Vitalex;Etiqueta / nº de série;sim;nao
+Liquidificador;Spolu;Etiqueta / nº de série;sim;nao
+Processador;Robout Couple;Etiqueta / nº de série;sim;nao
+Processador;CAF;Etiqueta / nº de série;sim;nao
+Processador;Skymsen;Etiqueta / nº de série;sim;nao
+Cutter;Skymsen;Modelo;nao;nao
+Cutter;Spolu;Modelo;nao;nao
+Cutter;Fire;Modelo;nao;nao
+Fritadeira Elétrica;Skymsen;Etiqueta / nº de série;sim;nao
+Fritadeira Elétrica;Croydon;Etiqueta / nº de série;sim;nao
+Fritadeira Elétrica;Metalcubas;Etiqueta / nº de série;sim;nao
+Fritadeira Elétrica;Monarcha;Etiqueta / nº de série;sim;nao
+Fritadeira Elétrica;Fire;Etiqueta / nº de série;sim;nao
+Cortador de Frios;Skymsen;Etiqueta / nº de série;sim;nao
+Cortador de Frios;Filizola;Etiqueta / nº de série;sim;nao
+Cortador de Frios;Gural;Etiqueta / nº de série;sim;nao
+Cortador de Frios;Bermar;Etiqueta / nº de série;sim;nao
+Cortador de Frios;Paladium;Etiqueta / nº de série;sim;nao
+Cortador de Frios;UPX;Etiqueta / nº de série;sim;nao
+Extratores;Skymsen;Etiqueta / nº de série;sim;nao
+Extratores;Croydon;Etiqueta / nº de série;sim;nao
+Extratores;Vitalex;Etiqueta / nº de série;sim;nao
+Extratores;Victory;Etiqueta / nº de série;sim;nao
+Moedores de Carne;CAF;Etiqueta / nº de série;sim;nao
+Moedores de Carne;Bermar;Etiqueta / nº de série;sim;nao
+Moedores de Carne;Beccaro;Etiqueta / nº de série;sim;nao
+Serra Fita;CAF;Etiqueta / nº de série;sim;nao
+Serra Fita;Beccaro;Etiqueta / nº de série;sim;nao
+Amaciador de Carne;CAF;Etiqueta / nº de série;sim;nao
+Amaciador de Carne;Beccaro;Etiqueta / nº de série;sim;nao
+Chapa;Frigopro;Etiqueta / nº de série;sim;sim
+Chapa;Fire;Etiqueta / nº de série;sim;nao
+Chapa;Vulcan;Etiqueta / nº de série;sim;nao
+Chapa;Metalcubas;Etiqueta / nº de série;sim;nao
+Chapa;Croydon;Etiqueta / nº de série;sim;nao
+Fritadeira a Gás;Frigopro;Etiqueta / nº de série;sim;sim
+Fritadeira a Gás;Vulcan;Etiqueta / nº de série;sim;nao
+Fritadeira a Gás;Venâncio;Etiqueta / nº de série;sim;nao
+Char Broiler;Frigopro;Etiqueta / nº de série;sim;sim
+Char Broiler;Vulcan;Etiqueta / nº de série;sim;nao
+Char Broiler;Croydon;Etiqueta / nº de série;sim;nao
+Fogão;Metalmaq;Etiqueta / nº de série;sim;nao
+Fogão;Frigopro;Etiqueta / nº de série;sim;sim
+Fogão;MR;Etiqueta / nº de série;sim;nao
+Fogão;Venâncio;Etiqueta / nº de série;sim;nao
+Máquina de Gelo;Frigopro;Etiqueta / nº de série;sim;sim
+Máquina de Gelo;Everest;Etiqueta / nº de série;sim;nao
+Fogão de Indução;Frigopro;Modelo;nao;sim
+Conservador de Frituras;Fire;Modelo;nao;nao
+Conservador de Frituras;Metalcubas;Modelo;nao;nao
+Máquina de Café;Monarcha;Modelo;nao;nao
+Máquina de Café;Marchesoni;Modelo;nao;nao
+Máquina de Café;Consercaf;Modelo;nao;nao
+Máquina de Café;Universal;Modelo;nao;nao
+Microondas;Prática;Etiqueta / nº de série;sim;nao
+Microondas;Victory;Etiqueta / nº de série;sim;nao
+Forno Elétrico;Prática;Etiqueta / nº de série;sim;nao
+Forno Elétrico;Victory;Etiqueta / nº de série;sim;nao
+Refresqueira;Begel;Marca;nao;nao
+Refresqueira;Venâncio;Marca;nao;nao
+Refresqueira;IBBL;Marca;nao;nao
+Refresqueira;Reubly;Marca;nao;nao
