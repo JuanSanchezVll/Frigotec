@@ -1,11 +1,10 @@
 package com.frigo.frigotec.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import org.hibernate.Length;
 import org.hibernate.annotations.UuidGenerator;
 
+import javax.annotation.processing.Generated;
 import java.util.UUID;
 
 @Entity
@@ -14,17 +13,34 @@ public class Usuario {
     @Id
     @UuidGenerator
     private UUID id;
+    @Column(name = "nomeCompleto", nullable = false)
     private String nomeCompleto;
+    @Column(name = "email", unique = true, nullable = false)
     private String Email;
+    @Column(name = "cpf", unique = true)
     private String cpf;
-    private String cnpj;
-    private String inscricaoEstadual;
+    @Column(name = "senha", nullable = false)
     private String senha;
+    @Column(name = "telefoneFixo", length = 10)
     private String telefoneFixo;
+    @Column(name = "celular",  length = 13)
     private String celular;
+
     @ManyToOne
-    @JoinColumn(name = "endereco_id")
+    @JoinColumn(name = "id",  nullable = false)
     private Endereco endereco;
+
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Empresa empresa;
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
 
     public UUID getId() {
         return id;
@@ -58,21 +74,6 @@ public class Usuario {
         this.cpf = cpf;
     }
 
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-
-    public String getInscricaoEstadual() {
-        return inscricaoEstadual;
-    }
-
-    public void setInscricaoEstadual(String inscricaoEstadual) {
-        this.inscricaoEstadual = inscricaoEstadual;
-    }
 
     public String getSenha() {
         return senha;
