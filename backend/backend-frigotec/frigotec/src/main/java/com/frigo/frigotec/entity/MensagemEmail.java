@@ -3,7 +3,7 @@ package com.frigo.frigotec.entity;
 import jakarta.persistence.*;
 
 @Entity
-public class mensagemEmail {
+public class MensagemEmail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
