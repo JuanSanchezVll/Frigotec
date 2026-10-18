@@ -6,28 +6,26 @@ import jakarta.persistence.*;
 @Entity
 public class EquipamentoUsuario {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @OneToOne
-    @JoinColumn(name = "equipamento_id")
+    @JoinColumn()
     private Equipamento equipamento;
 
     @OneToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn()
     private Usuario usuario;
 
     @Column(name ="numeroSerie")
-    private Integer numeroSerie;
+    private String numeroSerie;
 
-    public Integer getNumeroSerie() {
+    public String getNumeroSerie() {
         return numeroSerie;
     }
 
-    public void setNumeroSerie(Integer numeroSerie) {
+    public void setNumeroSerie(String numeroSerie) {
         this.numeroSerie = numeroSerie;
     }
 

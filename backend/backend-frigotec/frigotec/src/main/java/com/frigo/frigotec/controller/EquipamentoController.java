@@ -7,25 +7,28 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/equipamentos")
 public class EquipamentoController {
 
-    private EquipamentoService equipamentoService;
+    private EquipamentoService service;
 
     public EquipamentoController(EquipamentoService equipamentoService) {
-        this.equipamentoService = equipamentoService;
+        this.service = equipamentoService;
     }
 
 
 
     @PostMapping
-    public ResponseEntity<EquipamentoCadastroDto> save(@RequestBody @Valid EquipamentoCadastroDto dto, @PathVariable Long idUsuario) {
+    public ResponseEntity<EquipamentoCadastroDto> save(@RequestBody @Valid EquipamentoCadastroDto dto, @PathVariable UUID idUsuario) {
 
 
+        service.save(dto, idUsuario);
 
-        return null;
+        return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping("/saveFrigo")

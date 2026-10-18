@@ -26,7 +26,7 @@ public class Garantia {
 
 
     @OneToOne
-    @JoinColumn(name = "id_equipamento")
+    @JoinColumn()
     private Equipamento equipamento;
 
     public Equipamento getEquipamento() {

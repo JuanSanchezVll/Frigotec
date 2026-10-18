@@ -17,6 +17,9 @@ public class EquipamentoUsuarioMapper {
         this.equipamentoMapper = equipamentoMapper;
     }
 
+    // =======================================================
+    // MAPEAMENTO: EquipamentoCadastroDto <-> EquipamentoUsuario
+    // =======================================================
 
     public EquipamentoUsuario toEntity(EquipamentoCadastroDto dto) {
         if (dto == null) {
@@ -25,10 +28,12 @@ public class EquipamentoUsuarioMapper {
 
         EquipamentoUsuario entity = new EquipamentoUsuario();
 
+        // Delega totalmente a construção do Equipamento para o EquipamentoMapper
         if (dto.getModelo() != null) {
             entity.setEquipamento(equipamentoMapper.toEntity(dto.getModelo()));
         }
 
+        // Delega totalmente a construção do Usuário
         if (dto.getUsuario() != null) {
             entity.setUsuario(usuarioMapper.toEntity(dto.getUsuario()));
         }
@@ -43,15 +48,16 @@ public class EquipamentoUsuarioMapper {
 
         EquipamentoCadastroDto dto = new EquipamentoCadastroDto();
 
-        // Delega e extrai o Equipamento
         if (entity.getEquipamento() != null) {
             dto.setModelo(equipamentoMapper.toDto(entity.getEquipamento()));
+
 
             if (dto.getModelo() != null) {
                 dto.setMarca(dto.getModelo().getFabricante());
             }
         }
 
+        // Delega e extrai o Usuário
         if (entity.getUsuario() != null) {
             dto.setUsuario(usuarioMapper.toDto(entity.getUsuario()));
         }
@@ -60,42 +66,5 @@ public class EquipamentoUsuarioMapper {
     }
 
 
-    public EquipamentoUsuario toEntity(EquipamentoUsuarioDto dto) {
-        if (dto == null) {
-            return null;
-        }
 
-        EquipamentoUsuario entity = new EquipamentoUsuario();
-        entity.setId(dto.getIdEquipamentoUsuario());
-
-        if (dto.getEquipamentoCadastroDto() != null) {
-            EquipamentoUsuario tempEntity = toEntity(dto.getEquipamentoCadastroDto());
-            if (tempEntity != null) {
-                entity.setEquipamento(tempEntity.getEquipamento());
-            }
-        }
-
-        if (dto.getUsuarioCadastroDto() != null) {
-            entity.setUsuario(usuarioMapper.toEntity(dto.getUsuarioCadastroDto()));
-        }
-
-        return entity;
-    }
-
-    public EquipamentoUsuarioDto toEquipamentoUsuarioDto(EquipamentoUsuario entity) {
-        if (entity == null) {
-            return null;
-        }
-
-        EquipamentoUsuarioDto dto = new EquipamentoUsuarioDto();
-        dto.setIdEquipamentoUsuario(entity.getId());
-
-        dto.setEquipamentoCadastroDto(toDto(entity));
-
-        if (entity.getUsuario() != null) {
-            dto.setUsuarioCadastroDto(usuarioMapper.toDto(entity.getUsuario()));
-        }
-
-        return dto;
-    }
 }

@@ -11,7 +11,8 @@ import java.util.UUID;
 public class Usuario {
 
     @Id
-    @UuidGenerator
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "UUID")
     private UUID id;
     @Column(name = "nomeCompleto", nullable = false)
     private String nomeCompleto;
@@ -27,11 +28,11 @@ public class Usuario {
     private String celular;
 
     @ManyToOne
-    @JoinColumn(name = "id",  nullable = false)
+    @JoinColumn(name = "endereco_id",  nullable = false)
     private Endereco endereco;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "empresa_id")
     private Empresa empresa;
 
     public Empresa getEmpresa() {

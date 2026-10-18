@@ -19,41 +19,41 @@ import java.util.UUID;
 public class EquipamentoService {
 
 
-    @Autowired
-    private EquipamentoRepository equipamentoRepository;
+    private final EquipamentoRepository equipamentoRepository;
 
-    private EquipamentoUsuarioRepository equipamentoUsuarioRepository;
+    private final EquipamentoUsuarioRepository equipamentoUsuarioRepository;
 
-    @Autowired
-    private EquipamentoUsuarioMapper equipamentoUsuarioMapper;
+    private  EquipamentoUsuarioMapper equipamentoUsuarioMapper;
 
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
 
-    public EquipamentoService(EquipamentoRepository equipamentoRepository) {
+    public EquipamentoService(EquipamentoRepository equipamentoRepository, EquipamentoUsuarioRepository equipamentoUsuarioRepository,  UsuarioRepository usuarioRepository) {
         this.equipamentoRepository = equipamentoRepository;
+        this.equipamentoUsuarioRepository = equipamentoUsuarioRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public EquipamentoCadastroDto save(EquipamentoCadastroDto dto, UUID idUsuario) {
 
-        Usuario usuario;
-        usuario = usuarioRepository.findById(idUsuario).orElse(null);
+        Usuario  usuario = usuarioRepository.findById(idUsuario).orElse(null);
 
         if(usuario == null) {
             throw new BuscaNaoEncontradaException("Usuario não encontrado");
         }
 
-        Equipamento equipamento;
+        Equipamento equipamento = new  Equipamento();
         equipamento = equipamentoRepository.findByModeloAndFabricante(dto.getModelo().getNome(), dto.getModelo().getFabricante().getNome());
         if(equipamento == null) {
             throw new BuscaNaoEncontradaException("Não trabalhamos com o equipamento cadastrado");
         }
-        EquipamentoUsuario equipamentoUsuario = new EquipamentoUsuario();
+        EquipamentoUsuario equipamentoUsuario = new  EquipamentoUsuario();
 
-        equipamentoUsuario.setUsuario(usuario);
         equipamentoUsuario.setEquipamento(equipamento);
+        equipamentoUsuario.setUsuario(usuario);
 
+        equipamentoUsuarioRepository.save(equipamentoUsuario);
 
-        return null;
+        return dto;
     }
 }

@@ -14,7 +14,7 @@ public class Equipamento {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fabricante_id")
+    @JoinColumn()
     private Fabricante fabricante;
 
     public Long getId() {
