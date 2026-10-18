@@ -6,21 +6,18 @@ import jakarta.validation.constraints.NotNull;
 public class EquipamentoDto {
 
     @NotNull
-    private FabricanteEquipamentoDto marca;
+    private FabricanteEquipamentoDto fabricante;
     @NotBlank
     @NotNull
     private String modelo;
 
 
-
-
-
-    public FabricanteEquipamentoDto getMarca() {
-        return marca;
+    public FabricanteEquipamentoDto getFabricante() {
+        return fabricante;
     }
 
-    public void setMarca(FabricanteEquipamentoDto marca) {
-        this.marca = marca;
+    public void setFabricante(FabricanteEquipamentoDto fabricante) {
+        this.fabricante = fabricante;
     }
 
     public String getModelo() {

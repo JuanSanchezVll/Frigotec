@@ -14,7 +14,7 @@ public class OrcamentoCadastroDto {
     private BigDecimal valor;
 
     @NotNull
-    private Chamado chamado;
+    private ChamadoDto chamado;
 
     @NotNull
     private Boolean isAceito;
@@ -27,11 +27,11 @@ public class OrcamentoCadastroDto {
         this.valor = valor;
     }
 
-    public Chamado getChamado() {
+    public ChamadoDto getChamado() {
         return chamado;
     }
 
-    public void setChamado(Chamado chamado) {
+    public void setChamado(ChamadoDto chamado) {
         this.chamado = chamado;
     }
 

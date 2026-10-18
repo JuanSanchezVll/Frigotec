@@ -1,5 +1,6 @@
 package com.frigo.frigotec.entity;
 
+import com.frigo.frigotec.dto.EquipamentoCadastroDto;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -12,11 +13,8 @@ public class Garantia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "dataOrigem")
-    private LocalDate dataOrigem;
-
-    @Column(name = "dataFim")
-    private LocalDate dataDestino;
+    @Column(name = "dataCompra")
+    private LocalDate dataCompra;
 
     @Column(name = "garantiaAtiva")
     private Integer garantiaAtiva;
@@ -25,8 +23,8 @@ public class Garantia {
     private String notaFiscal;
 
 
-    @OneToOne
-    @JoinColumn(name = "id_equipamento")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "equipamento_id")
     private Equipamento equipamento;
 
     public Equipamento getEquipamento() {
@@ -45,21 +43,6 @@ public class Garantia {
         return id;
     }
 
-    public LocalDate getDataOrigem() {
-        return dataOrigem;
-    }
-
-    public void setDataOrigem(LocalDate dataOrigem) {
-        this.dataOrigem = dataOrigem;
-    }
-
-    public LocalDate getDataDestino() {
-        return dataDestino;
-    }
-
-    public void setDataDestino(LocalDate dataDestino) {
-        this.dataDestino = dataDestino;
-    }
 
     public Integer getGarantiaAtiva() {
         return garantiaAtiva;
@@ -69,8 +52,8 @@ public class Garantia {
         this.garantiaAtiva = garantiaAtiva;
     }
 
-    public String getNotaFiscal() {
-        return notaFiscal;
+    public String getNotaFiscal(String notaFiscal) {
+        return this.notaFiscal;
     }
 
     public void setNotaFiscal(String notaFiscal) {

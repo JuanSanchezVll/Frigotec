@@ -17,7 +17,7 @@ public class OrcamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<OrcamentoDto> save(@RequestBody @Valid OrcamentoCadastroDto novoOrcamento){
+    public ResponseEntity<OrcamentoDto> save(@RequestBody @Valid OrcamentoDto novoOrcamento){
         OrcamentoDto orcamentoDto = orcamentoService.save(novoOrcamento);
 
         return ResponseEntity.status(201).body(orcamentoDto);

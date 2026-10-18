@@ -1,6 +1,5 @@
 package com.frigo.frigotec.controller;
 
-import com.frigo.frigotec.dto.EquipamenentoFrigoDto;
 import com.frigo.frigotec.dto.EquipamentoDto;
 import com.frigo.frigotec.service.EquipamentoService;
 import jakarta.validation.Valid;
@@ -31,8 +30,8 @@ public class EquipamentoController {
         return ResponseEntity.ok().body(dto);
     }
 
-    @PostMapping("/saveFrigo")
-    public ResponseEntity<EquipamenentoFrigoDto> saveFrigo(@RequestBody EquipamenentoFrigoDto dto) {
+    @PostMapping("/saveFrigo/{idUsuario}")
+    public ResponseEntity<EquipamentoDto> saveFrigo(@RequestBody EquipamentoDto dto) {
         return null;
     }
 

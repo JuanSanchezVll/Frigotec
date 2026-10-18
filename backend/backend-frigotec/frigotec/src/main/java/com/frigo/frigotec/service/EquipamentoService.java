@@ -39,7 +39,7 @@ public class EquipamentoService {
         }
 
         Equipamento equipamento = new  Equipamento();
-        equipamento = equipamentoRepository.findByModeloAndFabricanteNome(dto.getModelo(), dto.getMarca().getNome());
+        equipamento = equipamentoRepository.findByModeloAndFabricanteNome(dto.getModelo(), dto.getFabricante().getNome());
         if(equipamento == null) {
             throw new BuscaNaoEncontradaException("Não trabalhamos com o equipamento cadastrado");
         }

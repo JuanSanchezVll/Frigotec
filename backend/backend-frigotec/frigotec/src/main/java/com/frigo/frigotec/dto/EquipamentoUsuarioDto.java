@@ -6,7 +6,7 @@ public class EquipamentoUsuarioDto {
 
     private EquipamentoDto equipamentoDto;
 
-    private UsuarioDto usuarioCadastroDto;
+    private UsuarioDto usuarioDto;
 
     private String numeroSerie;
 
@@ -28,11 +28,11 @@ public class EquipamentoUsuarioDto {
         this.equipamentoDto = equipamentoCadastroDto;
     }
 
-    public UsuarioDto getUsuarioCadastroDto() {
-        return usuarioCadastroDto;
+    public UsuarioDto getUsuarioDto() {
+        return usuarioDto;
     }
 
-    public void setUsuarioCadastroDto(UsuarioDto usuarioCadastroDto) {
-        this.usuarioCadastroDto = usuarioCadastroDto;
+    public void setUsuarioDto(UsuarioDto usuarioDto) {
+        this.usuarioDto = usuarioDto;
     }
 }

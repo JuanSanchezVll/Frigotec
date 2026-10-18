@@ -10,24 +10,28 @@ import org.springframework.stereotype.Component;
 @Component
 public class EquipamentoMapper {
    private final FabricanteMapper fabricanteMapper;
-   private final EquipamentoUsuarioMapper EquipamentoUsuarioMapper;
 
-    public EquipamentoMapper(FabricanteMapper fabricanteMapper, EquipamentoUsuarioMapper equipamentoUsuarioMapper) {
+    public EquipamentoMapper(FabricanteMapper fabricanteMapper) {
         this.fabricanteMapper = fabricanteMapper;
-        EquipamentoUsuarioMapper = equipamentoUsuarioMapper;
     }
 
     public  EquipamentoDto toResponse(Equipamento equipamento){
-        EquipamentoDto equipamentoDto = new EquipamentoDto();
+        EquipamentoDto dto = new EquipamentoDto();
 
-        FabricanteEquipamentoDto fabricanteEquipamentoDto = fabricanteMapper.toDto(equipamento.getFabricante());
-        equipamentoDto.setMarca(fabricanteEquipamentoDto);
-        equipamentoDto.setModelo(equipamento.getModelo());
+        dto.setFabricante(fabricanteMapper.toDto(equipamento.getFabricante()));
+        dto.setModelo(equipamento.getModelo());
 
-        UsuarioDto dto =
+    return dto;
+    }
+
+    public Equipamento toEntity (EquipamentoDto equipamentoDto){
 
 
+        Equipamento entity = new Equipamento();
 
+        entity.setFabricante(fabricanteMapper.toEntity(equipamentoDto.getFabricante()));
+        entity.setModelo(equipamentoDto.getModelo());
 
+        return entity;
     }
 }

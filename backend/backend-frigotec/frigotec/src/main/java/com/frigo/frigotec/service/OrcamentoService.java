@@ -16,16 +16,19 @@ import java.util.Optional;
 public class OrcamentoService {
     private final OrcamentoRepository orcamentoRepository;
 
-    public OrcamentoService(OrcamentoRepository orcamentoRepository) {
+    private final OrcamentoMapper mapper;
+
+    public OrcamentoService(OrcamentoRepository orcamentoRepository, OrcamentoMapper mapper) {
         this.orcamentoRepository = orcamentoRepository;
+        this.mapper = mapper;
     }
 
-    public OrcamentoDto save(OrcamentoCadastroDto novoOrcamento) {
+    public OrcamentoDto save(OrcamentoDto novoOrcamento) {
 
-        Chamado chamado = novoOrcamento.getChamado();
-        Orcamento orcamento = orcamentoRepository.save(OrcamentoMapper.toEntity(novoOrcamento, chamado));
 
-        OrcamentoDto orcamentoSalvo = OrcamentoMapper.toResponse(orcamento, chamado);
+        Orcamento orcamento = orcamentoRepository.save(mapper.toEntity(novoOrcamento));
+
+        OrcamentoDto orcamentoSalvo = mapper.toResponse(orcamento);
 
         return orcamentoSalvo;
     }
@@ -39,14 +42,6 @@ public class OrcamentoService {
 
         Orcamento orcamento = orcamentoEncontrado.get();
 
-        OrcamentoDto orcamentoDto = new OrcamentoDto();
-        orcamentoDto.setValor(orcamento.getValor());
-
-        ChamadoDto chamado = OrcamentoMapper.toResponse(orcamento, orcamento.getChamado());
-
-        orcamentoDto.setChamado(chamado);
-        orcamentoDto.setAceito(orcamento.getAceito());
-
-        return orcamentoDto;
+        return mapper.toResponse(orcamento);
     }
 }
