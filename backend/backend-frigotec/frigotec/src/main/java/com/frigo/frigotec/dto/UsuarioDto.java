@@ -1,6 +1,6 @@
 package com.frigo.frigotec.dto;
 
-public class UsuarioCadastroDto {
+public class UsuarioDto {
 
     private String nomeCompleto;
 

@@ -1,6 +1,6 @@
 package com.frigo.frigotec.mapper;
 
-import com.frigo.frigotec.dto.UsuarioCadastroDto;
+import com.frigo.frigotec.dto.UsuarioDto;
 import com.frigo.frigotec.entity.Usuario;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ public class UsuarioMapper {
         this.empresaMapper = empresaMapper;
     }
 
-    public Usuario toEntity(UsuarioCadastroDto dto) {
+    public Usuario toEntity(UsuarioDto dto) {
         if (dto == null) {
             return null;
         }
@@ -35,12 +35,12 @@ public class UsuarioMapper {
         return entity;
     }
 
-    public UsuarioCadastroDto toDto(Usuario entity) {
+    public UsuarioDto toDto(Usuario entity) {
         if (entity == null) {
             return null;
         }
 
-        UsuarioCadastroDto dto = new UsuarioCadastroDto();
+        UsuarioDto dto = new UsuarioDto();
         dto.setNomeCompleto(entity.getNomeCompleto());
         dto.setEmail(entity.getEmail());
         dto.setCpf(entity.getCpf());

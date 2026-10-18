@@ -4,9 +4,9 @@ package com.frigo.frigotec.dto;
 public class EquipamentoUsuarioDto {
 
 
-    private EquipamentoCadastroDto equipamentoCadastroDto;
+    private EquipamentoDto equipamentoDto;
 
-    private UsuarioCadastroDto usuarioCadastroDto;
+    private UsuarioDto usuarioCadastroDto;
 
     private String numeroSerie;
 
@@ -20,19 +20,19 @@ public class EquipamentoUsuarioDto {
     }
 
 
-    public EquipamentoCadastroDto getEquipamentoCadastroDto() {
-        return equipamentoCadastroDto;
+    public EquipamentoDto getEquipamentoDto() {
+        return equipamentoDto;
     }
 
-    public void setEquipamentoCadastroDto(EquipamentoCadastroDto equipamentoCadastroDto) {
-        this.equipamentoCadastroDto = equipamentoCadastroDto;
+    public void setEquipamentoDto(EquipamentoDto equipamentoCadastroDto) {
+        this.equipamentoDto = equipamentoCadastroDto;
     }
 
-    public UsuarioCadastroDto getUsuarioCadastroDto() {
+    public UsuarioDto getUsuarioCadastroDto() {
         return usuarioCadastroDto;
     }
 
-    public void setUsuarioCadastroDto(UsuarioCadastroDto usuarioCadastroDto) {
+    public void setUsuarioCadastroDto(UsuarioDto usuarioCadastroDto) {
         this.usuarioCadastroDto = usuarioCadastroDto;
     }
 }

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 
-public class EquipamenentoFrigoDto extends EquipamentoCadastroDto {
+public class EquipamenentoFrigoDto extends EquipamentoDto {
 
     @NotNull
     @Past

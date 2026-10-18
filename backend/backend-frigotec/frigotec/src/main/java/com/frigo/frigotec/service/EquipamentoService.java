@@ -1,6 +1,6 @@
 package com.frigo.frigotec.service;
 
-import com.frigo.frigotec.dto.EquipamentoCadastroDto;
+import com.frigo.frigotec.dto.EquipamentoDto;
 import com.frigo.frigotec.entity.Equipamento;
 import com.frigo.frigotec.entity.EquipamentoUsuario;
 import com.frigo.frigotec.entity.Usuario;
@@ -30,7 +30,7 @@ public class EquipamentoService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public EquipamentoCadastroDto save(EquipamentoCadastroDto dto, UUID idUsuario) {
+    public EquipamentoDto save(EquipamentoDto dto, UUID idUsuario) {
 
         Usuario  usuario = usuarioRepository.findById(idUsuario).orElse(null);
 

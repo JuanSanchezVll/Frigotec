@@ -1,7 +1,7 @@
 package com.frigo.frigotec.controller;
 
 import com.frigo.frigotec.dto.EquipamenentoFrigoDto;
-import com.frigo.frigotec.dto.EquipamentoCadastroDto;
+import com.frigo.frigotec.dto.EquipamentoDto;
 import com.frigo.frigotec.service.EquipamentoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class EquipamentoController {
 
 
     @PostMapping("/{idUsuario}")
-    public ResponseEntity<EquipamentoCadastroDto> save(@RequestBody @Valid EquipamentoCadastroDto dto, @PathVariable UUID idUsuario) {
+    public ResponseEntity<EquipamentoDto> save(@RequestBody @Valid EquipamentoDto dto, @PathVariable UUID idUsuario) {
 
 
         service.save(dto, idUsuario);

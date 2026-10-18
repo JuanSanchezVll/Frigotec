@@ -3,7 +3,7 @@ package com.frigo.frigotec.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class EquipamentoCadastroDto {
+public class EquipamentoDto {
 
     @NotNull
     private FabricanteEquipamentoDto marca;
@@ -11,8 +11,8 @@ public class EquipamentoCadastroDto {
     @NotNull
     private String modelo;
 
-    @NotNull
-    private UsuarioCadastroDto usuario;
+
+
 
 
     public FabricanteEquipamentoDto getMarca() {
@@ -32,11 +32,5 @@ public class EquipamentoCadastroDto {
     }
 
 
-    public UsuarioCadastroDto getUsuario() {
-        return usuario;
-    }
 
-    public void setUsuario(UsuarioCadastroDto usuario) {
-        this.usuario = usuario;
-    }
 }
