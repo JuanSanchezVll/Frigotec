@@ -21,8 +21,8 @@ public class Usuario {
     private String cpf;
     @Column(name = "senha", nullable = false)
     private String senha;
-    @Column(name = "telefoneFixo", length = 10)
-    private String telefoneFixo;
+    @Column(name = "telefone", length = 10)
+    private String telefone;
     @Column(name = "celular",  length = 13)
     private String celular;
 
@@ -83,12 +83,12 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public String getTelefoneFixo() {
-        return telefoneFixo;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setTelefoneFixo(String telefoneFixo) {
-        this.telefoneFixo = telefoneFixo;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getCelular() {
