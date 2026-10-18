@@ -20,10 +20,12 @@ public class Chamado {
     @Column(name = "problema")
     private String problema;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "equipamento_usuario_id")
     private EquipamentoUsuario equipamentoUsuario;
 
 
