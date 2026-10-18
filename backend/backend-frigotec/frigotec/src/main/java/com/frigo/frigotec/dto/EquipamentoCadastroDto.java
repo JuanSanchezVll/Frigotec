@@ -5,12 +5,11 @@ import jakarta.validation.constraints.NotNull;
 
 public class EquipamentoCadastroDto {
 
-    @NotBlank
     @NotNull
     private FabricanteEquipamentoDto marca;
     @NotBlank
     @NotNull
-    private ModeloEquipamentoDto modelo;
+    private String modelo;
 
     @NotNull
     private UsuarioCadastroDto usuario;
@@ -24,13 +23,14 @@ public class EquipamentoCadastroDto {
         this.marca = marca;
     }
 
-    public ModeloEquipamentoDto getModelo() {
+    public String getModelo() {
         return modelo;
     }
 
-    public void setModelo(ModeloEquipamentoDto modelo) {
+    public void setModelo(String modelo) {
         this.modelo = modelo;
     }
+
 
     public UsuarioCadastroDto getUsuario() {
         return usuario;

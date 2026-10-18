@@ -22,7 +22,7 @@ public class EquipamentoController {
 
 
 
-    @PostMapping
+    @PostMapping("/{idUsuario}")
     public ResponseEntity<EquipamentoCadastroDto> save(@RequestBody @Valid EquipamentoCadastroDto dto, @PathVariable UUID idUsuario) {
 
 

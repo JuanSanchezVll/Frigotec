@@ -16,13 +16,13 @@ public class Historico {
 
 
     @OneToMany
-    @JoinColumn()
+    @JoinColumn(name= "status_id")
     private List<Status> status;
 
     private LocalDate dataInicio;
 
     @OneToOne
-    @JoinColumn()
+    @JoinColumn(name = "chamado_id")
     private Chamado chamado;
 
 

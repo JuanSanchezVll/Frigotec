@@ -1,16 +1,13 @@
 package com.frigo.frigotec.service;
 
 import com.frigo.frigotec.dto.EquipamentoCadastroDto;
-import com.frigo.frigotec.dto.EquipamentoUsuarioDto;
 import com.frigo.frigotec.entity.Equipamento;
 import com.frigo.frigotec.entity.EquipamentoUsuario;
 import com.frigo.frigotec.entity.Usuario;
 import com.frigo.frigotec.exception.BuscaNaoEncontradaException;
-import com.frigo.frigotec.mapper.EquipamentoUsuarioMapper;
 import com.frigo.frigotec.repository.EquipamentoRepository;
 import com.frigo.frigotec.repository.EquipamentoUsuarioRepository;
 import com.frigo.frigotec.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -23,7 +20,6 @@ public class EquipamentoService {
 
     private final EquipamentoUsuarioRepository equipamentoUsuarioRepository;
 
-    private  EquipamentoUsuarioMapper equipamentoUsuarioMapper;
 
     private final UsuarioRepository usuarioRepository;
 
@@ -43,7 +39,7 @@ public class EquipamentoService {
         }
 
         Equipamento equipamento = new  Equipamento();
-        equipamento = equipamentoRepository.findByModeloAndFabricante(dto.getModelo().getNome(), dto.getModelo().getFabricante().getNome());
+        equipamento = equipamentoRepository.findByModeloAndFabricanteNome(dto.getModelo(), dto.getMarca().getNome());
         if(equipamento == null) {
             throw new BuscaNaoEncontradaException("Não trabalhamos com o equipamento cadastrado");
         }

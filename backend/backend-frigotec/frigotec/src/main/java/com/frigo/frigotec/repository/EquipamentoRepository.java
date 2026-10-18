@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EquipamentoRepository extends JpaRepository<Equipamento, Long> {
 
-    Equipamento findByModeloAndFabricante(String modelo , String fabricante);
+    Equipamento findByModeloAndFabricanteNome(String modelo , String fabricante);
 }

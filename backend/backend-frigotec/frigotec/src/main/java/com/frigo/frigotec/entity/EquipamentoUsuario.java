@@ -11,11 +11,11 @@ public class EquipamentoUsuario {
     private Long id;
 
     @OneToOne
-    @JoinColumn()
+    @JoinColumn(name = "equipamento_id")
     private Equipamento equipamento;
 
     @OneToOne
-    @JoinColumn()
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     @Column(name ="numeroSerie")
