@@ -2,11 +2,15 @@ package com.frigo.frigotec.mapper;
 
 import com.frigo.frigotec.dto.*;
 import com.frigo.frigotec.entity.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrcamentoMapper {
 
     private final ChamadoMapper chamadoMapper;
 
+    @Autowired
     public OrcamentoMapper(ChamadoMapper chamadoMapper) {
         this.chamadoMapper = chamadoMapper;
     }

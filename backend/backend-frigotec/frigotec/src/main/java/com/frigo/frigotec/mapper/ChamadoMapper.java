@@ -4,7 +4,9 @@ import com.frigo.frigotec.dto.ChamadoDto;
 import com.frigo.frigotec.dto.EquipamentoUsuarioDto;
 import com.frigo.frigotec.entity.Chamado;
 import com.frigo.frigotec.entity.EquipamentoUsuario;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChamadoMapper {
 
     private final UsuarioMapper usuarioMapper;

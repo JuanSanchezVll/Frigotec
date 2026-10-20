@@ -5,7 +5,9 @@ import com.frigo.frigotec.dto.GarantiaDto;
 import com.frigo.frigotec.entity.Empresa;
 import com.frigo.frigotec.entity.Equipamento;
 import com.frigo.frigotec.entity.Garantia;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GarantiaMapper {
 
     private final EquipamentoMapper equipamentoMapper;
@@ -20,10 +22,9 @@ public class GarantiaMapper {
         }
 
         Garantia entity = new Garantia();
-        Equipamento equipamento = new  Equipamento();
 
         entity.setGarantiaAtiva(dto.getGarantiaAtiva());
-  entity.setEquipamento(equipamentoMapper.toEntity(dto.getEquipamentoDto()));
+        entity.setEquipamento(equipamentoMapper.toEntity(dto.getEquipamentoDto()));
         entity.setNotaFiscal(dto.getNotaFiscal());
 
         return entity;
@@ -35,7 +36,7 @@ public class GarantiaMapper {
         }
 
         GarantiaDto dto = new GarantiaDto();
-        dto.setEquipamentoDto(entity.getEquipamento());
+        dto.setEquipamentoDto(equipamentoMapper.toResponse(entity.getEquipamento()));
         dto.setGarantiaAtiva(entity.getGarantiaAtiva());
 
 

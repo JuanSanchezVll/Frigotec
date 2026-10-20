@@ -68,7 +68,7 @@ INSERT INTO mensagem_email (id, chamado_id, usuario_id, descricao, assunto) VALU
      'Seu chamado foi aberto e será atendido em breve.', 'Chamado #1001 aberto');
 
 -- 13. Garantia (IDENTITY)
-INSERT INTO garantia (data_origem, data_fim, garantia_ativa, nota_fiscal, id_equipamento) VALUES
+INSERT INTO garantia (data_compra, data_fim_garantia,  garantia_ativa, nota_fiscal, equipamento_id) VALUES
     ('2026-01-10', '2027-01-10', 1, 'NF-123456',
      (SELECT id FROM equipamento WHERE modelo = 'Geladeira Frost Free 400L'));
 

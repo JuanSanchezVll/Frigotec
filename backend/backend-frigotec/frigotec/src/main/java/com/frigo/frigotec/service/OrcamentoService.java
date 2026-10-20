@@ -1,13 +1,11 @@
 package com.frigo.frigotec.service;
 
-import com.frigo.frigotec.dto.ChamadoDto;
-import com.frigo.frigotec.dto.OrcamentoCadastroDto;
 import com.frigo.frigotec.dto.OrcamentoDto;
-import com.frigo.frigotec.entity.Chamado;
 import com.frigo.frigotec.entity.Orcamento;
 import com.frigo.frigotec.exception.BuscaNaoEncontradaException;
 import com.frigo.frigotec.mapper.OrcamentoMapper;
 import com.frigo.frigotec.repository.OrcamentoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,6 +16,7 @@ public class OrcamentoService {
 
     private final OrcamentoMapper mapper;
 
+    @Autowired
     public OrcamentoService(OrcamentoRepository orcamentoRepository, OrcamentoMapper mapper) {
         this.orcamentoRepository = orcamentoRepository;
         this.mapper = mapper;

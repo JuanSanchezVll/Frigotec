@@ -1,6 +1,5 @@
 package com.frigo.frigotec.entity;
 
-import com.frigo.frigotec.dto.EquipamentoCadastroDto;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -18,6 +17,9 @@ public class Garantia {
 
     @Column(name = "garantiaAtiva")
     private Integer garantiaAtiva;
+
+    @Column(name = "dataFimGarantia")
+    private LocalDate dataFimGarantia;
 
     @Column(name = "notaFiscal")
     private String notaFiscal;
