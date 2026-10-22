@@ -1,9 +1,6 @@
 package com.frigo.frigotec.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Fabricante {
@@ -12,6 +9,7 @@ public class Fabricante {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true)
     private String nome;
 
     public Long getId() {

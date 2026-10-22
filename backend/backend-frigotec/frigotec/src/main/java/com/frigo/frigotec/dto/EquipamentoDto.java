@@ -1,24 +1,28 @@
 package com.frigo.frigotec.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 public class EquipamentoDto {
 
-    @NotNull
-    @NotBlank
-    private FabricanteEquipamentoDto fabricante;
-    @NotBlank
-    @NotNull
+    private Long id;
+
+    private Long fabricanteId;
+
     private String modelo;
 
 
-    public FabricanteEquipamentoDto getFabricante() {
-        return fabricante;
+    public Long getId() {
+        return id;
     }
 
-    public void setFabricante(FabricanteEquipamentoDto fabricante) {
-        this.fabricante = fabricante;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getFabricanteId() {
+        return fabricanteId;
+    }
+
+    public void setFabricanteId(Long fabricanteId) {
+        this.fabricanteId = fabricanteId;
     }
 
     public String getModelo() {
@@ -28,7 +32,4 @@ public class EquipamentoDto {
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
-
-
-
 }

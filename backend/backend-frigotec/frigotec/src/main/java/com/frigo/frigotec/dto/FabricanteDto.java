@@ -1,9 +1,14 @@
 package com.frigo.frigotec.dto;
 
-public class FabricanteEquipamentoDto {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
+public class FabricanteDto {
+
+    @NotNull
     private Long id;
-
+    @NotBlank
+    @NotNull
     private String nome;
 
     public Long getId() {

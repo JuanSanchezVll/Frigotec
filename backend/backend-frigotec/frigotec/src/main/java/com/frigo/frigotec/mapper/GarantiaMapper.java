@@ -24,7 +24,7 @@ public class GarantiaMapper {
         Garantia entity = new Garantia();
 
         entity.setGarantiaAtiva(dto.getGarantiaAtiva());
-        entity.setEquipamento(equipamentoMapper.toEntity(dto.getEquipamentoDto()));
+     //   entity.setEquipamento(equipamentoMapper.toEntity(dto.getEquipamentoDto()));
         entity.setNotaFiscal(dto.getNotaFiscal());
 
         return entity;
@@ -36,7 +36,7 @@ public class GarantiaMapper {
         }
 
         GarantiaDto dto = new GarantiaDto();
-        dto.setEquipamentoDto(equipamentoMapper.toResponse(entity.getEquipamento()));
+     //   dto.setEquipamentoDto(equipamentoMapper.toResponse(entity.getEquipamento()));
         dto.setGarantiaAtiva(entity.getGarantiaAtiva());
 
 

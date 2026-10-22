@@ -1,13 +1,12 @@
 package com.frigo.frigotec.mapper;
 
-import com.frigo.frigotec.dto.FabricanteEquipamentoDto;
+import com.frigo.frigotec.dto.FabricanteCadastroDto;
+import com.frigo.frigotec.dto.FabricanteDto;
 import com.frigo.frigotec.entity.Fabricante;
-import org.springframework.stereotype.Component;
 
-@Component
-public class FabricanteMapper {
+public final class FabricanteMapper {
 
-    public Fabricante toEntity(FabricanteEquipamentoDto dto) {
+    public static Fabricante toEntity(FabricanteDto dto) {
         if (dto == null) {
             return null;
         }
@@ -19,13 +18,35 @@ public class FabricanteMapper {
         return entity;
     }
 
-    public FabricanteEquipamentoDto toDto(Fabricante entity) {
+    public static FabricanteDto toDto(Fabricante entity) {
         if (entity == null) {
             return null;
         }
 
-        FabricanteEquipamentoDto dto = new FabricanteEquipamentoDto();
+        FabricanteDto dto = new FabricanteDto();
         dto.setId(entity.getId());
+        dto.setNome(entity.getNome());
+
+        return dto;
+    }
+
+    public static Fabricante toEntityCadastro(FabricanteCadastroDto dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Fabricante entity = new Fabricante();
+        entity.setNome(dto.getNome());
+
+        return entity;
+    }
+
+    public static FabricanteCadastroDto toDtoCadastro(Fabricante entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        FabricanteCadastroDto dto = new FabricanteCadastroDto();
         dto.setNome(entity.getNome());
 
         return dto;
