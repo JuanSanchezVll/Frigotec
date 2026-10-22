@@ -22,7 +22,7 @@ public class OrcamentoService {
         this.mapper = mapper;
     }
 
-    public OrcamentoDto save(OrcamentoDto novoOrcamento) {
+    public OrcamentoDto salvar(OrcamentoDto novoOrcamento) {
 
 
         Orcamento orcamento = orcamentoRepository.save(mapper.toEntity(novoOrcamento));
@@ -32,7 +32,7 @@ public class OrcamentoService {
         return orcamentoSalvo;
     }
 
-    public OrcamentoDto searchOrcamentoForId(Long id) {
+    public OrcamentoDto buscarOrcamentoPorId(Long id) {
         Optional<Orcamento> orcamentoEncontrado = orcamentoRepository.findById(id);
 
         if (orcamentoEncontrado.isEmpty()) {

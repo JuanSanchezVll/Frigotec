@@ -1,6 +1,7 @@
 package com.frigo.frigotec.service;
 
 import com.frigo.frigotec.dto.EquipamentoDto;
+import com.frigo.frigotec.dto.EquipamentoUsuarioDto;
 import com.frigo.frigotec.entity.Equipamento;
 import com.frigo.frigotec.entity.EquipamentoUsuario;
 import com.frigo.frigotec.entity.Usuario;
@@ -20,7 +21,6 @@ public class EquipamentoService {
 
     private final EquipamentoUsuarioRepository equipamentoUsuarioRepository;
 
-
     private final UsuarioRepository usuarioRepository;
 
 
@@ -30,7 +30,16 @@ public class EquipamentoService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public EquipamentoDto save(EquipamentoDto dto, UUID idUsuario) {
+    public EquipamentoUsuario salvarEquipamentoUsuario(EquipamentoUsuarioDto dto, UUID idUsuario) {
+
+
+        if(!(usuarioRepository.existsById(idUsuario))) {
+            throw new BuscaNaoEncontradaException("Usuario não encontrado");
+        }
+
+        if(!(equipamentoRepository.existsById(dto.getEquipamentoId()))) {
+            throw new BuscaNaoEncontradaException("Equipamento não encontrado");
+        }
 
         Usuario  usuario = usuarioRepository.findById(idUsuario).orElse(null);
 
@@ -38,8 +47,8 @@ public class EquipamentoService {
             throw new BuscaNaoEncontradaException("Usuario não encontrado");
         }
 
-        Equipamento equipamento = new  Equipamento();
-        equipamento = equipamentoRepository.findByModeloAndFabricanteNome(dto.getModelo(), dto.getFabricante().getNome());
+        Equipamento equipamento ;
+        equipamento = equipamentoRepository.findById(dto.getEquipamentoId()).orElse(null);
         if(equipamento == null) {
             throw new BuscaNaoEncontradaException("Não trabalhamos com o equipamento cadastrado");
         }
@@ -48,8 +57,10 @@ public class EquipamentoService {
         equipamentoUsuario.setEquipamento(equipamento);
         equipamentoUsuario.setUsuario(usuario);
 
+
+
         equipamentoUsuarioRepository.save(equipamentoUsuario);
 
-        return dto;
+        return equipamentoUsuario;
     }
 }

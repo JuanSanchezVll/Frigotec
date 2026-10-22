@@ -1,8 +1,12 @@
 package com.frigo.frigotec.controller;
 
 import com.frigo.frigotec.dto.EquipamentoDto;
+import com.frigo.frigotec.dto.EquipamentoUsuarioDto;
+import com.frigo.frigotec.entity.EquipamentoUsuario;
+import com.frigo.frigotec.mapper.EquipamentoUsuarioMapper;
 import com.frigo.frigotec.service.EquipamentoService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +18,8 @@ import java.util.UUID;
 public class EquipamentoController {
 
     private EquipamentoService service;
+    @Autowired
+    private EquipamentoUsuarioMapper equipamentoUsuarioMapper;
 
     public EquipamentoController(EquipamentoService equipamentoService) {
         this.service = equipamentoService;
@@ -22,16 +28,18 @@ public class EquipamentoController {
 
 
     @PostMapping("/{idUsuario}")
-    public ResponseEntity<EquipamentoDto> save(@RequestBody @Valid EquipamentoDto dto, @PathVariable UUID idUsuario) {
+    public ResponseEntity<EquipamentoUsuarioDto> saveEquipamentUser(@RequestBody @Valid EquipamentoUsuarioDto dto, @PathVariable UUID idUsuario) {
 
 
-        service.save(dto, idUsuario);
+        EquipamentoUsuario equipamentoUsuario = service.saveEquipamentUser(dto, idUsuario);
 
-        return ResponseEntity.ok().body(dto);
+        EquipamentoUsuarioDto equipamentoUsuarioDto =equipamentoUsuarioMapper.toResponse(equipamentoUsuario);
+
+        return ResponseEntity.ok().body(equipamentoUsuarioDto);
     }
 
     @PostMapping("/saveFrigo/{idUsuario}")
-    public ResponseEntity<EquipamentoDto> saveFrigo(@RequestBody EquipamentoDto dto) {
+    public ResponseEntity<EquipamentoDto> saveEquipamentFrigo(@RequestBody EquipamentoDto dto) {
         return null;
     }
 

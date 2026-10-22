@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 public class EquipamentoDto {
 
     @NotNull
+    @NotBlank
     private FabricanteEquipamentoDto fabricante;
     @NotBlank
     @NotNull

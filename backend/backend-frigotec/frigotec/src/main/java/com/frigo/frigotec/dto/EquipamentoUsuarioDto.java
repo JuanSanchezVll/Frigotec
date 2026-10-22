@@ -1,13 +1,21 @@
 package com.frigo.frigotec.dto;
 
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.UUID;
+
 public class EquipamentoUsuarioDto {
 
 
-    private EquipamentoDto equipamentoDto;
+    @NotNull
+    private Long equipamentoId;
 
-    private UsuarioDto usuarioDto;
-
+    @NotNull
+    private UUID usuarioId;
+    @NotBlank
+    @NotNull
     private String numeroSerie;
 
 
@@ -19,20 +27,19 @@ public class EquipamentoUsuarioDto {
         this.numeroSerie = numeroSerie;
     }
 
-
-    public EquipamentoDto getEquipamentoDto() {
-        return equipamentoDto;
+    public Long getEquipamentoId() {
+        return equipamentoId;
     }
 
-    public void setEquipamentoDto(EquipamentoDto equipamentoCadastroDto) {
-        this.equipamentoDto = equipamentoCadastroDto;
+    public void setEquipamentoId(Long equipamentoId) {
+        this.equipamentoId = equipamentoId;
     }
 
-    public UsuarioDto getUsuarioDto() {
-        return usuarioDto;
+    public UUID getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuarioDto(UsuarioDto usuarioDto) {
-        this.usuarioDto = usuarioDto;
+    public void setUsuarioId(UUID usuarioId) {
+        this.usuarioId = usuarioId;
     }
 }

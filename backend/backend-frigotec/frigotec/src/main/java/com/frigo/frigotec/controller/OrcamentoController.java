@@ -17,16 +17,16 @@ public class OrcamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<OrcamentoDto> save(@RequestBody @Valid OrcamentoDto novoOrcamento){
-        OrcamentoDto orcamentoDto = orcamentoService.save(novoOrcamento);
+    public ResponseEntity<OrcamentoDto> salvar(@RequestBody @Valid OrcamentoDto novoOrcamento){
+        OrcamentoDto orcamentoDto = orcamentoService.salvar(novoOrcamento);
 
         return ResponseEntity.status(201).body(orcamentoDto);
 
     }
 
     @GetMapping
-    public ResponseEntity<OrcamentoDto> searchOrcamentoForId(@PathVariable Long id){
-        OrcamentoDto orcamento = orcamentoService.searchOrcamentoForId(id);
+    public ResponseEntity<OrcamentoDto> buscarOrcamentoPorId(@PathVariable Long id){
+        OrcamentoDto orcamento = orcamentoService.buscarOrcamentoPorId(id);
 
         return ResponseEntity.status(200).body(orcamento);
     }
