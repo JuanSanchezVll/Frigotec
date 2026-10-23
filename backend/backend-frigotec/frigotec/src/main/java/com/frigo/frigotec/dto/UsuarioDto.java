@@ -1,6 +1,11 @@
 package com.frigo.frigotec.dto;
 
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
+
 public class UsuarioDto {
+
 
     private String nomeCompleto;
 
@@ -8,11 +13,18 @@ public class UsuarioDto {
 
     private String cpf;
 
+    private String cnpj;
+
+    private String razaoSocial;
+
+    private String inscricaoEstadual;
+
     private String telefone;
 
     private String celular;
 
     private EnderecoDto endereco;
+
 
     private EmpresaDto empresa;
 
@@ -38,6 +50,30 @@ public class UsuarioDto {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getRazaoSocial() {
+        return razaoSocial;
+    }
+
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
+    }
+
+    public String getInscricaoEstadual() {
+        return inscricaoEstadual;
+    }
+
+    public void setInscricaoEstadual(String inscricaoEstadual) {
+        this.inscricaoEstadual = inscricaoEstadual;
     }
 
     public String getTelefone() {

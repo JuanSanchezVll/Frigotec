@@ -1,5 +1,6 @@
 package com.frigo.frigotec.mapper;
 
+import com.frigo.frigotec.dto.EmpresaCadastroDto;
 import com.frigo.frigotec.dto.EmpresaDto;
 import com.frigo.frigotec.entity.Empresa;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,20 @@ public class EmpresaMapper {
         dto.setRazaoSocial(entity.getRazaoSocial());
         dto.setInscricaoEstadual(entity.getInscricaoEstadual());
         dto.setCnpj(entity.getCnpj());
+
+        return dto;
+    }
+
+    public EmpresaDto toResponseCadastro(EmpresaCadastroDto empresaRequest){
+
+        if (empresaRequest == null) {
+            return null;
+        }
+
+        EmpresaDto dto = new EmpresaDto();
+        dto.setRazaoSocial(empresaRequest.getRazaoSocial());
+        dto.setInscricaoEstadual(empresaRequest.getInscricaoEstadual());
+        dto.setCnpj(empresaRequest.getCnpj());
 
         return dto;
     }

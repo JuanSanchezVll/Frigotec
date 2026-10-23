@@ -1,5 +1,6 @@
 package com.frigo.frigotec.mapper;
 
+import com.frigo.frigotec.dto.EnderecoCadastroDto;
 import com.frigo.frigotec.dto.EnderecoDto;
 import com.frigo.frigotec.entity.Endereco;
 import org.springframework.stereotype.Component;
@@ -35,6 +36,21 @@ public class EnderecoMapper {
         dto.setRua(entity.getRua());
         dto.setNumero(entity.getNumero());
         dto.setCep(entity.getCep());
+
+        return dto;
+    }
+
+    public EnderecoDto toResponseCadastro(EnderecoCadastroDto enderecoRequest){
+        if (enderecoRequest == null) {
+            return null;
+        }
+
+        EnderecoDto dto = new EnderecoDto();
+        dto.setEstado(enderecoRequest.getEstado());
+        dto.setCidade(enderecoRequest.getCidade());
+        dto.setRua(enderecoRequest.getRua());
+        dto.setNumero(enderecoRequest.getNumero());
+        dto.setCep(enderecoRequest.getCep());
 
         return dto;
     }
