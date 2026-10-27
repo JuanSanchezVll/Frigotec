@@ -2,6 +2,9 @@ package com.frigo.frigotec.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
+
 @Entity
 public class MensagemEmail {
 
@@ -20,6 +23,11 @@ public class MensagemEmail {
     private String descricao;
 
     private String assunto;
+
+    private LocalDateTime dataEnvio;
+
+    @Enumerated(EnumType.STRING)
+    private StatusEnvio status;
 
     public Long getId() {
         return id;
@@ -59,5 +67,21 @@ public class MensagemEmail {
 
     public void setAssunto(String assunto) {
         this.assunto = assunto;
+    }
+
+    public LocalDateTime getDataEnvio() {
+        return dataEnvio;
+    }
+
+    public void setDataEnvio(LocalDateTime dataEnvio) {
+        this.dataEnvio = dataEnvio;
+    }
+
+    public StatusEnvio getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusEnvio status) {
+        this.status = status;
     }
 }

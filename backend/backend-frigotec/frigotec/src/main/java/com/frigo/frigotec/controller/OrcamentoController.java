@@ -24,7 +24,7 @@ public class OrcamentoController {
 
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<OrcamentoDto> buscarOrcamentoPorId(@PathVariable Long id){
         OrcamentoDto orcamento = orcamentoService.buscarOrcamentoPorId(id);
 

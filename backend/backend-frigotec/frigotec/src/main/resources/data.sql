@@ -10,11 +10,11 @@ INSERT INTO empresa (razao_social, inscricao_estadual, cnpj) VALUES
 
 -- 3. Usuario
 INSERT INTO usuario (id, nome_completo, email, cpf, senha, telefone, celular, endereco_id, empresa_id) VALUES
-                                                                                                           ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'João Silva', 'joao@email.com', '11122233344',
+                                                                                                           ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'João Silva', 'mendesgusta58@gmail.com', '11122233344',
                                                                                                             '$2a$10$abcdefghijklmnopqrstuv', '1133334444', '11999998888',
                                                                                                             '11111111-1111-1111-1111-111111111111',
                                                                                                             (SELECT id FROM empresa WHERE cnpj = '12345678000199')),
-                                                                                                           ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Maria Souza', 'maria@email.com', '55566677788',
+                                                                                                           ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Maria Souza', 'guimesquita.0612@gmail.com', '55566677788',
                                                                                                             '$2a$10$abcdefghijklmnopqrstuv', '2122223333', '21988887777',
                                                                                                             '22222222-2222-2222-2222-222222222222', NULL);
 

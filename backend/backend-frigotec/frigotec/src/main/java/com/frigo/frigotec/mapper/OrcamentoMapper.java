@@ -22,7 +22,9 @@ public class OrcamentoMapper {
 
         OrcamentoDto dto = new OrcamentoDto();
 
+        dto.setId(orcamento.getId());
         dto.setValor(orcamento.getValor());
+        dto.setChamadoId(orcamento.getChamado() != null ? orcamento.getChamado().getId() : null);
         dto.setChamado(chamadoMapper.toResponse(orcamento.getChamado()));
         dto.setAceito(orcamento.getAceito());
 
