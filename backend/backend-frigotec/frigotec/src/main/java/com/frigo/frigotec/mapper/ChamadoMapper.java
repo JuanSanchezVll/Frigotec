@@ -1,9 +1,8 @@
 package com.frigo.frigotec.mapper;
 
 import com.frigo.frigotec.dto.ChamadoDto;
-import com.frigo.frigotec.dto.EquipamentoUsuarioDto;
 import com.frigo.frigotec.entity.Chamado;
-import com.frigo.frigotec.entity.EquipamentoUsuario;
+import com.frigo.frigotec.dto.ChamadoCadastroDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -44,6 +43,19 @@ private final EquipamentoUsuarioMapper equipamentoUsuarioMapper;
         entity.setProblema(dto.getProblema());
         entity.setUsuario(usuarioMapper.toEntity(dto.getUsuario()));
         entity.setEquipamentoUsuario(equipamentoUsuarioMapper.toEntity(dto.getEquipamentoUsuario()));
+
+        return entity;
+    }
+
+
+    public Chamado toEntityCadastro(ChamadoCadastroDto dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Chamado entity = new Chamado();
+        entity.setDescricao(dto.getDescricao());
+        entity.setProblema(dto.getProblema());
 
         return entity;
     }
