@@ -37,7 +37,7 @@ public class EquipamentoService {
     }
 
 
-
+@Transactional
     public EquipamentoUsuario salvarEquipamentoUsuario(EquipamentoUsuarioDto dto, UUID idUsuario) {
 
 

@@ -2,7 +2,7 @@
 package com.frigo.frigotec.service;
 
 import com.frigo.frigotec.entity.MensagemEmail;
-import com.frigo.frigotec.entity.StatusEnvio;
+import com.frigo.frigotec.util.StatusEnvio;
 import com.frigo.frigotec.repository.MensagemEmailRepository;
 import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;

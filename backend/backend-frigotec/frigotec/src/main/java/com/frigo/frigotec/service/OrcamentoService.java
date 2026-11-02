@@ -5,7 +5,7 @@ import com.frigo.frigotec.email.OrcamentoSalvoEvent;
 import com.frigo.frigotec.entity.Chamado;
 import com.frigo.frigotec.entity.MensagemEmail;
 import com.frigo.frigotec.entity.Orcamento;
-import com.frigo.frigotec.entity.StatusEnvio;
+import com.frigo.frigotec.util.StatusEnvio;
 import com.frigo.frigotec.exception.BuscaNaoEncontradaException;
 import com.frigo.frigotec.mapper.OrcamentoMapper;
 import com.frigo.frigotec.repository.ChamadoRepository;

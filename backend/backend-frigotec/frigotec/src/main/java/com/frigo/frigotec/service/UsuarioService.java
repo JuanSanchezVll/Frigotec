@@ -12,6 +12,7 @@ import com.frigo.frigotec.mapper.UsuarioMapper;
 import com.frigo.frigotec.repository.EmpresaRepository;
 import com.frigo.frigotec.repository.EnderecoRepository;
 import com.frigo.frigotec.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +32,7 @@ public UsuarioService(UsuarioRepository repository,
     this.usuarioMapper = usuarioMapper;
 }
 
+@Transactional
 public UsuarioDto cadastrar(UsuarioCadastroDto novoUsuario) {
 
     boolean temCpf = novoUsuario.getCpf() != null && !novoUsuario.getCpf().isBlank();

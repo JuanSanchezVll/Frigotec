@@ -1,4 +1,4 @@
-package com.frigo.frigotec.entity;
+package com.frigo.frigotec.util;
 
 public enum StatusEnvio {
     PENDENTE,

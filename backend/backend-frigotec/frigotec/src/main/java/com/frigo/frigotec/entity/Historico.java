@@ -1,29 +1,28 @@
 package com.frigo.frigotec.entity;
 
 
+import com.frigo.frigotec.util.StatusChamadoEnum;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Historico {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
 
-    @OneToMany
-    @JoinColumn(name= "status_id")
-    private List<Status> status;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    private LocalDate dataInicio;
+        @Enumerated(EnumType.STRING)
+        private StatusChamadoEnum status;
 
-    @OneToOne
-    @JoinColumn(name = "chamado_id")
-    private Chamado chamado;
+        private LocalDate dataAlteracao;
+
+        @ManyToOne
+        @JoinColumn(name = "chamado_id")
+        private Chamado chamado;
 
 
     public Long getId() {
@@ -34,20 +33,20 @@ public class Historico {
         this.id = id;
     }
 
-    public List<Status> getStatus() {
+    public StatusChamadoEnum getStatus() {
         return status;
     }
 
-    public void setStatus(List<Status> status) {
+    public void setStatus(StatusChamadoEnum status) {
         this.status = status;
     }
 
-    public LocalDate getDataInicio() {
-        return dataInicio;
+    public LocalDate getDataAlteracao() {
+        return dataAlteracao;
     }
 
-    public void setDataInicio(LocalDate dataInicio) {
-        this.dataInicio = dataInicio;
+    public void setDataAlteracao(LocalDate dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
     }
 
     public Chamado getChamado() {
@@ -58,3 +57,6 @@ public class Historico {
         this.chamado = chamado;
     }
 }
+
+
+

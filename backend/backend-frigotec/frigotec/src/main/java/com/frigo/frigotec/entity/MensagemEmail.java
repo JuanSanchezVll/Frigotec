@@ -1,5 +1,6 @@
 package com.frigo.frigotec.entity;
 
+import com.frigo.frigotec.util.StatusEnvio;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

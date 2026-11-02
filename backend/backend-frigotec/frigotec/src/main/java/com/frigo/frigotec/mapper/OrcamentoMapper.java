@@ -25,7 +25,7 @@ public class OrcamentoMapper {
         dto.setId(orcamento.getId());
         dto.setValor(orcamento.getValor());
         dto.setChamadoId(orcamento.getChamado() != null ? orcamento.getChamado().getId() : null);
-        dto.setChamado(chamadoMapper.toResponse(orcamento.getChamado()));
+        dto.setChamado(chamadoMapper.toDto(orcamento.getChamado()));
         dto.setAceito(orcamento.getAceito());
 
         return dto;
@@ -41,6 +41,8 @@ public class OrcamentoMapper {
         entity.setValor(dto.getValor());
         entity.setChamado(chamadoMapper.toEntity(dto.getChamado()));
         entity.setAceito(dto.getAceito());
+
+
 
         return entity;
 

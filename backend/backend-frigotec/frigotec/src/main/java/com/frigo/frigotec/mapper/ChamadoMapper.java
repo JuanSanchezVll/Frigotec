@@ -9,15 +9,17 @@ import org.springframework.stereotype.Component;
 public class ChamadoMapper {
 
     private final UsuarioMapper usuarioMapper;
+    private final HistoricoMapper historicoMapper;
 
 private final EquipamentoUsuarioMapper equipamentoUsuarioMapper;
 
-    public ChamadoMapper(UsuarioMapper usuarioMapper, EquipamentoUsuarioMapper equipamentoMapper) {
+    public ChamadoMapper(UsuarioMapper usuarioMapper, HistoricoMapper historicoMapper, EquipamentoUsuarioMapper equipamentoUsuarioMapper) {
         this.usuarioMapper = usuarioMapper;
-        this.equipamentoUsuarioMapper = equipamentoMapper;
+        this.historicoMapper = historicoMapper;
+        this.equipamentoUsuarioMapper = equipamentoUsuarioMapper;
     }
 
-    public ChamadoDto toResponse(Chamado chamado){
+    public ChamadoDto toDto(Chamado chamado){
 
 
         ChamadoDto dto = new ChamadoDto();
@@ -26,6 +28,10 @@ private final EquipamentoUsuarioMapper equipamentoUsuarioMapper;
         dto.setProblema(chamado.getProblema());
 
         dto.setUsuario(usuarioMapper.toDto(chamado.getUsuario()));
+
+        dto.setHistorico(chamado.getHistoricos().stream()
+                .map(historicoMapper::toHistoricoDto)
+                .toList());
 
         dto.setEquipamentoUsuario(equipamentoUsuarioMapper.toResponse(chamado.getEquipamentoUsuario()));
 
@@ -43,7 +49,10 @@ private final EquipamentoUsuarioMapper equipamentoUsuarioMapper;
         entity.setProblema(dto.getProblema());
         entity.setUsuario(usuarioMapper.toEntity(dto.getUsuario()));
         entity.setEquipamentoUsuario(equipamentoUsuarioMapper.toEntity(dto.getEquipamentoUsuario()));
-
+        if (dto.getHistorico() != null) {
+            dto.getHistorico().forEach(h ->
+                    entity.adicionarHistorico(historicoMapper.toHistoricoEntity(h)));
+        }
         return entity;
     }
 

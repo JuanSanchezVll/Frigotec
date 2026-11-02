@@ -1,6 +1,7 @@
 package com.frigo.frigotec.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class ChamadoDto {
 
@@ -10,6 +11,16 @@ public class ChamadoDto {
     private UsuarioDto usuario;
     private EquipamentoUsuarioDto equipamentoUsuario;
 
+
+    private List<HistoricoDto> historico;
+
+    public List<HistoricoDto> getHistorico() {
+        return historico;
+    }
+
+    public void setHistorico(List<HistoricoDto> historico) {
+        this.historico = historico;
+    }
 
     public LocalDate getDataPedido() {
         return dataPedido;

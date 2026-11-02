@@ -4,6 +4,8 @@ package com.frigo.frigotec.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Chamado {
@@ -27,6 +29,16 @@ public class Chamado {
     @ManyToOne
     @JoinColumn(name = "equipamento_usuario_id")
     private EquipamentoUsuario equipamentoUsuario;
+
+    @OneToMany(mappedBy = "chamado", cascade = CascadeType.ALL)
+    private List<Historico> historicos = new ArrayList<>();
+
+    public List<Historico> getHistoricos() { return historicos; }
+
+    public void adicionarHistorico(Historico historico) {
+        historico.setChamado(this);
+        this.historicos.add(historico);
+    }
 
 
     public Long getId() {
