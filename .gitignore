@@ -1,24 +1,46 @@
-# dependências
+# dependências e build
 node_modules/
 target/
 dist/
 build/
+out/
+coverage/
+.vite/
+*.tsbuildinfo
 
-# ambiente
+# ambiente e segredos (nunca subir)
 .env
-.env.local
+.env.*
+!.env.example
 *.local
+application-local*.properties
+application-secret*.properties
+*.pem
+*.key
+*.p12
+*.jks
 
 # IDE
 .idea/
 .vscode/
 *.iml
+*.iws
+*.ipr
+
+# ferramentas de IA e exportações do Figma
+.claude/
+.figma/
+CLAUDE.md
+AGENTS.md
 
 # sistema
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# logs
+# logs e temporários
 *.log
 npm-debug.log*
+hs_err_pid*
+*.tmp
+*.zip
