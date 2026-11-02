@@ -1,0 +1,22 @@
+{
+  "usuarios": [
+    { "id": "1", "nome": "Gustavo Mendes", "email": "gustavo@saborebrasa.com.br", "perfil": "CLIENTE", "empresa": "Restaurante Sabor & Brasa", "cnpj": "12.345.678/0001-90", "telefone": "(11) 4002-8922" },
+    { "id": "2", "nome": "Davi Jeronimo", "email": "davi@frigotec.com", "perfil": "TECNICO" }
+  ],
+  "equipamentos": [
+    { "id": "1", "usuarioId": "1", "tipo": "Chapa", "marca": "Frigopro", "numeroSerie": "FP-2026-004512", "garantia": "ATIVA", "garantiaAte": "2027-08-25", "dataCompra": "2025-08-25" },
+    { "id": "2", "usuarioId": "1", "tipo": "Máquina de gelo", "marca": "Frigopro", "numeroSerie": "FP-2026-007781", "garantia": "EM_ANALISE" },
+    { "id": "3", "usuarioId": "1", "tipo": "Fritadeira", "marca": "Skymsen", "numeroSerie": "SK-88213", "garantia": "SEM_GARANTIA" }
+  ],
+  "chamados": [
+    { "id": "PR19283708", "usuarioId": "1", "equipamentoId": "1", "categoria": "Temperatura irregular", "descricao": "A chapa esquenta de forma desigual: um lado queima os alimentos e o outro fica frio.", "status": "EM_ANDAMENTO", "etapa": "Visita agendada", "abertoEm": "2026-09-25T20:00:00" },
+    { "id": "PR19271144", "usuarioId": "1", "equipamento": "Forno combinado", "status": "CONCLUIDO", "abertoEm": "2026-09-22" },
+    { "id": "PR19260932", "usuarioId": "1", "equipamento": "Câmara fria", "status": "CONCLUIDO", "abertoEm": "2026-09-10" },
+    { "id": "PR19254071", "usuarioId": "1", "equipamento": "Fritadeira", "status": "CHAMADO_ENVIADO", "abertoEm": "2026-09-24" },
+    { "id": "PR19239810", "usuarioId": "1", "equipamento": "Máquina de gelo · Frigopro", "status": "CONCLUIDO", "abertoEm": "2026-08-30" },
+    { "id": "PR19221305", "usuarioId": "1", "equipamento": "Coifa", "status": "EM_ANDAMENTO", "abertoEm": "2026-09-23" }
+  ],
+  "mensagens": [],
+  "propostas": [],
+  "visitas": []
+}
