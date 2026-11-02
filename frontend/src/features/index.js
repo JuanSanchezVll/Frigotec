@@ -1,0 +1,13 @@
+// Reexporta a API pública de cada slice de features
+export * from "./abrir-chamado"
+export * from "./aceitar-orcamento"
+export * from "./analisar-garantia"
+export * from "./atribuir-chamado"
+export * from "./avaliar-atendimento"
+export * from "./avancar-etapa"
+export * from "./cadastrar-equipamento"
+export * from "./cadastro"
+export * from "./cancelar-chamado"
+export * from "./enviar-proposta"
+export * from "./finalizar-atendimento"
+export * from "./login"
