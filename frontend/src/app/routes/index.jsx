@@ -1,23 +1,26 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { ClienteLayout, PublicoLayout, TecnicoLayout } from '../layouts';
-import Cadastro from '../../pages/cadastro';
-import ChamadoDetalhe from '../../pages/chamado-detalhe';
-import ChamadoNovo from '../../pages/chamado-novo';
-import Chamados from '../../pages/chamados';
-import ConversaCliente from '../../pages/conversa-cliente';
-import EquipamentoNovo from '../../pages/equipamento-novo';
-import Equipamentos from '../../pages/meus-equipamentos';
-import Home from '../../pages/home-cliente';
-import Landing from '../../pages/landing';
-import Login from '../../pages/login';
-import TecnicoAgenda from '../../pages/tecnico-agenda';
-import TecnicoChamado from '../../pages/tecnico-chamado-detalhe';
-import TecnicoChamados from '../../pages/tecnico-chamados';
-import TecnicoConversa from '../../pages/tecnico-conversa';
-import TecnicoDashboard from '../../pages/tecnico-dashboard';
-import TecnicoHistorico from '../../pages/tecnico-historico';
-import TecnicoOrcamentos from '../../pages/tecnico-orcamentos';
+import { AdminLayout, ClienteLayout, PublicoLayout, TecnicoLayout } from '../layouts';
+const Cadastro = lazy(() => import('../../pages/cadastro'));
+const AdminColaboradores = lazy(() => import('../../pages/admin-colaboradores'));
+import { PERFIL, PERFIS_DA_EQUIPE } from '../../entities/usuario';
+import { RotaProtegida } from './RotaProtegida';
+const ChamadoDetalhe = lazy(() => import('../../pages/chamado-detalhe'));
+const ChamadoNovo = lazy(() => import('../../pages/chamado-novo'));
+const Chamados = lazy(() => import('../../pages/chamados'));
+const ConversaCliente = lazy(() => import('../../pages/conversa-cliente'));
+const EquipamentoNovo = lazy(() => import('../../pages/equipamento-novo'));
+const Equipamentos = lazy(() => import('../../pages/meus-equipamentos'));
+const Home = lazy(() => import('../../pages/home-cliente'));
+const Landing = lazy(() => import('../../pages/landing'));
+const Login = lazy(() => import('../../pages/login'));
+const TecnicoAgenda = lazy(() => import('../../pages/tecnico-agenda'));
+const TecnicoChamado = lazy(() => import('../../pages/tecnico-chamado-detalhe'));
+const TecnicoChamados = lazy(() => import('../../pages/tecnico-chamados'));
+const TecnicoConversa = lazy(() => import('../../pages/tecnico-conversa'));
+const TecnicoDashboard = lazy(() => import('../../pages/tecnico-dashboard'));
+const TecnicoHistorico = lazy(() => import('../../pages/tecnico-historico'));
+const TecnicoOrcamentos = lazy(() => import('../../pages/tecnico-orcamentos'));
 function ScrollTop() {
     const { pathname, hash } = useLocation();
     useEffect(() => {
@@ -28,16 +31,18 @@ function ScrollTop() {
     }, [pathname, hash]);
     return null;
 }
-/** As 17 telas do portal: 10 do cliente (incluindo as públicas) e 7 do técnico. */
+/** Telas do portal: públicas (landing, cadastro, login) e protegidas por perfil: cliente, técnico/administrador e só administrador. */
 export function AppRoutes() {
     return (<>
       <ScrollTop />
+      <Suspense fallback={<p className="p-10 text-texto-secundario">Carregando…</p>}>
       <Routes>
         <Route element={<PublicoLayout />}>
           <Route path="/" element={<Landing />}/>
           <Route path="/cadastro" element={<Cadastro />}/>
           <Route path="/login" element={<Login />}/>
         </Route>
+        <Route element={<RotaProtegida perfis={[PERFIL.CLIENTE]}/>}>
         <Route element={<ClienteLayout />}>
           <Route path="/home" element={<Home />}/>
           <Route path="/equipamentos" element={<Equipamentos />}/>
@@ -47,6 +52,8 @@ export function AppRoutes() {
           <Route path="/chamados/:id" element={<ChamadoDetalhe />}/>
           <Route path="/chamados/:id/conversa" element={<ConversaCliente />}/>
         </Route>
+        </Route>
+        <Route element={<RotaProtegida perfis={PERFIS_DA_EQUIPE}/>}>
         <Route element={<TecnicoLayout />}>
           <Route path="/tecnico" element={<TecnicoDashboard />}/>
           <Route path="/tecnico/chamados" element={<TecnicoChamados />}/>
@@ -56,7 +63,14 @@ export function AppRoutes() {
           <Route path="/tecnico/orcamentos" element={<TecnicoOrcamentos />}/>
           <Route path="/tecnico/historico" element={<TecnicoHistorico />}/>
         </Route>
+        </Route>
+        <Route element={<RotaProtegida perfis={[PERFIL.ADMIN]}/>}>
+        <Route element={<AdminLayout />}>
+          <Route path="/admin" element={<AdminColaboradores />}/>
+        </Route>
+        </Route>
         <Route path="*" element={<Landing />}/>
       </Routes>
+      </Suspense>
     </>);
 }
