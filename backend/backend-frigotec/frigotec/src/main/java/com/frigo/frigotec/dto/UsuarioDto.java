@@ -1,10 +1,32 @@
 package com.frigo.frigotec.dto;
 
+import com.frigo.frigotec.entity.Perfil;
+import java.util.UUID;
+
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 
 public class UsuarioDto {
+    private UUID id;
+    private Perfil perfil;
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
 
 
     private String nomeCompleto;
