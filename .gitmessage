@@ -1,0 +1,9 @@
+# <tipo>(<escopo>): <descrição curta, até 72 caracteres, sem ponto final>
+#
+# Corpo (opcional): o que mudou e por quê.
+#
+# Rodapé (opcional): Closes #12
+#
+# Tipos:  feat | fix | docs | style | refactor | perf | test | chore
+# Escopos: back | front | db | auth | docs
+# Exemplo: feat(back): bloqueia visita em data passada

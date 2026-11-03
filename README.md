@@ -33,3 +33,7 @@ Detalhes da arquitetura do front em [`frontend/docs/ARQUITETURA.md`](frontend/do
 ## Equipe
 
 Juan Sánchez, Davi Jeronimo e Guilherme Mesquita.
+
+## Como contribuir
+
+Branches, padrão de commit e Pull Requests estão em [CONTRIBUTING.md](CONTRIBUTING.md). Resumo: nunca commitar direto em `main` ou `develop`; criar `feature/back-*` ou `feature/front-*` a partir da `develop` e abrir PR.
