@@ -79,4 +79,4 @@ Juan Sánchez, Davi Jeronimo e Guilherme Mesquita.
 - Folha de consulta de uma página: [docs/GUIA-RAPIDO-SQUAD.docx](docs/GUIA-RAPIDO-SQUAD.docx)
 - Arquitetura do front: [frontend/docs/ARQUITETURA.md](frontend/docs/ARQUITETURA.md) e funcionamento: [frontend/docs/GUIA-DE-FUNCIONAMENTO.md](frontend/docs/GUIA-DE-FUNCIONAMENTO.md)
 
-Resumo: nunca commitar direto em `main` ou `develop`; criar `feature/back-*` ou `feature/front-*` a partir da `develop` e abrir PR.
+Regra do time: task pequena vai direto na `develop`; task grande ou relevante ganha branch própria (`feature/back-*` ou `feature/front-*`) e PR para a `develop`. A `main` recebe só as versões entregues.
