@@ -87,7 +87,7 @@ public class SegurancaConfig {
                         // Catálogo: só a equipe cria marcas e modelos (SDD seção 3)
                         .requestMatchers(HttpMethod.POST, "/fabricantes", "/equipamentos").hasAnyRole("TECNICO", "ADMIN")
                         // Equipamento do cliente e abertura/resposta: só o cliente
-                        .requestMatchers(HttpMethod.POST, "/equipamentos/*", "/chamados").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.POST, "/equipamentos/*", "/chamados", "/chamados/*/anexos", "/equipamentos/*/documentos").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.PATCH, "/equipamentos/*").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.DELETE, "/equipamentos/*").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.PATCH, "/orcamentos/*/resposta").hasRole("CLIENTE")

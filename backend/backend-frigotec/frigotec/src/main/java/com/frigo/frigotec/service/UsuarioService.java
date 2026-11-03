@@ -102,8 +102,6 @@ private UsuarioDto salvar(UsuarioCadastroDto novoUsuario, Perfil perfil) {
             throw new CpfJaCadastradoException("CPF já cadastrado no sistema.");
         }
         novoUsuario.setCnpj(null);
-        novoUsuario.setRazaoSocial(null);
-        novoUsuario.setInscricaoEstadual(null);
         novoUsuario.setEmpresa(null);
     }
 

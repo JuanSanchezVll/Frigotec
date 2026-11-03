@@ -2,7 +2,9 @@ package com.frigo.frigotec.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.Length;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
 
 import javax.annotation.processing.Generated;
 import java.util.UUID;
@@ -12,7 +14,8 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "UUID")
+    @JdbcTypeCode(SqlTypes.CHAR) // CHAR(36): mesmo tipo no H2 e no MySQL (docs/der/frigotec_mysql.sql)
+    @Column(name = "id", updatable = false, nullable = false, length = 36)
     private UUID id;
     @Column(name = "nomeCompleto", nullable = false)
     private String nomeCompleto;
@@ -22,10 +25,6 @@ public class Usuario {
     private String cpf;
     @Column(name = "cnpj", unique = true)
     private String cnpj;
-    @Column(name = "razaoSocial")
-    private String razaoSocial;
-    @Column(name = "inscricaoEstadual")
-    private String inscricaoEstadual;
     @Column(name = "senha", nullable = false)
     private String senha;
     @Column(name = "telefone", length = 10)
@@ -88,20 +87,13 @@ public class Usuario {
         this.cnpj = cnpj;
     }
 
+    /** Dado da empresa (uma única fonte: tabela empresa). */
     public String getRazaoSocial() {
-        return razaoSocial;
-    }
-
-    public void setRazaoSocial(String razaoSocial) {
-        this.razaoSocial = razaoSocial;
+        return empresa == null ? null : empresa.getRazaoSocial();
     }
 
     public String getInscricaoEstadual() {
-        return inscricaoEstadual;
-    }
-
-    public void setInscricaoEstadual(String inscricaoEstadual) {
-        this.inscricaoEstadual = inscricaoEstadual;
+        return empresa == null ? null : empresa.getInscricaoEstadual();
     }
 
     public String getSenha() {

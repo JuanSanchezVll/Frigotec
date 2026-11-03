@@ -23,7 +23,7 @@ public class Historico {
     private Usuario responsavel;
 
     @ManyToOne
-    @JoinColumn(name = "chamado_id")
+    @JoinColumn(name = "chamado_id", nullable = false)
     private Chamado chamado;
 
     public Long getId() { return id; }

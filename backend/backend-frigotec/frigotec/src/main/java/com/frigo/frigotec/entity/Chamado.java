@@ -30,7 +30,7 @@ public class Chamado {
     private String problema;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
     /** Técnico responsável; nulo enquanto o chamado está na fila (SDD RN-CHM-12). */
@@ -39,7 +39,7 @@ public class Chamado {
     private Usuario tecnico;
 
     @ManyToOne
-    @JoinColumn(name = "equipamento_usuario_id")
+    @JoinColumn(name = "equipamento_usuario_id", nullable = false)
     private EquipamentoUsuario equipamentoUsuario;
 
     @Column(name = "visita_agendada_em")

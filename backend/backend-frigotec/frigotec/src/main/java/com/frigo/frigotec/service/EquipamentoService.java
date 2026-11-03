@@ -35,19 +35,22 @@ public class EquipamentoService {
     private final FabricanteRepository fabricanteRepository;
     private final GarantiaRepository garantiaRepository;
     private final ChamadoRepository chamadoRepository;
+    private final AnexoService anexoService;
 
     public EquipamentoService(EquipamentoRepository equipamentoRepository,
                               EquipamentoUsuarioRepository equipamentoUsuarioRepository,
                               UsuarioRepository usuarioRepository,
                               FabricanteRepository fabricanteRepository,
                               GarantiaRepository garantiaRepository,
-                              ChamadoRepository chamadoRepository) {
+                              ChamadoRepository chamadoRepository,
+                              AnexoService anexoService) {
         this.equipamentoRepository = equipamentoRepository;
         this.equipamentoUsuarioRepository = equipamentoUsuarioRepository;
         this.usuarioRepository = usuarioRepository;
         this.fabricanteRepository = fabricanteRepository;
         this.garantiaRepository = garantiaRepository;
         this.chamadoRepository = chamadoRepository;
+        this.anexoService = anexoService;
     }
 
     /**
@@ -135,6 +138,7 @@ public class EquipamentoService {
         if (chamadoRepository.existsByEquipamentoUsuarioId(id)) {
             throw new ConflitoException("Este equipamento tem chamados e não pode ser excluído: o histórico do atendimento é preservado.");
         }
+        anexoService.apagarDocumentosDoEquipamento(id);
         if (unidade.getGarantia() != null) {
             garantiaRepository.delete(unidade.getGarantia());
         }

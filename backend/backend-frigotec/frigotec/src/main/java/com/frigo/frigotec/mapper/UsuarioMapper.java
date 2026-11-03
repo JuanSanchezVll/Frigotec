@@ -2,6 +2,7 @@ package com.frigo.frigotec.mapper;
 
 import com.frigo.frigotec.dto.UsuarioCadastroDto;
 import com.frigo.frigotec.dto.UsuarioDto;
+import com.frigo.frigotec.entity.Empresa;
 import com.frigo.frigotec.entity.Usuario;
 import org.springframework.stereotype.Component;
 
@@ -28,8 +29,6 @@ public class UsuarioMapper {
         entity.setSenha(dto.getSenha());
         entity.setCpf(dto.getCpf());
         entity.setCnpj(dto.getCnpj());
-        entity.setRazaoSocial(dto.getRazaoSocial());
-        entity.setInscricaoEstadual(dto.getInscricaoEstadual());
         entity.setTelefone(dto.getTelefone());
         entity.setCelular(dto.getCelular());
 
@@ -49,6 +48,13 @@ public class UsuarioMapper {
                             empresaMapper.toResponseCadastro(dto.getEmpresa())
                     )
             );
+        } else if (dto.getCnpj() != null && !dto.getCnpj().isBlank()) {
+            // Pessoa jurídica enviada só com os campos soltos: a empresa guarda razão social e inscrição estadual.
+            Empresa empresa = new Empresa();
+            empresa.setCnpj(dto.getCnpj());
+            empresa.setRazaoSocial(dto.getRazaoSocial());
+            empresa.setInscricaoEstadual(dto.getInscricaoEstadual());
+            entity.setEmpresa(empresa);
         }
 
         return entity;
@@ -65,8 +71,6 @@ public class UsuarioMapper {
         entity.setEmail(dto.getEmail());
         entity.setCpf(dto.getCpf());
         entity.setCnpj(dto.getCnpj());
-        entity.setRazaoSocial(dto.getRazaoSocial());
-        entity.setInscricaoEstadual(dto.getInscricaoEstadual());
         entity.setTelefone(dto.getTelefone());
         entity.setCelular(dto.getCelular());
 
