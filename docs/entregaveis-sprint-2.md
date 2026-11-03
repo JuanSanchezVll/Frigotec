@@ -17,7 +17,7 @@ Legenda: **OK** = existe e foi verificado · **RASCUNHO** = documento criado com
 | Entregável | Situação | Evidência |
 |---|---|---|
 | Login JWT | OK | `POST /usuarios/login`; Spring Security resource server; testes |
-| Swagger + exportação OpenAPI YAML | OK | `/swagger-ui.html`; `/v3/api-docs.yaml` público; cópia em [openapi.yaml](openapi.yaml) (27 operações) |
+| Swagger + exportação OpenAPI YAML | OK | `/swagger-ui.html`; `/v3/api-docs.yaml` público; cópia em [openapi.yaml](openapi.yaml) (32 operações) |
 | CRUD com relacionamento | OK | Usuário → Equipamento → Garantia: POST, GET, PATCH, DELETE em `/equipamentos` (`EquipamentoCrudTest`) |
 | 1 padrão de projeto | OK | Observer: `StatusChamadoAlteradoEvento` + `EmailEventListener` (`EmailObserverTest`) |
 
@@ -48,4 +48,5 @@ Legenda: **OK** = existe e foi verificado · **RASCUNHO** = documento criado com
 - E-mail de mudança de status (SDD RN-NOT-01..03) e link do e-mail pelo protocolo.
 - Dashboard do técnico com dados reais (`GET /dashboard/tecnico`).
 - Back-end alinhado ao DER: removidas as tabelas sem uso `roles` e `status`.
-- Testes de integração: de 10 para 20, todos passando.
+- Upload de arquivos de verdade (SDD RN-CHM-03 e RN-EUS-05), tela de editar equipamento, DER com tabela `anexo` e campos obrigatórios, CI no GitHub Actions e perfil MySQL.
+- Testes de integração: de 10 para 25, todos passando.

@@ -1,6 +1,6 @@
 # Conformidade do back-end com o SDD
 
-Base: SDD “Regras de Negócio dos Endpoints (MVP)”, versão 0.1 (02/11/2026). Situação conferida no código e nos testes de integração (`./mvnw test`, 20 testes).
+Base: SDD “Regras de Negócio dos Endpoints (MVP)”, versão 0.1 (02/11/2026). Situação conferida no código e nos testes de integração (`./mvnw test`, 25 testes).
 
 | Regra | Situação | Onde |
 |---|---|---|
@@ -12,11 +12,11 @@ Base: SDD “Regras de Negócio dos Endpoints (MVP)”, versão 0.1 (02/11/2026)
 | RN-EQP-04 Listas para os selects | OK | `GET /fabricantes`, `GET /fabricantes/{id}/equipamentos` |
 | RN-EUS-01/02/03 Unidade do cliente, várias do mesmo modelo, série única por modelo | OK | `EquipamentoService` |
 | RN-EUS-04 Campos de garantia só para marca própria (422) | OK | `EquipamentoService` |
-| RN-EUS-05 Upload de documentos (multipart, PDF/JPG/PNG) | **NÃO IMPLEMENTADO** | Hoje simulado no front |
+| RN-EUS-05 Upload de documentos (multipart, PDF/JPG/PNG), só marca própria, tamanho configurável | OK | `POST /equipamentos/{id}/documentos`, `AnexoService`, `AnexoTest` |
 | RN-EUS-06 Listagem com situação de garantia | OK | `GET /usuarios/{id}/equipamentos` |
 | RN-GAR-01/02/03 Garantia por unidade, situação calculada, validação pela equipe | OK | `Garantia`, `GarantiaMapper`, `PATCH /garantias/{id}/validacao` |
 | RN-CHM-01/04/05 Pertencimento, protocolo PR+8 dígitos, nasce ENVIADO | OK | `ChamadoService.salvar` |
-| RN-CHM-03 Anexos do chamado (JPG, PNG, MP4) | **NÃO IMPLEMENTADO** | Hoje simulado no front |
+| RN-CHM-03 Anexos do chamado (JPG, PNG, MP4), limite de fotos configurável | OK | `POST /chamados/{id}/anexos` (5 fotos e 1 vídeo por padrão), `AnexoTest` |
 | RN-CHM-10/11 Sequência e quem executa cada transição | OK | `ChamadoService.mudarStatus` (409 em transição inválida) |
 | RN-CHM-12 Atribuição e redesignação com motivo | OK | `POST /chamados/{id}/atribuicao`, `Redesignacao` |
 | RN-CHM-14 Visita futura, a partir de APROVACAO_DO_SERVICO | OK | `PATCH /chamados/{id}/visita` |
@@ -30,7 +30,6 @@ Base: SDD “Regras de Negócio dos Endpoints (MVP)”, versão 0.1 (02/11/2026)
 
 ## Resumo
 
-- Cumpridas: todas as regras do SDD que dependem só do código.
-- Falta implementar: upload de arquivos (RN-EUS-05 e RN-CHM-03). É o único item técnico em aberto; hoje o front simula o envio.
-- Dependem de decisão do grupo ou da Frigotec: cancelamento (RN-CHM-20), orçamento em garantia ativa (RN-ORC-09), fases entre visita e finalizado, o que o cliente aprova em “Aprovação do serviço” e o número de série obrigatório (seção 10 do SDD).
+- Cumpridas: todas as regras do SDD que dependem só do código, incluindo o upload de arquivos (tipo conferido pelo conteúdo, não só pelo nome).
+- Dependem de decisão do grupo ou da Frigotec: cancelamento (RN-CHM-20), orçamento em garantia ativa (RN-ORC-09), fases entre visita e finalizado, o que o cliente aprova em "Aprovação do serviço" e o número de série obrigatório (seção 10 do SDD). O limite de fotos ("X" do wireframe) está em 5 por padrão e muda por variável de ambiente (`UPLOAD_MAX_FOTOS`).
 - Divergência de nomes do DER anterior: veja `docs/der/README.md`.

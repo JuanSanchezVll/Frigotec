@@ -4,7 +4,7 @@
 
 Arquivos desta pasta:
 
-- `DER_Portal_Frigotec.png`: diagrama gerado a partir das entidades JPA do back-end (13 tabelas, 3 grupos: Usuário, Equipamento, Chamado).
+- `DER_Portal_Frigotec.png`: diagrama gerado a partir das entidades JPA do back-end (14 tabelas, 3 grupos: Usuário, Equipamento, Chamado).
 - `frigotec_mysql.sql`: o mesmo modelo em MySQL 8. Foi validado executando o script no H2 em modo MySQL, sem erros. Para usar o MySQL de verdade, basta apontar `spring.datasource.*` do back-end para ele.
 
 ## Decisão: o código segue o SDD, então o DER foi corrigido para espelhar o código
@@ -27,6 +27,10 @@ O DER anterior (feito no MySQL Workbench) tinha divergências com o SDD. Em vez 
 
 Também foram removidas do código as entidades `Roles` e `Status` (tabelas sem uso, com dados de exemplo que nem batiam com os estados reais).
 
-## Ponto de atenção que fica como dívida técnica
+## Melhorias aplicadas depois da primeira versão
 
-`usuario` guarda `cnpj`, `razao_social` e `inscricao_estadual` e também tem `empresa_id` apontando para `empresa`, que repete os mesmos três campos. O DER anterior deixava esses dados só em `empresa`. Unificar exige mexer no contrato do cadastro (front e back); fica para a próxima sprint.
+- **Campos obrigatórios no banco:** `chamado.usuario_id`, `chamado.equipamento_usuario_id` e `historico.chamado_id` agora são `NOT NULL`, como a regra de negócio exige.
+- **Sem dados duplicados em `usuario`:** razão social e inscrição estadual ficam só em `empresa` (uma única fonte). O contrato da API não mudou: o `UsuarioDto` continua devolvendo esses campos, lidos da empresa.
+- **Tabela `anexo`:** metadados dos arquivos enviados (fotos e vídeo do chamado, documentos da unidade), com a regra de que exatamente um entre `chamado_id` e `equipamento_usuario_id` é preenchido. O conteúdo fica em disco.
+- **UUID como `CHAR(36)`:** `usuario.id` e `endereco.id` têm o mesmo tipo no H2 e no MySQL.
+- **Banco persistente:** o perfil `mysql` (`application-mysql.properties`) e o `docker-compose.yml` sobem o MySQL com este mesmo modelo.

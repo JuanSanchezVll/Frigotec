@@ -58,8 +58,10 @@ Os exemplos incluem equipamentos, garantias (ativa, em análise e vencida), orç
 - CRUD do equipamento do cliente: cadastrar, listar, corrigir série/nota fiscal (`PATCH /equipamentos/{id}`) e excluir (`DELETE /equipamentos/{id}`; recusa com 409 se a unidade já teve chamado).
 - E-mail (JavaMail): orçamento e mudança de status do chamado, com link pelo protocolo.
 - Painel do técnico com KPIs reais: `GET /dashboard/tecnico` (chamados novos, carteira, visitas da semana, orçamentos pendentes).
+- Upload de arquivos de verdade: fotos e vídeo do chamado e nota fiscal da unidade (`POST /chamados/{id}/anexos`, `POST /equipamentos/{id}/documentos`), com tipo conferido pelo conteúdo e limites por variável de ambiente.
+- Editar equipamento no front (série e nota fiscal) e excluir, com as regras do back-end.
 - Contrato da API: Swagger UI e YAML OpenAPI 3.1 públicos em `/v3/api-docs.yaml`; cópia versionada em [docs/openapi.yaml](docs/openapi.yaml).
-- Testes: 20 testes de integração do back (`./mvnw test`); front com `npm run lint` e `npm run build`.
+- Testes: 25 testes de integração do back (`./mvnw test`); front com `npm run lint` e `npm run build`.
 
 ## Próximas entregas
 
@@ -67,13 +69,13 @@ Os exemplos incluem equipamentos, garantias (ativa, em análise e vencida), orç
 |---|---|---|
 | 1 | Telas de orçamento (técnico cria, cliente responde) | API pronta, falta a tela |
 | 2 | Tela para a equipe cadastrar marcas e modelos | API pronta, falta a tela |
-| 3 | Envio de fotos do chamado e da nota fiscal | Simulado no front |
+| 3 | Banco persistente em produção | Pronto: perfil `mysql` + `docker-compose.yml` (falta só o servidor de produção) |
 | 4 | Integração com o Bling (ERP) | Próximos passos |
 | 5 | Conversa entre cliente e técnico | Simulada no front; falta o back |
 | 6 | Avaliação do atendimento e cancelamento de chamado | Simulados; cancelamento depende de decisão do SDD (RN-CHM-20) |
 | 7 | Decisões abertas do SDD: fases entre visita e finalizado, orçamento sem custo em garantia ativa | Pendente de definição da squad |
-| 8 | Qualidade: CI no GitHub Actions, testes do front, reduzir os 10 avisos de lint | A fazer |
-| 9 | Produção: banco persistente no lugar do H2, desligar console do H2, SQL e debug de e-mail | A fazer |
+| 8 | Qualidade: testes do front e reduzir os 10 avisos de lint | A fazer (CI no GitHub Actions já roda back e front) |
+| 9 | Produção: servidor de banco e domínio | A definir (o perfil `mysql` já desliga o console do H2, o SQL e o debug de e-mail) |
 | 10 | Exigir 1 aprovação nos PRs quando todos forem colaboradores | A fazer |
 
 ## Equipe e contribuição

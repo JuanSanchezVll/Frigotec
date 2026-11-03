@@ -22,6 +22,7 @@ CREATE TABLE empresa (
     PRIMARY KEY (id)
 );
 
+-- Razão social e inscrição estadual ficam só na tabela empresa (uma única fonte); o usuário PJ aponta para ela em empresa_id.
 -- Uma única tabela de usuários; o perfil (CLIENTE, TECNICO, ADMIN) é uma coluna (SDD RN-USR-01). Não existe tabela "tecnico".
 CREATE TABLE usuario (
     id                  CHAR(36)     NOT NULL,
@@ -29,8 +30,6 @@ CREATE TABLE usuario (
     email               VARCHAR(255) NOT NULL,
     cpf                 VARCHAR(255),
     cnpj                VARCHAR(255),
-    razao_social        VARCHAR(255),
-    inscricao_estadual  VARCHAR(255),
     senha               VARCHAR(255) NOT NULL,      -- hash BCrypt, nunca devolvido pela API
     telefone            VARCHAR(10),
     celular             VARCHAR(13),
@@ -94,9 +93,9 @@ CREATE TABLE chamado (
     data_pedido             DATE,
     problema                VARCHAR(255),           -- categoria
     descricao               VARCHAR(255),
-    usuario_id              CHAR(36),               -- cliente que abriu
+    usuario_id              CHAR(36)     NOT NULL,  -- cliente que abriu
     tecnico_id              CHAR(36),               -- técnico responsável (usuário com perfil TECNICO)
-    equipamento_usuario_id  BIGINT,
+    equipamento_usuario_id  BIGINT       NOT NULL,
     visita_agendada_em      DATETIME(6),
     PRIMARY KEY (id),
     UNIQUE KEY uk_chamado_protocolo (protocolo),
@@ -108,7 +107,7 @@ CREATE TABLE chamado (
 -- Histórico imutável: o status atual é o último registro do chamado (RN-CHM-16). O status é um enum, não uma tabela.
 CREATE TABLE historico (
     id              BIGINT       NOT NULL AUTO_INCREMENT,
-    chamado_id      BIGINT,
+    chamado_id      BIGINT       NOT NULL,
     status          ENUM('ENVIADO','APROVADO_PELO_TECNICO','CONTATO_DO_TECNICO','APROVACAO_DO_SERVICO','VISITA_AGENDADA','FINALIZADO'),
     data_alteracao  DATETIME(6),
     responsavel_id  CHAR(36),
@@ -166,4 +165,24 @@ CREATE TABLE redesignacao (
     CONSTRAINT fk_red_anterior FOREIGN KEY (tecnico_anterior_id) REFERENCES usuario (id),
     CONSTRAINT fk_red_novo     FOREIGN KEY (tecnico_novo_id)     REFERENCES usuario (id),
     CONSTRAINT fk_red_feito    FOREIGN KEY (feito_por_id)        REFERENCES usuario (id)
+);
+
+-- Arquivos enviados pelo cliente (SDD RN-CHM-03 e RN-EUS-05): fotos e vídeo do chamado, ou documentos da unidade.
+-- O conteúdo fica em disco (pasta app.upload.dir); aqui ficam só os metadados. Exatamente um entre chamado_id e equipamento_usuario_id é preenchido.
+CREATE TABLE anexo (
+    id                      BIGINT       NOT NULL AUTO_INCREMENT,
+    chamado_id              BIGINT,
+    equipamento_usuario_id  BIGINT,
+    enviado_por_id          CHAR(36)     NOT NULL,
+    nome_original           VARCHAR(255) NOT NULL,
+    tipo_conteudo           VARCHAR(255) NOT NULL,
+    tamanho                 BIGINT       NOT NULL,
+    categoria               ENUM('FOTO','VIDEO','DOCUMENTO') NOT NULL,
+    caminho                 VARCHAR(255) NOT NULL,
+    criado_em               DATETIME(6)  NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_anexo_chamado FOREIGN KEY (chamado_id)             REFERENCES chamado (id),
+    CONSTRAINT fk_anexo_eu      FOREIGN KEY (equipamento_usuario_id) REFERENCES equipamento_usuario (id),
+    CONSTRAINT fk_anexo_enviado FOREIGN KEY (enviado_por_id)         REFERENCES usuario (id),
+    CONSTRAINT ck_anexo_dono CHECK ((chamado_id IS NULL) <> (equipamento_usuario_id IS NULL))
 );
