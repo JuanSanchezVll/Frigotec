@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently -k -n api,web -c blue,green \"npm:api\" \"npm:dev:web\"",
+    "dev": "vite",
+    "dev:mock": "concurrently -k -n api,web -c blue,green \"npm:api\" \"npm:dev:web\"",
     "dev:web": "vite",
     "api": "json-server db.json --port 8080",
     "build": "vite build",
