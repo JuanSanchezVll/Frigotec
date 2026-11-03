@@ -23,6 +23,16 @@ export function cadastrarEquipamento(usuarioId, dados) {
     return http.post(`/equipamentos/${usuarioId}`, dados).then((r) => r.data)
 }
 
+// PATCH /equipamentos/{id}  -> o cliente corrige a série e/ou a nota fiscal da própria unidade
+export function atualizarEquipamento(id, dados) {
+    return http.patch(`/equipamentos/${id}`, dados).then((r) => r.data)
+}
+
+// DELETE /equipamentos/{id}  -> o cliente exclui a própria unidade (409 se ela já teve chamado: o histórico é preservado)
+export function excluirEquipamento(id) {
+    return http.delete(`/equipamentos/${id}`)
+}
+
 // PATCH /garantias/{id}/validacao  -> TECNICO/ADMIN validam ou recusam a garantia
 export function validarGarantia(garantiaId, dados) {
     return http.patch(`/garantias/${garantiaId}/validacao`, dados).then((r) => r.data)

@@ -1,5 +1,6 @@
 // Reexporta a API pública de cada slice de entities
 export * from "./chamado"
+export * from "./dashboard"
 export * from "./equipamento"
 export * from "./estado"
 export * from "./mensagem"

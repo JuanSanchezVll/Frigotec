@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { abrirChamado, atribuirChamado, agendarVisita, chamadoDaApi, encerrarChamado, listarChamadosDoCliente, listarTodosChamados, mudarStatus, ORDEM_STATUS, statusDe } from '../../chamado';
-import { cadastrarEquipamento, equipamentoDaApi, listarEquipamentosDoUsuario, validarGarantia } from '../../equipamento';
+import { cadastrarEquipamento, equipamentoDaApi, excluirEquipamento, listarEquipamentosDoUsuario, validarGarantia } from '../../equipamento';
 import { threadsIniciais } from '../../mensagem';
 import { ehAgendamento } from '../../visita';
 import { gravarSessao, lerSessao, limparSessao, PERFIL } from '../../usuario';
@@ -66,6 +66,8 @@ export function AppProvider({ children }) {
 
     const api = {
         addEquipamento: async (dados) => { const r = await tentar(() => cadastrarEquipamento(usuario.id, dados)); return r && r !== true ? equipamentoDaApi(r) : null; },
+        // O backend recusa (409) a exclusão de equipamento que já teve chamado; a mensagem dele aparece na tela.
+        removerEquipamento: (id) => tentar(() => excluirEquipamento(id)),
         enviarChamado: async (d) => { const r = await tentar(() => abrirChamado({ equipamentoUsuarioId: d.equipamentoUsuarioId, problema: d.categoria, descricao: d.descricao })); return r && r !== true ? chamadoDaApi(r) : null; },
         atribuir: (id) => tentar(() => atribuirChamado(idDe(id))),
         // Próximo status da sequência; o backend só aceita para quem a regra permite (técnico responsável, cliente dono...).
