@@ -44,3 +44,46 @@ npm-debug.log*
 hs_err_pid*
 *.tmp
 *.zip
+
+# segredos extras (nunca subir)
+.env.local
+.env.*.local
+application-prod*.properties
+application-dev*.properties
+application-*.yml
+application-*.yaml
+secrets/
+credentials*.json
+service-account*.json
+*.keystore
+*.pfx
+*.crt
+*.cer
+*.tfvars
+.aws/
+.ssh/
+id_rsa*
+id_ed25519*
+
+# bancos e dumps locais
+*.sqlite
+*.sqlite3
+*.db
+*.mv.db
+*.trace.db
+*.sql.bak
+*.dump
+
+# arquivos temporários e de editor
+*.swp
+*.swo
+*~
+*.bak
+*.orig
+*.rej
+.history/
+.settings/
+.classpath
+.project
+.factorypath
+HELP.md
