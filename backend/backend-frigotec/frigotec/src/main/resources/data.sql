@@ -30,16 +30,6 @@ INSERT INTO equipamento (modelo, fabricante_id) VALUES
                                                     ('Fogão Industrial 6 Bocas', 1004),
                                                     ('Cilindro Laminador CL-300', 1005);
 
--- 7. Status (AUTO)
-INSERT INTO status (id, nome, descricao) VALUES
-                                             (1001, 'ABERTO', 'Chamado aberto'),
-                                             (1002, 'EM_ANDAMENTO', 'Técnico em atendimento'),
-                                             (1003, 'ENCERRADO', 'Chamado finalizado');
-
--- 8. Roles (IDENTITY)
-INSERT INTO roles (descricao) VALUES ('ADMIN'), ('TECNICO'), ('CLIENTE');
-
-ALTER SEQUENCE status_seq RESTART WITH 2000;
 ALTER SEQUENCE chamado_seq RESTART WITH 2000;
 ALTER SEQUENCE fabricante_seq RESTART WITH 2000;
 ALTER SEQUENCE encerramento_seq RESTART WITH 2000;

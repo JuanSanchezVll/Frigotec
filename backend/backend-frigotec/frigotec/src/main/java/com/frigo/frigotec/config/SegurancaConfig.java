@@ -82,15 +82,17 @@ public class SegurancaConfig {
                 .authorizeHttpRequests(a -> a
                         .requestMatchers(HttpMethod.POST, "/usuarios", "/usuarios/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/fabricantes").permitAll()
-                        .requestMatchers("/h2-console/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/error").permitAll()
+                        .requestMatchers("/h2-console/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**", "/v3/api-docs.yaml", "/error").permitAll()
                         .requestMatchers("/usuarios/colaboradores/**").hasRole("ADMIN")
                         // Catálogo: só a equipe cria marcas e modelos (SDD seção 3)
                         .requestMatchers(HttpMethod.POST, "/fabricantes", "/equipamentos").hasAnyRole("TECNICO", "ADMIN")
                         // Equipamento do cliente e abertura/resposta: só o cliente
                         .requestMatchers(HttpMethod.POST, "/equipamentos/*", "/chamados").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.PATCH, "/equipamentos/*").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.DELETE, "/equipamentos/*").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.PATCH, "/orcamentos/*/resposta").hasRole("CLIENTE")
                         // Fila, atendimento, visita, encerramento, orçamento e garantia: equipe Frigotec
-                        .requestMatchers(HttpMethod.GET, "/chamados", "/chamados/status/*", "/chamados/tecnicos/*").hasAnyRole("TECNICO", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/chamados", "/chamados/status/*", "/chamados/tecnicos/*", "/dashboard/tecnico").hasAnyRole("TECNICO", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/chamados/*/atribuicao", "/chamados/*/encerramento", "/orcamentos").hasAnyRole("TECNICO", "ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/chamados/*/visita", "/garantias/*/validacao").hasAnyRole("TECNICO", "ADMIN")
                         .anyRequest().authenticated())

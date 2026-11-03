@@ -3,6 +3,7 @@ package com.frigo.frigotec.controller;
 import com.frigo.frigotec.config.AutorAutenticado;
 import com.frigo.frigotec.dto.EquipamentoCadastroDto;
 import com.frigo.frigotec.dto.EquipamentoDto;
+import com.frigo.frigotec.dto.EquipamentoUsuarioAtualizacaoDto;
 import com.frigo.frigotec.dto.EquipamentoUsuarioDto;
 import com.frigo.frigotec.entity.EquipamentoUsuario;
 import com.frigo.frigotec.mapper.EquipamentoMapper;
@@ -36,6 +37,22 @@ public class EquipamentoController {
                                                                           @AuthenticationPrincipal Jwt jwt) {
         EquipamentoUsuario salvo = service.salvarEquipamentoUsuario(dto, idUsuario, AutorAutenticado.de(jwt));
         return ResponseEntity.status(HttpStatus.CREATED).body(equipamentoUsuarioMapper.toResponse(salvo));
+    }
+
+    /** CRUD (atualizar): CLIENTE corrige série e nota fiscal da própria unidade. Outro cliente: 404. */
+    @PatchMapping("/{id}")
+    public ResponseEntity<EquipamentoUsuarioDto> atualizarEquipamentoUsuario(@PathVariable Long id,
+                                                                             @RequestBody EquipamentoUsuarioAtualizacaoDto dto,
+                                                                             @AuthenticationPrincipal Jwt jwt) {
+        EquipamentoUsuario atualizado = service.atualizarEquipamentoUsuario(id, dto, AutorAutenticado.de(jwt));
+        return ResponseEntity.ok(equipamentoUsuarioMapper.toResponse(atualizado));
+    }
+
+    /** CRUD (excluir): CLIENTE exclui a própria unidade. Com chamado vinculado: 409 (o histórico é preservado). */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirEquipamentoUsuario(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
+        service.excluirEquipamentoUsuario(id, AutorAutenticado.de(jwt));
+        return ResponseEntity.noContent().build();
     }
 
     /** TECNICO/ADMIN cadastram modelos no catálogo. */
