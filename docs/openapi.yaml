@@ -1,0 +1,1087 @@
+openapi: 3.1.0
+info:
+  title: Portal Frigotec — API
+  description: |-
+    API do portal de pós-venda, garantias e assistência técnica da Frigotec.
+    O cliente cadastra equipamentos e abre chamados; o técnico atende, analisa a garantia, agenda a visita, gera orçamento e encerra; o administrador cadastra a equipe.
+
+    Para testar as rotas protegidas: faça POST /usuarios/login, copie o valor de "token" da resposta e informe-o no botão Authorize.
+  contact:
+    name: Grupo 5 — Portal Frigotec
+  version: 1.0.0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+security:
+- bearerAuth: []
+paths:
+  /usuarios:
+    post:
+      tags:
+      - usuario-controller
+      operationId: cadastrar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsuarioCadastroDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UsuarioDto"
+  /usuarios/login:
+    post:
+      tags:
+      - usuario-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsuarioLoginDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/LoginRespostaDto"
+  /usuarios/colaboradores:
+    get:
+      tags:
+      - usuario-controller
+      operationId: listarColaboradores
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UsuarioDto"
+    post:
+      tags:
+      - usuario-controller
+      operationId: cadastrarColaborador
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ColaboradorCadastroDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UsuarioDto"
+  /orcamentos:
+    post:
+      tags:
+      - orcamento-controller
+      operationId: salvar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrcamentoCadastroDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrcamentoDto"
+  /fabricantes:
+    get:
+      tags:
+      - fabricante-controller
+      operationId: listar
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FabricanteDto"
+    post:
+      tags:
+      - fabricante-controller
+      operationId: salvar_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FabricanteCadastroDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/FabricanteDto"
+  /equipamentos:
+    post:
+      tags:
+      - equipamento-controller
+      operationId: salvarEquipamentoFrigo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EquipamentoCadastroDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EquipamentoDto"
+  /equipamentos/{idUsuario}:
+    post:
+      tags:
+      - equipamento-controller
+      operationId: salvarEquipamentoUsuario
+      parameters:
+      - name: idUsuario
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EquipamentoUsuarioDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EquipamentoUsuarioDto"
+  /chamados:
+    get:
+      tags:
+      - chamado-controller
+      operationId: listar_1
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ENVIADO
+          - APROVADO_PELO_TECNICO
+          - CONTATO_DO_TECNICO
+          - APROVACAO_DO_SERVICO
+          - VISITA_AGENDADA
+          - FINALIZADO
+      - name: semTecnico
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChamadoDto"
+    post:
+      tags:
+      - chamado-controller
+      operationId: salvar_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChamadoCadastroDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ChamadoDto"
+  /chamados/{id}/encerramento:
+    post:
+      tags:
+      - chamado-controller
+      operationId: encerrar
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EncerramentoDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ChamadoDto"
+  /chamados/{id}/atribuicao:
+    post:
+      tags:
+      - chamado-controller
+      operationId: atribuir
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AtribuicaoDto"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ChamadoDto"
+  /orcamentos/{id}/resposta:
+    patch:
+      tags:
+      - orcamento-controller
+      operationId: responder
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RespostaOrcamentoDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrcamentoDto"
+  /garantias/{id}/validacao:
+    patch:
+      tags:
+      - garantia-controller
+      operationId: validar
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ValidacaoGarantiaDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GarantiaDto"
+  /equipamentos/{id}:
+    delete:
+      tags:
+      - equipamento-controller
+      operationId: excluirEquipamentoUsuario
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+    patch:
+      tags:
+      - equipamento-controller
+      operationId: atualizarEquipamentoUsuario
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EquipamentoUsuarioAtualizacaoDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EquipamentoUsuarioDto"
+  /chamados/{id}/visita:
+    patch:
+      tags:
+      - chamado-controller
+      operationId: agendarVisita
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VisitaDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ChamadoDto"
+  /chamados/{id}/status:
+    patch:
+      tags:
+      - chamado-controller
+      operationId: atualizarStatus
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: novoStatus
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - ENVIADO
+          - APROVADO_PELO_TECNICO
+          - CONTATO_DO_TECNICO
+          - APROVACAO_DO_SERVICO
+          - VISITA_AGENDADA
+          - FINALIZADO
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ChamadoDto"
+  /usuarios/{id}/equipamentos:
+    get:
+      tags:
+      - usuario-controller
+      operationId: equipamentosDoUsuario
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EquipamentoUsuarioDto"
+  /orcamentos/{id}:
+    get:
+      tags:
+      - orcamento-controller
+      operationId: buscarOrcamentoPorId
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrcamentoDto"
+  /fabricantes/{id}/equipamentos:
+    get:
+      tags:
+      - catalogo-controller
+      operationId: modelosDaMarca
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EquipamentoDto"
+  /dashboard/tecnico:
+    get:
+      tags:
+      - dashboard-controller
+      operationId: doTecnico
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DashboardTecnicoDto"
+  /chamados/{id}:
+    get:
+      tags:
+      - chamado-controller
+      operationId: buscarChamado
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ChamadoDto"
+  /chamados/usuarios/{idUsuario}:
+    get:
+      tags:
+      - chamado-controller
+      operationId: buscarPorUsuario
+      parameters:
+      - name: idUsuario
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: situacao
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChamadoDto"
+  /chamados/tecnicos/{idTecnico}:
+    get:
+      tags:
+      - chamado-controller
+      operationId: buscarPorTecnico
+      parameters:
+      - name: idTecnico
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChamadoDto"
+  /chamados/status/{status}:
+    get:
+      tags:
+      - chamado-controller
+      operationId: buscarPorStatus
+      parameters:
+      - name: status
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChamadoDto"
+components:
+  schemas:
+    EmpresaCadastroDto:
+      type: object
+      properties:
+        razaoSocial:
+          type: string
+          minLength: 1
+        inscricaoEstadual:
+          type: string
+          minLength: 1
+        cnpj:
+          type: string
+          minLength: 1
+      required:
+      - cnpj
+      - inscricaoEstadual
+      - razaoSocial
+    EnderecoCadastroDto:
+      type: object
+      properties:
+        estado:
+          type: string
+          minLength: 1
+        cidade:
+          type: string
+          minLength: 1
+        rua:
+          type: string
+          minLength: 1
+        numero:
+          type: string
+          minLength: 1
+        cep:
+          type: string
+          minLength: 1
+          pattern: "\\d{8}"
+      required:
+      - cep
+      - cidade
+      - estado
+      - numero
+      - rua
+    UsuarioCadastroDto:
+      type: object
+      properties:
+        nomeCompleto:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+        senha:
+          type: string
+          maxLength: 2147483647
+          minLength: 6
+        cpf:
+          type: string
+        cnpj:
+          type: string
+        razaoSocial:
+          type: string
+        inscricaoEstadual:
+          type: string
+        telefone:
+          type: string
+          maxLength: 10
+          minLength: 0
+        celular:
+          type: string
+          maxLength: 13
+          minLength: 0
+          pattern: \d+
+        endereco:
+          $ref: "#/components/schemas/EnderecoCadastroDto"
+        empresa:
+          $ref: "#/components/schemas/EmpresaCadastroDto"
+      required:
+      - celular
+      - email
+      - nomeCompleto
+      - senha
+    EmpresaDto:
+      type: object
+      properties:
+        razaoSocial:
+          type: string
+        inscricaoEstadual:
+          type: string
+        cnpj:
+          type: string
+    EnderecoDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        estado:
+          type: string
+        cidade:
+          type: string
+        rua:
+          type: string
+        numero:
+          type: string
+        cep:
+          type: string
+    UsuarioDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        perfil:
+          type: string
+          enum:
+          - CLIENTE
+          - TECNICO
+          - ADMIN
+        nomeCompleto:
+          type: string
+        email:
+          type: string
+        cpf:
+          type: string
+        cnpj:
+          type: string
+        razaoSocial:
+          type: string
+        inscricaoEstadual:
+          type: string
+        telefone:
+          type: string
+        celular:
+          type: string
+        endereco:
+          $ref: "#/components/schemas/EnderecoDto"
+        empresa:
+          $ref: "#/components/schemas/EmpresaDto"
+    UsuarioLoginDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        senha:
+          type: string
+          minLength: 1
+      required:
+      - email
+      - senha
+    LoginRespostaDto:
+      type: object
+      properties:
+        token:
+          type: string
+        tipo:
+          type: string
+        expiraEm:
+          type: integer
+          format: int64
+        perfil:
+          type: string
+          enum:
+          - CLIENTE
+          - TECNICO
+          - ADMIN
+        usuario:
+          $ref: "#/components/schemas/UsuarioDto"
+    ColaboradorCadastroDto:
+      type: object
+      properties:
+        nomeCompleto:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+        senha:
+          type: string
+          maxLength: 2147483647
+          minLength: 6
+        cpf:
+          type: string
+          minLength: 1
+        telefone:
+          type: string
+          maxLength: 10
+          minLength: 0
+        celular:
+          type: string
+          maxLength: 13
+          minLength: 0
+          pattern: \d+
+        endereco:
+          $ref: "#/components/schemas/EnderecoCadastroDto"
+        perfil:
+          type: string
+          enum:
+          - CLIENTE
+          - TECNICO
+          - ADMIN
+      required:
+      - celular
+      - cpf
+      - email
+      - endereco
+      - nomeCompleto
+      - perfil
+      - senha
+    OrcamentoCadastroDto:
+      type: object
+      properties:
+        chamadoId:
+          type: integer
+          format: int64
+        valor:
+          type: number
+          minimum: 0
+        descricao:
+          type: string
+          minLength: 1
+      required:
+      - chamadoId
+      - descricao
+      - valor
+    OrcamentoDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        chamadoId:
+          type: integer
+          format: int64
+        valor:
+          type: number
+        descricao:
+          type: string
+        situacao:
+          type: string
+        criadoEm:
+          type: string
+          format: date-time
+        respondidoEm:
+          type: string
+          format: date-time
+    FabricanteCadastroDto:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+        propria:
+          type: boolean
+      required:
+      - nome
+    FabricanteDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+          minLength: 1
+        propria:
+          type: boolean
+      required:
+      - id
+      - nome
+    EquipamentoCadastroDto:
+      type: object
+      properties:
+        fabricanteId:
+          type: integer
+          format: int64
+        modelo:
+          type: string
+          minLength: 1
+      required:
+      - fabricanteId
+      - modelo
+    EquipamentoDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        fabricanteId:
+          type: integer
+          format: int64
+        modelo:
+          type: string
+    EquipamentoUsuarioDto:
+      type: object
+      properties:
+        equipamentoUsuarioId:
+          type: integer
+          format: int64
+        modelo:
+          type: string
+        marca:
+          type: string
+        garantia:
+          $ref: "#/components/schemas/GarantiaDto"
+        equipamentoId:
+          type: integer
+          format: int64
+        usuarioId:
+          type: string
+          format: uuid
+        numeroSerie:
+          type: string
+        tipoGarantia:
+          type: string
+        dataCompra:
+          type: string
+          format: date
+        notaFiscal:
+          type: string
+      required:
+      - equipamentoId
+    GarantiaDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        situacao:
+          type: string
+        tipo:
+          type: string
+        dataCompra:
+          type: string
+          format: date
+        dataFimGarantia:
+          type: string
+          format: date
+        notaFiscal:
+          type: string
+    ChamadoCadastroDto:
+      type: object
+      properties:
+        descricao:
+          type: string
+          minLength: 1
+        problema:
+          type: string
+          minLength: 1
+        equipamentoUsuarioId:
+          type: integer
+          format: int64
+      required:
+      - descricao
+      - equipamentoUsuarioId
+      - problema
+    ChamadoDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        protocolo:
+          type: string
+        dataPedido:
+          type: string
+          format: date
+        descricao:
+          type: string
+        problema:
+          type: string
+        statusAtual:
+          type: string
+          enum:
+          - ENVIADO
+          - APROVADO_PELO_TECNICO
+          - CONTATO_DO_TECNICO
+          - APROVACAO_DO_SERVICO
+          - VISITA_AGENDADA
+          - FINALIZADO
+        usuario:
+          $ref: "#/components/schemas/UsuarioDto"
+        tecnico:
+          $ref: "#/components/schemas/UsuarioDto"
+        equipamentoUsuario:
+          $ref: "#/components/schemas/EquipamentoUsuarioDto"
+        visitaAgendadaEm:
+          type: string
+          format: date-time
+        historico:
+          type: array
+          items:
+            $ref: "#/components/schemas/HistoricoDto"
+        encerramento:
+          $ref: "#/components/schemas/EncerramentoDto"
+    EncerramentoDto:
+      type: object
+      properties:
+        motivo:
+          type: string
+          minLength: 1
+        descricao:
+          type: string
+          minLength: 1
+      required:
+      - descricao
+      - motivo
+    HistoricoDto:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ENVIADO
+          - APROVADO_PELO_TECNICO
+          - CONTATO_DO_TECNICO
+          - APROVACAO_DO_SERVICO
+          - VISITA_AGENDADA
+          - FINALIZADO
+        dataAlteracao:
+          type: string
+          format: date-time
+        responsavel:
+          type: string
+    AtribuicaoDto:
+      type: object
+      properties:
+        tecnicoId:
+          type: string
+          format: uuid
+        motivo:
+          type: string
+    RespostaOrcamentoDto:
+      type: object
+      properties:
+        aceito:
+          type: boolean
+      required:
+      - aceito
+    ValidacaoGarantiaDto:
+      type: object
+      properties:
+        validacao:
+          type: string
+          enum:
+          - EM_ANALISE
+          - VALIDADA
+          - RECUSADA
+        dataFimGarantia:
+          type: string
+          format: date
+      required:
+      - validacao
+    EquipamentoUsuarioAtualizacaoDto:
+      type: object
+      properties:
+        numeroSerie:
+          type: string
+        notaFiscal:
+          type: string
+    VisitaDto:
+      type: object
+      properties:
+        visitaAgendadaEm:
+          type: string
+          format: date-time
+      required:
+      - visitaAgendadaEm
+    DashboardTecnicoDto:
+      type: object
+      properties:
+        chamadosNovos:
+          type: integer
+          format: int64
+        meusChamados:
+          type: integer
+          format: int64
+        visitasDestaSemana:
+          type: integer
+          format: int64
+        orcamentosAguardandoResposta:
+          type: integer
+          format: int64
+        proximasVisitas:
+          type: array
+          items:
+            $ref: "#/components/schemas/VisitaResumo"
+    VisitaResumo:
+      type: object
+      properties:
+        protocolo:
+          type: string
+        cliente:
+          type: string
+        equipamento:
+          type: string
+        quando:
+          type: string
+          format: date-time
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -55,7 +55,11 @@ Os exemplos incluem equipamentos, garantias (ativa, em análise e vencida), orç
 - Catálogo de marcas e modelos, equipamentos do cliente e garantia (só a marca própria, FrigoPro), com situação calculada.
 - Chamado completo: protocolo `PR` + 8 dígitos, atribuição e redesignação, avanço em ordem, visita, encerramento e histórico.
 - Orçamento no back-end: um pendente por vez, resposta do cliente.
-- Testes: 10 testes de integração do back (`./mvnw test`); front com `npm run lint` e `npm run build`.
+- CRUD do equipamento do cliente: cadastrar, listar, corrigir série/nota fiscal (`PATCH /equipamentos/{id}`) e excluir (`DELETE /equipamentos/{id}`; recusa com 409 se a unidade já teve chamado).
+- E-mail (JavaMail): orçamento e mudança de status do chamado, com link pelo protocolo.
+- Painel do técnico com KPIs reais: `GET /dashboard/tecnico` (chamados novos, carteira, visitas da semana, orçamentos pendentes).
+- Contrato da API: Swagger UI e YAML OpenAPI 3.1 públicos em `/v3/api-docs.yaml`; cópia versionada em [docs/openapi.yaml](docs/openapi.yaml).
+- Testes: 20 testes de integração do back (`./mvnw test`); front com `npm run lint` e `npm run build`.
 
 ## Próximas entregas
 
@@ -64,7 +68,7 @@ Os exemplos incluem equipamentos, garantias (ativa, em análise e vencida), orç
 | 1 | Telas de orçamento (técnico cria, cliente responde) | API pronta, falta a tela |
 | 2 | Tela para a equipe cadastrar marcas e modelos | API pronta, falta a tela |
 | 3 | Envio de fotos do chamado e da nota fiscal | Simulado no front |
-| 4 | E-mail ao mudar o status do chamado | Evento já é publicado; o envio está vazio |
+| 4 | Integração com o Bling (ERP) | Próximos passos |
 | 5 | Conversa entre cliente e técnico | Simulada no front; falta o back |
 | 6 | Avaliação do atendimento e cancelamento de chamado | Simulados; cancelamento depende de decisão do SDD (RN-CHM-20) |
 | 7 | Decisões abertas do SDD: fases entre visita e finalizado, orçamento sem custo em garantia ativa | Pendente de definição da squad |
@@ -76,6 +80,7 @@ Os exemplos incluem equipamentos, garantias (ativa, em análise e vencida), orç
 
 Juan Sánchez, Davi Jeronimo e Guilherme Mesquita.
 
+- Documentação das entregas: [docs/entregaveis-sprint-2.md](docs/entregaveis-sprint-2.md), [DER](docs/der/README.md), [conformidade com o SDD](docs/conformidade-sdd.md), [protótipo](docs/prototipo/README.md)
 - Guia rápido de branch, commit e PR (1 página): [docs/documentacao_branch.docx](docs/documentacao_branch.docx)
 - Arquitetura do front: [frontend/docs/ARQUITETURA.md](frontend/docs/ARQUITETURA.md) e funcionamento: [frontend/docs/GUIA-DE-FUNCIONAMENTO.md](frontend/docs/GUIA-DE-FUNCIONAMENTO.md)
 
