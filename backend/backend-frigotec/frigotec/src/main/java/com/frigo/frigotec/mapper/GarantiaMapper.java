@@ -1,45 +1,37 @@
 package com.frigo.frigotec.mapper;
 
-import com.frigo.frigotec.dto.EmpresaDto;
 import com.frigo.frigotec.dto.GarantiaDto;
-import com.frigo.frigotec.entity.Empresa;
-import com.frigo.frigotec.entity.Equipamento;
 import com.frigo.frigotec.entity.Garantia;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class GarantiaMapper {
 
-    private final EquipamentoMapper equipamentoMapper;
-
-    public GarantiaMapper(EquipamentoMapper equipamentoMapper) {
-        this.equipamentoMapper = equipamentoMapper;
+    /** RN-GAR-02: a situação é calculada. ATIVA quando validada e dataFimGarantia >= hoje; sem garantia = NAO_SE_APLICA. */
+    public String situacao(Garantia garantia) {
+        if (garantia == null) {
+            return "NAO_SE_APLICA";
+        }
+        return switch (garantia.getValidacao()) {
+            case RECUSADA -> "RECUSADA";
+            case EM_ANALISE -> "EM_ANALISE";
+            case VALIDADA -> (garantia.getDataFimGarantia() != null && !garantia.getDataFimGarantia().isBefore(LocalDate.now()))
+                    ? "ATIVA" : "VENCIDA";
+        };
     }
 
-    public Garantia toEntity(GarantiaDto dto) {
-        if (dto == null) {
-            return null;
-        }
-
-        Garantia entity = new Garantia();
-
-        entity.setGarantiaAtiva(dto.getGarantiaAtiva());
-     //   entity.setEquipamento(equipamentoMapper.toEntity(dto.getEquipamentoDto()));
-        entity.setNotaFiscal(dto.getNotaFiscal());
-
-        return entity;
-    }
-
-    public GarantiaDto toDto(Garantia entity) {
-        if (entity == null) {
-            return null;
-        }
-
+    public GarantiaDto toDto(Garantia garantia) {
         GarantiaDto dto = new GarantiaDto();
-     //   dto.setEquipamentoDto(equipamentoMapper.toResponse(entity.getEquipamento()));
-        dto.setGarantiaAtiva(entity.getGarantiaAtiva());
-
-
+        dto.setSituacao(situacao(garantia));
+        if (garantia != null) {
+            dto.setId(garantia.getId());
+            dto.setTipo(garantia.getTipo());
+            dto.setDataCompra(garantia.getDataCompra());
+            dto.setDataFimGarantia(garantia.getDataFimGarantia());
+            dto.setNotaFiscal(garantia.getNotaFiscal());
+        }
         return dto;
     }
 }
