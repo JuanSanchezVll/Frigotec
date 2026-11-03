@@ -1,0 +1,29 @@
+# MySQL 8 para desenvolver com banco persistente (perfil "mysql" do back-end).
+#   docker compose up -d
+#   cd backend/backend-frigotec/frigotec
+#   SPRING_PROFILES_ACTIVE=mysql DB_PASSWORD=frigotec_dev SEED_MODE=always ./mvnw spring-boot:run
+# Senhas deste arquivo são só de desenvolvimento: em produção use variáveis de ambiente próprias.
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: frigotec-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: frigotec
+      MYSQL_USER: frigotec
+      MYSQL_PASSWORD: frigotec_dev
+      MYSQL_ROOT_PASSWORD: root_dev
+      TZ: America/Sao_Paulo
+    ports:
+      - "3306:3306"
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_ai_ci"]
+    volumes:
+      - frigotec-mysql-dados:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pfrigotec_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  frigotec-mysql-dados:
