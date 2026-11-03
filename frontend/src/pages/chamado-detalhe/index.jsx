@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useApp } from '../../entities/estado';
 import { statusDe } from '../../entities/chamado';
 import { AceitarOrcamentoPopup } from '../../features/aceitar-orcamento';
+import { AprovarServico } from '../../features/aprovar-servico';
 import { AvaliarPopup } from '../../features/avaliar-atendimento';
 import { CancelarPopup } from '../../features/cancelar-chamado';
 import { FOTOS, foto } from '../../shared/lib/img';
@@ -13,10 +14,11 @@ const miniaturas = [FOTOS.chapa, FOTOS.panela, FOTOS.cozinhaB];
 export default function ChamadoDetalhe() {
     const { id = '' } = useParams();
     const { chamados, threads, visitas } = useApp();
-    const c = chamados.find((x) => x.id === id) ?? chamados[0];
+    const c = chamados.find((x) => x.id === id);
     const [pop, setPop] = useState(null);
     const [aba, setAba] = useState('visita');
     const fechar = () => setPop(null);
+    if (!c) return <main className="min-h-screen bg-superficie p-10 text-texto-secundario">Carregando chamado…</main>;
     const proposta = [...(threads[c.id] ?? [])].reverse().find((m) => m.tipo === 'proposta');
     const visita = visitas.find((v) => v.chamadoId === c.id);
     const aprovado = c.etapa >= 2;
@@ -48,6 +50,7 @@ export default function ChamadoDetalhe() {
               <Alert tipo="alerta">O técnico vai informar o prazo do atendimento. Quando ele informar, o prazo aparece aqui.</Alert>
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
+              {c.etapa === 3 && !c.cancelado && <AprovarServico id={c.id}/>}
               {proposta && <Button variante="contorno" onClick={() => setPop('orcamento')}><FileText size={18}/>Aceitar orçamento{proposta.status && proposta.status !== 'Pendente' ? ` (${proposta.status})` : ''}</Button>}
               {c.finalizado && <Button onClick={() => setPop('avaliar')}><Star size={18}/>{c.avaliacao ? 'Ver avaliação' : 'Avaliar atendimento'}</Button>}
               {!c.finalizado && !c.cancelado && <Button variante="contorno" onClick={() => setPop('cancelar')} className="border-borda-campo text-texto"><XCircle size={18}/>Cancelar chamado</Button>}
@@ -67,7 +70,7 @@ export default function ChamadoDetalhe() {
                 <tbody><tr className="border-t border-borda"><td className="p-3">1ª</td><td className="p-3">Visita de diagnóstico</td><td className="num p-3">{visita?.data ?? '30/09/2026'}</td><td className="p-3"><Badge texto={visita?.status === 'Aceita' ? 'Confirmado pelo técnico' : 'Pendente'}/></td></tr></tbody></table>
             </div>) : (<div className="space-y-3 texto-corpo">
               <p>Neste atendimento, você leva o equipamento até a oficina da Frigotec.</p>
-              <p className="rounded-md bg-superficie p-4"><strong>Endereço:</strong> Av. das Indústrias, 1200, São Paulo (exemplo)<br /><strong>Horário:</strong> segunda a sexta, das 8h às 17h</p>
+              <p className="rounded-md bg-superficie p-4"><strong>Endereço:</strong> Av. das Indústrias, 1200, São Paulo<br /><strong>Horário:</strong> segunda a sexta, das 8h às 17h</p>
             </div>)}
         </div>
         <div className="mt-8 flex justify-end"><Button variante="contorno" onClick={fechar}>Fechar</Button></div>

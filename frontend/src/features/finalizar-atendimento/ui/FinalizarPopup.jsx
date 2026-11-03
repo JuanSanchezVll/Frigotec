@@ -17,6 +17,6 @@ export function FinalizarPopup({ id, aberto, onClose, aoFinalizar }) {
         <Field label="Fotos do atendimento" optional><AttachArea itens={fotos} onChange={setFotos}/></Field>
       </div>
       <div className="mt-8 flex justify-end gap-3"><Button variante="contorno" onClick={onClose}>Cancelar</Button>
-        <Button onClick={() => { finalizar(id, { resumo, pecas, obs: obs || '—' }); onClose(); aoFinalizar?.(); }}>Confirmar finalização</Button></div>
+        <Button disabled={!resumo.trim()} onClick={async () => { const ok = await finalizar(id, { resumo, pecas, obs: obs || '—' }); if (ok) { onClose(); aoFinalizar?.(); } }}>Confirmar finalização</Button></div>
     </Popup>);
 }
