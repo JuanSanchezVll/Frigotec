@@ -84,6 +84,8 @@ public class UsuarioMapper {
         }
 
         UsuarioDto dto = new UsuarioDto();
+        dto.setId(entity.getId());
+        dto.setPerfil(entity.getPerfil());
         dto.setNomeCompleto(entity.getNomeCompleto());
         dto.setEmail(entity.getEmail());
         dto.setCpf(entity.getCpf());

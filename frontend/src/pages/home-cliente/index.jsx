@@ -13,7 +13,8 @@ import { HeroVideo, VIDEOS } from '../../widgets/hero-video';
 import { LinhaDoTempo } from '../../widgets/linha-do-tempo';
 import { useConversas } from '../../widgets/painel-conversas';
 export default function Home() {
-    const { meusChamados, equipamentos } = useApp();
+    const { meusChamados, equipamentos, usuario } = useApp();
+    const primeiroNome = usuario?.nomeCompleto?.split(' ')[0] ?? 'Gustavo';
     const { abrirConversas } = useLayout();
     const novas = useConversas('cliente').filter((c) => c.naoLida).length;
     const c = meusChamados.find((x) => !x.finalizado && !x.cancelado && x.id === 'PR19283708') ?? meusChamados.find((x) => !x.finalizado && !x.cancelado);
@@ -21,7 +22,7 @@ export default function Home() {
       <main>
         <HeroVideo src={VIDEOS.prato} poster={foto(FOTOS.bancada.id, 1920)} alt="Cozinha profissional escurecida com chef preparando um prato" className="pb-28 pt-20 md:pt-28" gradiente="from-secundaria via-secundaria/85 to-profundo/50">
           <div className="mx-auto max-w-[1200px] px-4 md:px-6">
-            <h1 className="anim-slide max-w-2xl texto-hero">Olá, Gustavo. Como podemos ajudar hoje?</h1>
+            <h1 className="anim-slide max-w-2xl texto-hero">Olá, {primeiroNome}. Como podemos ajudar hoje?</h1>
             <p className="mt-5 max-w-lg text-lg text-fundo/85">Abra um chamado, cadastre um equipamento ou veja como está o atendimento.</p>
             <Button to="/chamados/novo" tamanho="lg" className="mt-8">Abrir seu chamado <ArrowRight size={20}/></Button>
           </div>

@@ -2,11 +2,16 @@ package com.frigo.frigotec.dto;
 
 
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class EquipamentoCadastroDto {
 
 
+    @NotNull
     private Long fabricanteId;
 
+    @NotBlank
     private String modelo;
 
 

@@ -11,6 +11,16 @@ public class FabricanteDto {
     @NotNull
     private String nome;
 
+    private boolean propria;
+
+    public boolean isPropria() {
+        return propria;
+    }
+
+    public void setPropria(boolean propria) {
+        this.propria = propria;
+    }
+
     public Long getId() {
         return id;
     }

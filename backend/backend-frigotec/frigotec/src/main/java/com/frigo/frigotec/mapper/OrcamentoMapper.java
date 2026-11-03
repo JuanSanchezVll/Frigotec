@@ -1,50 +1,21 @@
 package com.frigo.frigotec.mapper;
 
-import com.frigo.frigotec.dto.*;
-import com.frigo.frigotec.entity.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.frigo.frigotec.dto.OrcamentoDto;
+import com.frigo.frigotec.entity.Orcamento;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OrcamentoMapper {
 
-    private final ChamadoMapper chamadoMapper;
-
-    @Autowired
-    public OrcamentoMapper(ChamadoMapper chamadoMapper) {
-        this.chamadoMapper = chamadoMapper;
-    }
-
-    public  OrcamentoDto toResponse(Orcamento orcamento) {
-        if (orcamento == null) {
-            return null;
-        }
-
+    public OrcamentoDto toResponse(Orcamento orcamento) {
         OrcamentoDto dto = new OrcamentoDto();
-
         dto.setId(orcamento.getId());
-        dto.setValor(orcamento.getValor());
         dto.setChamadoId(orcamento.getChamado() != null ? orcamento.getChamado().getId() : null);
-        dto.setChamado(chamadoMapper.toDto(orcamento.getChamado()));
-        dto.setAceito(orcamento.getAceito());
-
+        dto.setValor(orcamento.getValor());
+        dto.setDescricao(orcamento.getDescricao());
+        dto.setSituacao(orcamento.getAceito() == null ? "PENDENTE" : orcamento.getAceito() ? "ACEITO" : "RECUSADO");
+        dto.setCriadoEm(orcamento.getCriadoEm());
+        dto.setRespondidoEm(orcamento.getRespondidoEm());
         return dto;
-    }
-
-    public  Orcamento toEntity(OrcamentoDto dto) {
-        if (dto == null) {
-            return null;
-        }
-
-        Orcamento entity = new Orcamento();
-
-        entity.setValor(dto.getValor());
-        entity.setChamado(chamadoMapper.toEntity(dto.getChamado()));
-        entity.setAceito(dto.getAceito());
-
-
-
-        return entity;
-
     }
 }

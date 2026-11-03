@@ -9,41 +9,35 @@ import org.springframework.stereotype.Component;
 @Component
 public class EquipamentoUsuarioMapper {
 
-    private final UsuarioMapper usuarioMapper;
+    private final GarantiaMapper garantiaMapper;
 
-    private final EquipamentoMapper equipamentoMapper;
-
-    public EquipamentoUsuarioMapper(UsuarioMapper usuarioMapper, EquipamentoMapper equipamentoMapper) {
-        this.usuarioMapper = usuarioMapper;
-        this.equipamentoMapper = equipamentoMapper;
+    public EquipamentoUsuarioMapper(GarantiaMapper garantiaMapper) {
+        this.garantiaMapper = garantiaMapper;
     }
 
-
-
-    public EquipamentoUsuarioDto toResponse(EquipamentoUsuario equipamento){
-
+    public EquipamentoUsuarioDto toResponse(EquipamentoUsuario equipamento) {
         EquipamentoUsuarioDto dto = new EquipamentoUsuarioDto();
-
-        dto.setEquipamentoId(equipamento.getId());
+        dto.setEquipamentoUsuarioId(equipamento.getId());
+        dto.setEquipamentoId(equipamento.getEquipamento().getId());
+        dto.setModelo(equipamento.getEquipamento().getModelo());
+        if (equipamento.getEquipamento().getFabricante() != null) {
+            dto.setMarca(equipamento.getEquipamento().getFabricante().getNome());
+        }
         dto.setUsuarioId(equipamento.getUsuario().getId());
         dto.setNumeroSerie(equipamento.getNumeroSerie());
-
+        dto.setGarantia(garantiaMapper.toDto(equipamento.getGarantia()));
         return dto;
     }
 
-    public EquipamentoUsuario toEntity (EquipamentoUsuarioDto equipamentoDto){
+    public EquipamentoUsuario toEntity(EquipamentoUsuarioDto equipamentoDto) {
         EquipamentoUsuario entity = new EquipamentoUsuario();
-
         Usuario entityUsuario = new Usuario();
         entityUsuario.setId(equipamentoDto.getUsuarioId());
-
         Equipamento entityEquipamento = new Equipamento();
         entityEquipamento.setId(equipamentoDto.getEquipamentoId());
-
         entity.setUsuario(entityUsuario);
         entity.setNumeroSerie(equipamentoDto.getNumeroSerie());
         entity.setEquipamento(entityEquipamento);
-
         return entity;
     }
 }

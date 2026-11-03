@@ -1,12 +1,11 @@
 import { FileText } from 'lucide-react';
 import { useState } from 'react';
 import { useApp } from '../../entities/estado';
-import { TECNICO } from '../../entities/chamado';
 import { Avatar, Badge, Button, Popup } from '../../shared/ui';
 export default function TecnicoHistorico() {
-    const { chamados } = useApp();
+    const { chamados, usuario } = useApp();
     const [sel, setSel] = useState(null);
-    const lista = chamados.filter((c) => c.finalizado && c.tecnico === TECNICO);
+    const lista = chamados.filter((c) => c.finalizado && c.tecnicoId === usuario?.id);
     const th = 'px-5 py-4 texto-rotulo text-texto-secundario';
     return (<main className="min-h-screen bg-superficie pb-20">
       <div className="mx-auto max-w-[1200px] px-4 pt-10 md:px-6">
