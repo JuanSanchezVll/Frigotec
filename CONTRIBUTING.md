@@ -116,6 +116,7 @@ Para o Git já abrir o modelo no commit: `git config commit.template .gitmessage
 - Um PR de 1 a 3 commits e menos de ~400 linhas é revisado rápido. Maior que isso, divida.
 - **Pelo menos 1 aprovação** de outra pessoa do time antes do merge. Quem escreveu não aprova o próprio PR.
 - Merge de branch de trabalho em `develop`: **Squash and merge** (um commit limpo, com o título do PR).
+  No Squash, o GitHub sugere o nome da branch como título: **edite o título** para o padrão de commit (`feat(back): permite responder orçamento`).
 - Merge de `develop` em `main`: **Create a merge commit**, seguido da tag `vX.Y.Z`.
 
 ## 7. O que nunca subir
