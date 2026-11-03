@@ -7,18 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class HistoricoMapper {
 
-
     public HistoricoDto toHistoricoDto(Historico historico) {
         HistoricoDto dto = new HistoricoDto();
         dto.setStatus(historico.getStatus());
         dto.setDataAlteracao(historico.getDataAlteracao());
+        dto.setResponsavel(historico.getResponsavel() != null ? historico.getResponsavel().getNomeCompleto() : null);
         return dto;
-    }
-
-    public Historico toHistoricoEntity(HistoricoDto dto) {
-        Historico entity = new Historico();
-        entity.setStatus(dto.getStatus());
-        entity.setDataAlteracao(dto.getDataAlteracao());
-        return entity;
     }
 }

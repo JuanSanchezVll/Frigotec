@@ -39,4 +39,8 @@ public class FabricanteService {
     }
 
 
+
+    public java.util.List<FabricanteDto> listar() {
+        return repository.findAll().stream().map(FabricanteMapper::toDto).toList();
+    }
 }
