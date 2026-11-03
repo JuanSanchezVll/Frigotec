@@ -1,5 +1,6 @@
 // Reexporta a API pública de cada slice de widgets
 export * from "./agenda-semana"
+export * from "./anexos-do-chamado"
 export * from "./brand-carousel"
 export * from "./brand-panel"
 export * from "./conversa"

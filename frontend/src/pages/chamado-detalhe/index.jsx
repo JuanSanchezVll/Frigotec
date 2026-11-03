@@ -7,10 +7,9 @@ import { AceitarOrcamentoPopup } from '../../features/aceitar-orcamento';
 import { AprovarServico } from '../../features/aprovar-servico';
 import { AvaliarPopup } from '../../features/avaliar-atendimento';
 import { CancelarPopup } from '../../features/cancelar-chamado';
-import { FOTOS, foto } from '../../shared/lib/img';
 import { Alert, Badge, Button, Card, Field, Popup } from '../../shared/ui';
+import { AnexosDoChamado } from '../../widgets/anexos-do-chamado';
 import { LinhaDoTempo } from '../../widgets/linha-do-tempo';
-const miniaturas = [FOTOS.chapa, FOTOS.panela, FOTOS.cozinhaB];
 export default function ChamadoDetalhe() {
     const { id = '' } = useParams();
     const { chamados, threads, visitas } = useApp();
@@ -38,7 +37,7 @@ export default function ChamadoDetalhe() {
             </div>
             <div>
               <p className="mb-2 texto-rotulo">Fotos e vídeos do problema</p>
-              <ul className="grid grid-cols-3 gap-3">{miniaturas.map((f) => <li key={f.id}><img src={foto(f.id, 500)} alt={f.alt} loading="lazy" className="aspect-square w-full rounded-md object-cover shadow-1"/></li>)}</ul>
+              <AnexosDoChamado chamadoId={c.chamadoId}/>
             </div>
           </Card>
 

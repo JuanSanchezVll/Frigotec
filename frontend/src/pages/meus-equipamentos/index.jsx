@@ -1,9 +1,12 @@
-import { Plus, Refrigerator, Trash2 } from 'lucide-react';
+import { Pencil, Plus, Refrigerator, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 import { useApp } from '../../entities/estado';
+import { EditarEquipamentoPopup } from '../../features/editar-equipamento';
 import { Badge, Button } from '../../shared/ui';
 import { Reveal } from '../../shared/lib/reveal';
 export default function Equipamentos() {
     const { equipamentos, removerEquipamento } = useApp();
+    const [editando, setEditando] = useState(null);
     return (<main className="min-h-screen bg-superficie pb-20">
       <div className="mx-auto max-w-[1200px] px-4 pt-10 md:px-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
@@ -17,10 +20,12 @@ export default function Equipamentos() {
                   <h2 className="mt-5 texto-h2">{e.tipo}</h2>
                   <dl className="mt-3 space-y-1 texto-pequeno"><div className="flex gap-2"><dt className="text-texto-secundario">Marca</dt><dd className="font-semibold">{e.marca}</dd></div><div className="flex gap-2"><dt className="text-texto-secundario">Modelo</dt><dd className="font-semibold">{e.tipo}</dd></div><div className="flex gap-2"><dt className="text-texto-secundario">N/S</dt><dd className="num font-semibold">{e.serie}</dd></div>{e.validade && <div className="flex gap-2"><dt className="text-texto-secundario">Garantia até</dt><dd className="num font-semibold">{e.validade}</dd></div>}</dl>
                   <Button to="/chamados/novo" state={{ equipamento: e.id }} variante="contorno" className="mt-6 w-full">Abrir chamado</Button>
+                  <Button variante="texto" tamanho="sm" className="mt-2 w-full" onClick={() => setEditando(e)}><Pencil size={16} aria-hidden/>Editar equipamento</Button>
                   <Button variante="texto" tamanho="sm" className="mt-2 w-full" onClick={() => { if (window.confirm(`Excluir o equipamento ${e.tipo} (N/S ${e.serie})?`)) removerEquipamento(e.id); }}><Trash2 size={16} aria-hidden/>Excluir equipamento</Button>
                 </li>
               </Reveal>))}
           </ul>)}
       </div>
+      <EditarEquipamentoPopup key={editando?.id ?? 'nenhum'} equipamento={editando} onClose={() => setEditando(null)}/>
     </main>);
 }

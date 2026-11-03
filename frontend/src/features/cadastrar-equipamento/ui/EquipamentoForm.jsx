@@ -15,7 +15,7 @@ export function EquipamentoForm() {
     const [modelos, setModelos] = useState([]);
     const [ok, setOk] = useState(false);
     const [criado, setCriado] = useState(null);
-    const { addEquipamento } = useApp();
+    const { addEquipamento, anexarAoEquipamento } = useApp();
     const nav = useNavigate();
     const set = (k) => (x) => setV((p) => ({ ...p, [k]: x }));
 
@@ -37,7 +37,11 @@ export function EquipamentoForm() {
             numeroSerie: v.serie.trim() || undefined,
             ...(propria ? { tipoGarantia: v.garantia, dataCompra: dataIso(v.data), notaFiscal: anexos[0]?.nome } : {}),
         });
-        if (r) { setCriado(r); setOk(true); }
+        if (r) {
+            if (propria && anexos[0]?.arquivo) await anexarAoEquipamento(r.id, [anexos[0].arquivo]);
+            setCriado(r);
+            setOk(true);
+        }
     };
 
     return (<>
@@ -56,7 +60,7 @@ export function EquipamentoForm() {
             <Combo label="Tipo de garantia" options={['Garantia comum', 'Garantia estendida']} value={v.garantia} onChange={set('garantia')} soLista/>
             <DateInput label="Data da compra" value={v.data} onChange={set('data')}/>
             <Alert tipo="alerta">Pedir a garantia não quer dizer que ela foi aprovada: a Frigotec confere a nota fiscal e a data da compra.</Alert>
-            <Field label="Nota fiscal"><AttachArea itens={anexos} onChange={setAnexos} multiplo={false} titulo="Arraste a nota fiscal aqui ou clique para escolher"/></Field>
+            <Field label="Nota fiscal"><AttachArea itens={anexos} onChange={setAnexos} multiplo={false} accept="application/pdf,image/jpeg,image/png" titulo="Arraste a nota fiscal aqui ou clique para escolher (PDF, JPG ou PNG)"/></Field>
           </Card>)}
       </div>
       <div className="mt-8 flex justify-end"><Button tamanho="lg" disabled={!podeCadastrar} onClick={cadastrar}>Cadastrar</Button></div>

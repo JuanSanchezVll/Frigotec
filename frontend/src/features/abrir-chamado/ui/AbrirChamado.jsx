@@ -1,15 +1,13 @@
-import { ArrowLeft, ArrowRight, Check, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useApp } from '../../../entities/estado';
 import { categorias } from '../../../entities/chamado';
-import { FOTOS, foto } from '../../../shared/lib/img';
-import { Badge, Button, Card, Combo, Popup, Steps, TextArea, TextInput, Field } from '../../../shared/ui';
-const fotos = [FOTOS.chapa, FOTOS.panela, FOTOS.cozinhaB].map((f, i) => ({ id: String(i), src: foto(f.id, 400), alt: ['Chapa com aquecimento irregular', 'Termostato da chapa', 'Superfície da chapa'][i] }));
+import { AttachArea, Badge, Button, Card, Combo, Popup, Steps, TextArea, TextInput, Field } from '../../../shared/ui';
 /** Abrir chamado em 2 passos. Sem validação. */
 export function AbrirChamado() {
     const { state } = useLocation();
-    const { equipamentos, enviarChamado } = useApp();
+    const { equipamentos, enviarChamado, anexarAoChamado } = useApp();
     const [numero, setNumero] = useState('');
     const nav = useNavigate();
     const [passo, setPasso] = useState(0);
@@ -18,7 +16,7 @@ export function AbrirChamado() {
     const [outra, setOutra] = useState('');
     const [desc, setDesc] = useState('');
     const selId = sel ?? equipamentos[0]?.id;
-    const [thumbs, setThumbs] = useState(fotos);
+    const [anexos, setAnexos] = useState([]);
     const [enviado, setEnviado] = useState(false);
     const [seg, setSeg] = useState(5);
     useEffect(() => {
@@ -60,19 +58,15 @@ export function AbrirChamado() {
                 {cat === 'Outros' && <div className="anim-fade"><TextInput label="Outra categoria" value={outra} onChange={(e) => setOutra(e.target.value)} placeholder="Escreva a categoria do problema"/></div>}
                 {/* VALIDACAO: descrição obrigatória */}
                 <TextArea label="Descrição do problema" value={desc} onChange={(e) => setDesc(e.target.value)}/>
-                <Field label="Fotos e vídeos" optional hint="Fotos ajudam o técnico a entender o defeito antes da visita.">
-                  <ul className="flex flex-wrap gap-3">
-                    {thumbs.map((t) => (<li key={t.id} className="anim-fade relative"><img src={t.src} alt={t.alt} className="h-24 w-24 rounded-md object-cover shadow-1"/>
-                        <button type="button" aria-label={`Remover ${t.alt}`} onClick={() => setThumbs(thumbs.filter((x) => x.id !== t.id))} className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-secundaria text-fundo shadow-2 hover:bg-primaria"><X size={14}/></button></li>))}
-                    <li><button type="button" onClick={() => setThumbs([...thumbs, { ...fotos[thumbs.length % 3], id: `n${Date.now()}` }])} className="flex h-24 w-24 flex-col items-center justify-center rounded-md border-2 border-dashed border-borda-campo bg-superficie texto-legenda font-semibold text-texto-secundario hover:border-primaria hover:text-primaria">+<span>Adicionar</span></button></li>
-                  </ul>
+                <Field label="Fotos e vídeos" optional hint="Fotos ajudam o técnico a entender o defeito antes da visita. JPG, PNG ou MP4 (até 5 fotos e 1 vídeo, 10 MB cada).">
+                  <AttachArea itens={anexos} onChange={setAnexos} accept="image/jpeg,image/png,video/mp4" titulo="Arraste fotos ou um vídeo aqui, ou clique para escolher"/>
                 </Field>
               </div>
             </>)}
         </div>
         <div className="mt-10 flex items-center justify-between gap-3">
           {passo === 0 ? <Button variante="contorno" to="/home" className="border-borda-campo text-texto"><ArrowLeft size={18}/>Cancelar</Button> : <Button variante="texto" onClick={() => setPasso(0)}><ArrowLeft size={18}/>Voltar</Button>}
-          {passo === 0 ? <Button disabled={!selId} onClick={() => setPasso(1)}>Próxima etapa <ArrowRight size={18}/></Button> : <Button disabled={!desc.trim() || (cat === 'Outros' && !outra.trim())} onClick={async () => { const n = await enviarChamado({ equipamentoUsuarioId: selId, categoria: cat === 'Outros' ? outra : cat, descricao: desc }); if (n) { setNumero(n.id); setEnviado(true); } }}>Enviar chamado</Button>}
+          {passo === 0 ? <Button disabled={!selId} onClick={() => setPasso(1)}>Próxima etapa <ArrowRight size={18}/></Button> : <Button disabled={!desc.trim() || (cat === 'Outros' && !outra.trim())} onClick={async () => { const n = await enviarChamado({ equipamentoUsuarioId: selId, categoria: cat === 'Outros' ? outra : cat, descricao: desc }); if (n) { if (anexos.length) await anexarAoChamado(n.chamadoId, anexos.map((a) => a.arquivo)); setNumero(n.id); setEnviado(true); } }}>Enviar chamado</Button>}
         </div>
       </Card>
 

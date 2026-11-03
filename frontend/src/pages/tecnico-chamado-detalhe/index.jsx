@@ -8,8 +8,8 @@ import { AgendarVisitaPopup } from '../../features/agendar-visita';
 import { GarantiaPopup } from '../../features/analisar-garantia';
 import { AvancarEtapa } from '../../features/avancar-etapa';
 import { FinalizarPopup } from '../../features/finalizar-atendimento';
-import { FOTOS, foto } from '../../shared/lib/img';
 import { Avatar, Badge, Button, Card, Field } from '../../shared/ui';
+import { AnexosDoChamado } from '../../widgets/anexos-do-chamado';
 import { LinhaDoTempo } from '../../widgets/linha-do-tempo';
 export default function TecnicoChamado() {
     const { id = '' } = useParams();
@@ -38,7 +38,7 @@ export default function TecnicoChamado() {
                 <Field label="Categoria"><input readOnly className="campo" value={c.categoria}/></Field>
                 <Field label="Descrição do problema"><textarea readOnly rows={3} className="campo resize-none" value={c.descricao}/></Field>
               </div>
-              <div><p className="mb-2 texto-rotulo">Fotos e vídeos</p><ul className="grid grid-cols-2 gap-2">{[FOTOS.chapa, FOTOS.panela, FOTOS.cozinhaB].map((f) => <li key={f.id}><img src={foto(f.id, 400)} alt={f.alt} loading="lazy" className="aspect-square rounded-md object-cover shadow-1"/></li>)}</ul></div>
+              <div><p className="mb-2 texto-rotulo">Fotos e vídeos</p><AnexosDoChamado chamadoId={c.chamadoId} colunas={2}/></div>
             </Card>
           </div>
           <Card className="mt-6">
