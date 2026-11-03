@@ -76,7 +76,7 @@ Os exemplos incluem equipamentos, garantias (ativa, em análise e vencida), orç
 
 Juan Sánchez, Davi Jeronimo e Guilherme Mesquita.
 
-- Folha de consulta de uma página: [docs/GUIA-RAPIDO-SQUAD.docx](docs/GUIA-RAPIDO-SQUAD.docx)
+- Guia rápido de branch, commit e PR (1 página): [docs/documentacao_branch.docx](docs/documentacao_branch.docx)
 - Arquitetura do front: [frontend/docs/ARQUITETURA.md](frontend/docs/ARQUITETURA.md) e funcionamento: [frontend/docs/GUIA-DE-FUNCIONAMENTO.md](frontend/docs/GUIA-DE-FUNCIONAMENTO.md)
 
 Regra do time: task pequena vai direto na `develop`; task grande ou relevante ganha branch própria (`feature/back-*` ou `feature/front-*`) e PR para a `develop`. A `main` recebe só as versões entregues.
