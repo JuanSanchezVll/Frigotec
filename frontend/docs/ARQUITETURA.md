@@ -63,7 +63,7 @@ Pop-up nunca é tela: vive dentro da página ou da feature que o abre.
 
 ## Próximos passos
 
-1. Ligar o estado simulado à API (`json-server`, `db.json`) por `entities/*/api`.
+1. Ligar as telas que ainda são simuladas (conversa, avaliação, orçamento) à API por `entities/*/api`.
 2. Validações dos formulários (marcadas com `// VALIDACAO:`).
 3. Resolver os avisos do lint tela a tela.
 4. Dividir o bundle por rota (`React.lazy`), pois o build avisa de chunk acima de 500 kB.

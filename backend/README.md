@@ -1,10 +1,14 @@
 # Backend
 
-API do Portal Frigotec em Java + Spring Boot, dentro de `backend-frigotec/frigotec`.
+API do Portal Frigotec em Java 21 + Spring Boot 4, dentro de `backend-frigotec/frigotec`.
 
-- Banco H2 em memória, populado por `src/main/resources/data.sql`.
-- Controllers: Usuário, Equipamento, Fabricante, Orçamento e Chamado.
-- Envio de e-mail por eventos (observer) ao salvar orçamento e alterar status do chamado.
-- Configuração de e-mail por variáveis de ambiente; nunca versionar senhas.
+- **Segurança:** login com token JWT e perfis CLIENTE, TECNICO e ADMIN (`config/SegurancaConfig`).
+- **Camadas:** `controller` → `service` → `repository`, com `dto`, `mapper` e `entity`.
+- **Banco:** H2 em memória. `data.sql` traz o admin inicial e o catálogo; `data-demo.sql` traz os dados de exemplo.
+- **Erros:** respostas padronizadas (400, 401, 403, 404, 409, 422) em `exception/GlobalExceptionHandler`.
+- **E-mail:** envio por eventos (observer) ao salvar orçamento.
+- **Testes:** `./mvnw test`.
 
-Como rodar: veja o README da raiz.
+Configuração por variáveis de ambiente (`JWT_SECRET`, `SEED_DATA`, `SEED_MODE`, `MAIL_*`); nunca versionar senhas.
+
+Como rodar e usuários de exemplo: veja o README da raiz.

@@ -76,7 +76,6 @@ Os exemplos incluem equipamentos, garantias (ativa, em análise e vencida), orç
 
 Juan Sánchez, Davi Jeronimo e Guilherme Mesquita.
 
-- Guia completo: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Folha de consulta de uma página: [docs/GUIA-RAPIDO-SQUAD.docx](docs/GUIA-RAPIDO-SQUAD.docx)
 - Arquitetura do front: [frontend/docs/ARQUITETURA.md](frontend/docs/ARQUITETURA.md) e funcionamento: [frontend/docs/GUIA-DE-FUNCIONAMENTO.md](frontend/docs/GUIA-DE-FUNCIONAMENTO.md)
 
