@@ -21,6 +21,18 @@ public class EquipamentoUsuario {
     @Column(name ="numeroSerie")
     private String numeroSerie;
 
+    /** Garantia desta unidade (só existe para marca própria). A chave estrangeira fica em Garantia. */
+    @OneToOne(mappedBy = "equipamentoUsuario", fetch = FetchType.LAZY)
+    private Garantia garantia;
+
+    public Garantia getGarantia() {
+        return garantia;
+    }
+
+    public void setGarantia(Garantia garantia) {
+        this.garantia = garantia;
+    }
+
     public String getNumeroSerie() {
         return numeroSerie;
     }

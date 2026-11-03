@@ -1,8 +1,11 @@
 package com.frigo.frigotec.repository;
 
+import com.frigo.frigotec.entity.Perfil;
 import com.frigo.frigotec.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,4 +14,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
     boolean existsByCpf(String cpf);
     boolean existsByEmail(String email);
     Optional<Usuario> findByEmail(String email);
+    List<Usuario> findByPerfilInOrderByNomeCompletoAsc(Collection<Perfil> perfis);
 }

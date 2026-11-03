@@ -14,6 +14,7 @@ public final class FabricanteMapper {
         Fabricante entity = new Fabricante();
         entity.setId(dto.getId());
         entity.setNome(dto.getNome());
+        entity.setPropria(dto.isPropria());
 
         return entity;
     }
@@ -26,6 +27,7 @@ public final class FabricanteMapper {
         FabricanteDto dto = new FabricanteDto();
         dto.setId(entity.getId());
         dto.setNome(entity.getNome());
+        dto.setPropria(entity.isPropria());
 
         return dto;
     }
@@ -37,6 +39,7 @@ public final class FabricanteMapper {
 
         Fabricante entity = new Fabricante();
         entity.setNome(dto.getNome());
+        entity.setPropria(dto.isPropria());
 
         return entity;
     }
@@ -48,6 +51,7 @@ public final class FabricanteMapper {
 
         FabricanteCadastroDto dto = new FabricanteCadastroDto();
         dto.setNome(entity.getNome());
+        dto.setPropria(entity.isPropria());
 
         return dto;
     }

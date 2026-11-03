@@ -1,6 +1,6 @@
 package com.frigo.frigotec.dto;
 
-import com.frigo.frigotec.entity.Chamado;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -8,38 +8,20 @@ import java.math.BigDecimal;
 
 public class OrcamentoCadastroDto {
 
+    @NotNull
+    private Long chamadoId;
 
     @NotNull
     @Positive
     private BigDecimal valor;
 
-    @NotNull
-    private ChamadoDto chamado;
+    @NotBlank
+    private String descricao;
 
-    @NotNull
-    private Boolean isAceito;
-
-    public BigDecimal getValor() {
-        return valor;
-    }
-
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
-    public ChamadoDto getChamado() {
-        return chamado;
-    }
-
-    public void setChamado(ChamadoDto chamado) {
-        this.chamado = chamado;
-    }
-
-    public Boolean getAceito() {
-        return isAceito;
-    }
-
-    public void setAceito(Boolean aceito) {
-        isAceito = aceito;
-    }
+    public Long getChamadoId() { return chamadoId; }
+    public void setChamadoId(Long chamadoId) { this.chamadoId = chamadoId; }
+    public BigDecimal getValor() { return valor; }
+    public void setValor(BigDecimal valor) { this.valor = valor; }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 }

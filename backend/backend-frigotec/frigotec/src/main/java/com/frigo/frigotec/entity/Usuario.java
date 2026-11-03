@@ -33,6 +33,13 @@ public class Usuario {
     @Column(name = "celular",  length = 13)
     private String celular;
 
+    @Enumerated(EnumType.STRING)
+
+    @Column(name = "perfil", nullable = false)
+
+    private Perfil perfil = Perfil.CLIENTE;
+
+
     @ManyToOne
     @JoinColumn(name = "endereco_id",  nullable = false)
     private Endereco endereco;
@@ -135,5 +142,13 @@ public class Usuario {
 
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
 }
