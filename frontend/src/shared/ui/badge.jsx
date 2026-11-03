@@ -6,6 +6,8 @@ const S = {
     Cancelado: { cls: 'bg-superficie text-texto-secundario ring-1 ring-borda-campo/50', icon: Ban },
     'Garantia ativa': { cls: 'bg-fundo-sucesso text-sucesso ring-1 ring-sucesso/30', icon: ShieldCheck },
     'Garantia em análise': { cls: 'bg-fundo-brasa text-texto-brasa ring-1 ring-brasa/50', icon: Clock, extra: 'pulse-brasa' },
+    'Garantia vencida': { cls: 'bg-superficie text-texto-secundario ring-1 ring-borda-campo/50', icon: ShieldOff },
+    'Garantia recusada': { cls: 'bg-superficie text-texto-secundario ring-1 ring-borda-campo/50', icon: ShieldOff },
     'Sem garantia': { cls: 'bg-superficie text-texto-secundario ring-1 ring-borda-campo/50', icon: ShieldOff },
     'Confirmado pelo técnico': { cls: 'bg-fundo-sucesso text-sucesso', icon: BadgeCheck },
     Pendente: { cls: 'bg-fundo-brasa text-texto-brasa ring-1 ring-brasa/50', icon: Clock, extra: 'pulse-brasa' },

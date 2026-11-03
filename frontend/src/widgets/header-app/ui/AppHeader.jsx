@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar, Logo } from '../../../shared/ui';
 /** Cabeçalho logado enxuto: logo e usuário. A navegação fica no menu lateral. */
-export function AppHeader({ logoTo, nome, papel, onMenu }) {
+export function AppHeader({ logoTo, nome, papel, onMenu, onSair }) {
     const [user, setUser] = useState(false);
     const ref = useRef(null);
     useEffect(() => {
@@ -26,7 +26,7 @@ export function AppHeader({ logoTo, nome, papel, onMenu }) {
             <ChevronDown size={16} aria-hidden className="hidden md:block"/>
           </button>
           {user && (<div role="menu" className="anim-pop absolute right-0 top-full mt-2 w-48 rounded-md border border-borda bg-fundo p-1 text-texto shadow-3">
-              <Link role="menuitem" to="/" className="flex min-h-11 items-center gap-2 rounded-sm px-3 font-medium hover:bg-superficie"><LogOut size={18}/>Sair</Link>
+              <Link role="menuitem" to="/" onClick={onSair} className="flex min-h-11 items-center gap-2 rounded-sm px-3 font-medium hover:bg-superficie"><LogOut size={18}/>Sair</Link>
             </div>)}
         </div>
       </div>

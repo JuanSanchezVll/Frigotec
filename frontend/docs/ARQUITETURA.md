@@ -67,3 +67,12 @@ Pop-up nunca é tela: vive dentro da página ou da feature que o abre.
 2. Validações dos formulários (marcadas com `// VALIDACAO:`).
 3. Resolver os avisos do lint tela a tela.
 4. Dividir o bundle por rota (`React.lazy`), pois o build avisa de chunk acima de 500 kB.
+
+## Atualização: login e cadastro integrados ao backend
+
+- Perfil ADMIN: página `pages/admin-colaboradores` (rota `/admin`), widget `widgets/tabela-colaboradores` e feature `features/cadastro-colaborador`. Técnico e admin são criados pelo ADMIN.
+- Cada feature de formulário separa `ui/` (a tela) de `model/` (hook com estado e regras). As chamadas HTTP ficam em `entities/usuario/api`.
+- Regras do usuário em `entities/usuario/model`: `perfil.js`, `sessao.js`, `mapeadores.js`, `validadores.js`.
+- `app/routes/RotaProtegida.jsx` protege as rotas do cliente (perfil CLIENTE) e do técnico (TECNICO ou ADMIN).
+- Hoje só usuário (login e cadastro) fala com o backend. Chamados, equipamentos, orçamentos, conversa e agenda ainda usam `entities/estado` (dados simulados).
+- Passo a passo completo do fluxo: [GUIA-DE-FUNCIONAMENTO.md](GUIA-DE-FUNCIONAMENTO.md).

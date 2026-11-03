@@ -2,7 +2,6 @@ import { ArrowLeft, ArrowRight, Check, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useApp } from '../../../entities/estado';
-import { rotuloEquip } from '../../../entities/equipamento';
 import { categorias } from '../../../entities/chamado';
 import { FOTOS, foto } from '../../../shared/lib/img';
 import { Badge, Button, Card, Combo, Popup, Steps, TextArea, TextInput, Field } from '../../../shared/ui';
@@ -14,10 +13,11 @@ export function AbrirChamado() {
     const [numero, setNumero] = useState('');
     const nav = useNavigate();
     const [passo, setPasso] = useState(0);
-    const [sel, setSel] = useState(state?.equipamento ?? 'chapa');
+    const [sel, setSel] = useState(state?.equipamento ?? null);
     const [cat, setCat] = useState('Temperatura irregular');
     const [outra, setOutra] = useState('');
-    const [desc, setDesc] = useState('A chapa esquenta de forma desigual: um lado queima os alimentos e o outro fica frio.');
+    const [desc, setDesc] = useState('');
+    const selId = sel ?? equipamentos[0]?.id;
     const [thumbs, setThumbs] = useState(fotos);
     const [enviado, setEnviado] = useState(false);
     const [seg, setSeg] = useState(5);
@@ -37,9 +37,10 @@ export function AbrirChamado() {
           {passo === 0 ? (<>
               <h1 className="texto-h2">Qual equipamento precisa de atendimento?</h1>
               <p className="mt-2 text-texto-secundario">Selecione um equipamento já cadastrado para continuar.</p>
+              {equipamentos.length === 0 && <p className="mt-6 rounded-md bg-superficie p-4 text-texto-secundario">Você ainda não cadastrou equipamentos. <a className="font-semibold text-primaria underline" href="/equipamentos/novo">Cadastre o primeiro</a> para abrir um chamado.</p>}
               <div role="radiogroup" aria-label="Equipamentos cadastrados" className="mt-6 space-y-4">
                 {equipamentos.map((e) => {
-                const ativo = sel === e.id;
+                const ativo = selId === e.id;
                 return (<label key={e.id} className={`relative flex cursor-pointer items-center gap-4 rounded-lg border-2 p-4 transition-all has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primaria md:p-5 ${ativo ? 'border-primaria bg-primaria-clara' : 'border-borda hover:border-primaria'}`}>
                       <input type="radio" name="eq" className="sr-only" checked={ativo} onChange={() => setSel(e.id)}/>
                       <span aria-hidden className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 ${ativo ? 'border-primaria bg-primaria text-fundo' : 'border-borda-campo bg-fundo'}`}>{ativo && <Check size={14}/>}</span>
@@ -71,7 +72,7 @@ export function AbrirChamado() {
         </div>
         <div className="mt-10 flex items-center justify-between gap-3">
           {passo === 0 ? <Button variante="contorno" to="/home" className="border-borda-campo text-texto"><ArrowLeft size={18}/>Cancelar</Button> : <Button variante="texto" onClick={() => setPasso(0)}><ArrowLeft size={18}/>Voltar</Button>}
-          {passo === 0 ? <Button onClick={() => setPasso(1)}>Próxima etapa <ArrowRight size={18}/></Button> : <Button onClick={() => { const eq = equipamentos.find((x) => x.id === sel) ?? equipamentos[0]; const n = enviarChamado({ equipamento: eq ? rotuloEquip(eq) : 'Equipamento', categoria: cat === 'Outros' && outra ? outra : cat, descricao: desc, garantia: eq?.garantia ?? 'Sem garantia' }); setNumero(n.id); setEnviado(true); }}>Enviar chamado</Button>}
+          {passo === 0 ? <Button disabled={!selId} onClick={() => setPasso(1)}>Próxima etapa <ArrowRight size={18}/></Button> : <Button disabled={!desc.trim() || (cat === 'Outros' && !outra.trim())} onClick={async () => { const n = await enviarChamado({ equipamentoUsuarioId: selId, categoria: cat === 'Outros' ? outra : cat, descricao: desc }); if (n) { setNumero(n.id); setEnviado(true); } }}>Enviar chamado</Button>}
         </div>
       </Card>
 

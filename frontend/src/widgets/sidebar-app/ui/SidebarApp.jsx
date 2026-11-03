@@ -1,7 +1,8 @@
-import { CalendarDays, CircleDollarSign, ClipboardList, History, House, LayoutDashboard, LogOut, MessageSquare, Menu, PlusCircle, Refrigerator } from 'lucide-react';
+import { CalendarDays, CircleDollarSign, ClipboardList, History, House, LayoutDashboard, LogOut, MessageSquare, Menu, PlusCircle, Refrigerator, Users } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cliente, tecnico } from '../../../entities/usuario';
+import { useApp } from '../../../entities/estado';
 import { Avatar } from '../../../shared/ui';
 const ITENS = {
     cliente: [
@@ -20,9 +21,12 @@ const ITENS = {
         { label: 'Conversas', icon: MessageSquare, acao: 'conversas' },
     ],
 };
+// O administrador faz tudo do técnico (SDD seção 3) e ainda gerencia os colaboradores.
+ITENS.admin = [{ label: 'Colaboradores', icon: Users, to: '/admin', ativo: (p) => p === '/admin' }, ...ITENS.tecnico];
 function Conteudo({ perfil, onConversas, onNavegar }) {
     const { pathname } = useLocation();
-    const u = perfil === 'cliente' ? cliente.nome : tecnico.nome;
+    const { usuario, sair } = useApp();
+    const u = usuario?.nomeCompleto ?? (perfil === 'cliente' ? cliente.nome : tecnico.nome);
     const base = 'on-dark group relative flex min-h-12 w-full items-center gap-3 rounded-md px-3 text-left font-semibold transition-colors';
     const inner = (I) => <I size={20} aria-hidden className="transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-6"/>;
     return (<div className="inox flex h-full flex-col bg-profundo text-fundo">
@@ -33,11 +37,11 @@ function Conteudo({ perfil, onConversas, onNavegar }) {
             const barra = ativo && <span aria-hidden className="absolute inset-y-2 left-0 w-1 rounded-r bg-destaque"/>;
             return i.to ? (<Link key={i.label} to={i.to} onClick={onNavegar} aria-current={ativo ? 'page' : undefined} className={cls}>{barra}{inner(i.icon)}{i.label}</Link>) : (<button key={i.label} type="button" onClick={() => { onNavegar(); onConversas(); }} className={cls}>{inner(i.icon)}{i.label}</button>);
         })}
-        <Link to="/" onClick={onNavegar} className={`${base} mt-4 text-fundo/75 hover:bg-fundo/5 hover:text-fundo`}>{inner(LogOut)}Sair</Link>
+        <Link to="/" onClick={() => { sair(); onNavegar?.(); }} className={`${base} mt-4 text-fundo/75 hover:bg-fundo/5 hover:text-fundo`}>{inner(LogOut)}Sair</Link>
       </nav>
       <div className="flex items-center gap-3 border-t border-fundo/10 p-4">
         <Avatar nome={u} tom={perfil === 'cliente' ? 0 : 1} tamanho={40}/>
-        <div className="min-w-0"><p className="truncate texto-pequeno font-semibold">{u}</p>{perfil === 'tecnico' && <span className="rounded-full bg-destaque/20 px-2 py-0.5 texto-legenda font-semibold text-gelo">Técnico</span>}</div>
+        <div className="min-w-0"><p className="truncate texto-pequeno font-semibold">{u}</p>{perfil !== 'cliente' && <span className="rounded-full bg-destaque/20 px-2 py-0.5 texto-legenda font-semibold text-gelo">{perfil === 'admin' ? 'Administrador' : 'Técnico'}</span>}</div>
       </div>
     </div>);
 }
